@@ -4,17 +4,22 @@ import { classNames } from "../../core/classNames";
 export interface GridProps extends HTMLAttributes<HTMLDivElement> {
   columns?: number | string;
   rows?: number | string;
+  minChildWidth?: string;
   gap?: string | number;
   rowGap?: string | number;
   columnGap?: string | number;
 }
 
 export const Grid = forwardRef<HTMLDivElement, GridProps>(
-  ({ columns = 1, rows, gap, rowGap, columnGap, className = "", style, children, ...props }, ref) => {
-    const templateColumns =
-      typeof columns === "number" ? `repeat(${columns}, minmax(0, 1fr))` : columns;
+  ({ columns = 1, rows, minChildWidth, gap, rowGap, columnGap, className = "", style, children, ...props }, ref) => {
+    const templateColumns = minChildWidth
+      ? `repeat(auto-fit, minmax(${minChildWidth}, 1fr))`
+      : typeof columns === "number"
+      ? `repeat(${columns}, minmax(0, 1fr))`
+      : columns;
     const templateRows =
       typeof rows === "number" ? `repeat(${rows}, minmax(0, 1fr))` : rows;
+
 
     return (
       <div
