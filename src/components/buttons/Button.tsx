@@ -6,6 +6,7 @@ import {
   createButtonFromShorthand,
   createButtonDOMElement,
   type ButtonShorthandConfig,
+  type ButtonChainable,
 } from "../../core/shorthand";
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -106,11 +107,13 @@ BaseButton.displayName = "BaseButton";
 
 /**
  * Universal Button:
- * 1. Shorthand function call:
- *    Button("Go_to_cart", "10px 2px", "ID", "Auth", "path_direction", "red", "position", "pointer")
- * 2. Tagged template literal:
+ * 1. English Chaining:
+ *    Button("Go to cart").red().link("/cart").auth()
+ * 2. Natural English phrase / shorthand:
+ *    Button("Go to cart, colored red, go to /cart, auth required")
+ * 3. Tagged template literal:
  *    Button`"Go_to_cart", "10px 2px", "ID", "Auth", "path_direction", "red", "position", "pointer"`
- * 3. JSX component:
+ * 4. JSX component:
  *    <Button variant="primary">Click</Button>
  */
 export function Button(props: ButtonProps): ReactElement;
@@ -123,9 +126,9 @@ export function Button(
   color?: string,
   position?: string,
   pointer?: string
-): ReactElement;
-export function Button(strings: TemplateStringsArray, ...values: any[]): ReactElement;
-export function Button(...args: any[]): ReactElement {
+): ReactElement & ButtonChainable;
+export function Button(strings: TemplateStringsArray, ...values: any[]): ReactElement & ButtonChainable;
+export function Button(...args: any[]): ReactElement & ButtonChainable {
   // If first argument is string or template strings array -> Shorthand syntax!
   if (
     typeof args[0] === "string" ||
@@ -137,7 +140,7 @@ export function Button(...args: any[]): ReactElement {
 
   // Otherwise standard React props object
   const { ref, ...props } = (args[0] || {}) as ButtonProps;
-  return <BaseButton ref={ref} {...props} />;
+  return (<BaseButton ref={ref} {...props} />) as any;
 }
 
 // Helpers attached to Button

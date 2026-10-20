@@ -2,22 +2,9 @@ import React, { type ReactElement, type ReactNode } from "react";
 import { navigation } from "../routing/navigation";
 
 // ============================================================================
-// 1. BUTTON SHORTHAND
+// SMART CLASSIFICATION & NATURAL ENGLISH PARSING HELPERS
 // ============================================================================
-export interface ButtonShorthandConfig {
-  className?: string;
-  label?: string;
-  boxSize?: string;
-  id?: string;
-  auth?: string;
-  pathDirection?: string;
-  color?: string;
-  position?: string;
-  pointer?: string;
-  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
-}
 
-// Smart Classification Helpers
 const COLOR_NAMES = new Set([
   "red", "blue", "green", "amber", "yellow", "purple", "pink", "indigo",
   "cyan", "emerald", "rose", "violet", "orange", "teal", "sky", "gray",
@@ -105,6 +92,234 @@ export function isPointerValue(val: any): boolean {
   );
 }
 
+/**
+ * Natural English Path Extractor:
+ * Parses "go to /cart", "link to /shop", "navigate to https://...", "to /cart", "path /about", "/cart"
+ */
+export function extractEnglishPath(val: any): string | undefined {
+  if (typeof val !== "string") return undefined;
+  const s = val.trim();
+  if (isPathValue(s)) return s;
+  const m = s.match(/\b(?:go\s+to|link\s+to|navigate\s+to|to|url|path|href)\s+([^\s,]+)/i);
+  if (m) {
+    const candidate = m[1];
+    if (isPathValue(candidate) || candidate.startsWith("/") || candidate.startsWith("http") || candidate.startsWith("#")) {
+      return candidate;
+    }
+  }
+  return undefined;
+}
+
+/**
+ * Natural English Color Extractor:
+ * Parses "colored red", "in blue", "color green", "bg amber", "with gradient", "outline", "red"
+ */
+export function extractEnglishColor(val: any): string | undefined {
+  if (typeof val !== "string") return undefined;
+  const s = val.trim().toLowerCase();
+  if (isColorValue(s)) return s;
+  const m = s.match(/\b(?:colored|color|in|bg|background)\s+([a-zA-Z#0-9]+)/i);
+  if (m && (COLOR_NAMES.has(m[1].toLowerCase()) || isColorValue(m[1]))) {
+    return m[1].toLowerCase();
+  }
+  if (/\b(?:with\s+)?gradient\b/i.test(s)) return "gradient";
+  if (/\boutline\b/i.test(s)) return "outline";
+  return undefined;
+}
+
+/**
+ * Natural English Authentication Extractor:
+ * Parses "auth required", "login needed", "protected", "member only", "requires login", "auth"
+ */
+export function extractEnglishAuth(val: any): string | undefined {
+  if (typeof val !== "string") return undefined;
+  const s = val.trim().toLowerCase();
+  if (isAuthValue(s)) return "required";
+  if (/\b(?:auth\s*required|login\s*required|login\s*needed|protected|member\s*only|requires?\s*login|requires?\s*auth)\b/i.test(s)) {
+    return "required";
+  }
+  return undefined;
+}
+
+/**
+ * Natural English Size Extractor:
+ * Parses "size 10px 2px", "width 300px", "padding 12px 24px", "small", "large", "extra large"
+ */
+export function extractEnglishSize(val: any): string | undefined {
+  if (typeof val !== "string") return undefined;
+  const s = val.trim();
+  if (isBoxSizeValue(s)) return s;
+  const m = s.match(/\b(?:size|padding|width|height|box)\s+([0-9a-zA-Z%.\s]+)/i);
+  if (m && isBoxSizeValue(m[1].trim())) return m[1].trim();
+  if (/\b(?:small|sm)\b/i.test(s)) return "sm";
+  if (/\b(?:large|lg)\b/i.test(s)) return "lg";
+  if (/\b(?:extra\s+large|2xl|xl)\b/i.test(s)) return "xl";
+  return undefined;
+}
+
+/**
+ * Natural English Alignment Extractor:
+ * Parses "centered", "aligned center", "align right", "center", "left", "right"
+ */
+export function extractEnglishAlign(val: any): "left" | "center" | "right" | "justify" | undefined {
+  if (typeof val !== "string") return undefined;
+  const s = val.trim().toLowerCase();
+  if (s === "center" || s === "left" || s === "right" || s === "justify") return s;
+  if (/\b(?:centered|aligned?\s+center|align\s+center)\b/i.test(s)) return "center";
+  if (/\b(?:aligned?\s+right|align\s+right)\b/i.test(s)) return "right";
+  if (/\b(?:aligned?\s+left|align\s+left)\b/i.test(s)) return "left";
+  return undefined;
+}
+
+/**
+ * Natural English Heading Level Extractor:
+ * Parses "level 1", "heading 2", "h1", "h3", 1, 2
+ */
+export function extractEnglishLevel(val: any): 1 | 2 | 3 | 4 | 5 | 6 | undefined {
+  if (val === undefined || val === null) return undefined;
+  if (typeof val === "number" && val >= 1 && val <= 6) return val as any;
+  const s = String(val).trim().toLowerCase();
+  if (/^[1-6]$/.test(s)) return parseInt(s, 10) as any;
+  const m = s.match(/\b(?:level\s+([1-6])|heading\s+([1-6])|h([1-6]))\b/i);
+  if (m) {
+    const num = parseInt(m[1] || m[2] || m[3], 10);
+    if (num >= 1 && num <= 6) return num as any;
+  }
+  return undefined;
+}
+
+/**
+ * Natural English External Link Target Extractor:
+ * Parses "new tab", "open in new tab", "external", "blank"
+ */
+export function extractEnglishExternal(val: any): boolean {
+  if (typeof val === "boolean") return val;
+  if (typeof val !== "string") return false;
+  return /\b(?:new\s+tab|external|blank|open\s+in\s+new\s+tab)\b/i.test(val);
+}
+
+/**
+ * Natural English Input Type Extractor:
+ * Parses "type email", "as password", "email", "password", "number", "search"
+ */
+export function extractEnglishInputType(val: any): string | undefined {
+  if (typeof val !== "string") return undefined;
+  const s = val.trim().toLowerCase();
+  const known = ["text", "password", "email", "number", "search", "tel", "url", "date"];
+  if (known.includes(s)) return s;
+  const m = s.match(/\b(?:type|as)\s+(text|email|password|number|search|tel|url|date)\b/i);
+  if (m) return m[1].toLowerCase();
+  return undefined;
+}
+
+/**
+ * Attaches chainable helper methods (.red(), .link(), etc.) to a ReactElement
+ * while preserving all native React element properties and symbols so it renders natively in JSX.
+ */
+export function createChainableProxy<C extends object>(
+  element: ReactElement,
+  chainMethods: C
+): ReactElement & C {
+  const clone = { ...element };
+  for (const sym of Object.getOwnPropertySymbols(element)) {
+    (clone as any)[sym] = (element as any)[sym];
+  }
+  Object.assign(clone, chainMethods);
+  return clone as ReactElement & C;
+}
+
+// ============================================================================
+// 1. BUTTON SHORTHAND
+// ============================================================================
+export interface ButtonShorthandConfig {
+  className?: string;
+  label?: string;
+  boxSize?: string;
+  id?: string;
+  auth?: string;
+  pathDirection?: string;
+  color?: string;
+  position?: string;
+  pointer?: string;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+}
+
+export interface ButtonChainable {
+  red(): ReactElement & ButtonChainable;
+  blue(): ReactElement & ButtonChainable;
+  green(): ReactElement & ButtonChainable;
+  amber(): ReactElement & ButtonChainable;
+  yellow(): ReactElement & ButtonChainable;
+  purple(): ReactElement & ButtonChainable;
+  pink(): ReactElement & ButtonChainable;
+  cyan(): ReactElement & ButtonChainable;
+  dark(): ReactElement & ButtonChainable;
+  white(): ReactElement & ButtonChainable;
+  outline(): ReactElement & ButtonChainable;
+  gradient(): ReactElement & ButtonChainable;
+  color(c: string): ReactElement & ButtonChainable;
+
+  link(path: string): ReactElement & ButtonChainable;
+  to(path: string): ReactElement & ButtonChainable;
+  back(): ReactElement & ButtonChainable;
+  forward(): ReactElement & ButtonChainable;
+  onClick(handler: (e: React.MouseEvent<HTMLButtonElement>) => void): ReactElement & ButtonChainable;
+
+  auth(role?: string): ReactElement & ButtonChainable;
+  loginRequired(): ReactElement & ButtonChainable;
+
+  size(s: string): ReactElement & ButtonChainable;
+  small(): ReactElement & ButtonChainable;
+  large(): ReactElement & ButtonChainable;
+  fullWidth(): ReactElement & ButtonChainable;
+  position(pos: string): ReactElement & ButtonChainable;
+  pointer(cursor: string): ReactElement & ButtonChainable;
+  id(idStr: string): ReactElement & ButtonChainable;
+  className(cls: string): ReactElement & ButtonChainable;
+}
+
+export function attachButtonChaining(
+  element: ReactElement,
+  config: ButtonShorthandConfig
+): ReactElement & ButtonChainable {
+  const update = (patch: Partial<ButtonShorthandConfig>) =>
+    createButtonFromShorthand({ ...config, ...patch });
+
+  return createChainableProxy(element, {
+    red: () => update({ color: "red" }),
+    blue: () => update({ color: "blue" }),
+    green: () => update({ color: "green" }),
+    amber: () => update({ color: "amber" }),
+    yellow: () => update({ color: "yellow" }),
+    purple: () => update({ color: "purple" }),
+    pink: () => update({ color: "pink" }),
+    cyan: () => update({ color: "cyan" }),
+    dark: () => update({ color: "dark" }),
+    white: () => update({ color: "white" }),
+    outline: () => update({ color: "outline" }),
+    gradient: () => update({ color: "gradient" }),
+    color: (c: string) => update({ color: c }),
+
+    link: (path: string) => update({ pathDirection: path }),
+    to: (path: string) => update({ pathDirection: path }),
+    back: () => update({ pathDirection: "back" }),
+    forward: () => update({ pathDirection: "forward" }),
+    onClick: (fn: any) => update({ onClick: fn }),
+
+    auth: (role: string = "required") => update({ auth: role }),
+    loginRequired: () => update({ auth: "required" }),
+
+    size: (s: string) => update({ boxSize: s }),
+    small: () => update({ boxSize: "6px 14px" }),
+    large: () => update({ boxSize: "14px 28px" }),
+    fullWidth: () => update({ boxSize: "100%" }),
+    position: (pos: string) => update({ position: pos }),
+    pointer: (ptr: string) => update({ pointer: ptr }),
+    id: (idStr: string) => update({ id: idStr }),
+    className: (cls: string) => update({ className: cls }),
+  });
+}
+
 export function parseButtonShorthand(args: any[]): ButtonShorthandConfig {
   if (Array.isArray(args[0]) && (args[0] as any).raw) {
     return parseButtonShorthandString(String(args[0][0]));
@@ -142,8 +357,7 @@ export function parseButtonShorthand(args: any[]): ButtonShorthandConfig {
     );
   }
 
-  // 2. SMART AUTO-DETECTION: Any order, zero empty quotes needed!
-  // First argument is always the button label / text
+  // 2. SMART AUTO-DETECTION & NATURAL ENGLISH: Any order, zero empty quotes needed!
   const rawFirst = args[0] !== undefined ? String(args[0]).trim() : "Button";
   const label = rawFirst.replace(/[_-]+/g, " ") || "Button";
   const className = rawFirst;
@@ -161,22 +375,27 @@ export function parseButtonShorthand(args: any[]): ButtonShorthandConfig {
     const arg = args[i];
     if (arg === undefined || arg === null || arg === "") continue;
 
+    const pathVal = extractEnglishPath(arg);
+    const colorVal = extractEnglishColor(arg);
+    const authVal = extractEnglishAuth(arg);
+    const sizeVal = extractEnglishSize(arg);
+
     if (typeof arg === "function") {
       onClick = arg;
-    } else if (isPathValue(arg) && !pathDirection) {
-      pathDirection = String(arg).trim();
-    } else if (isColorValue(arg) && !color) {
-      color = String(arg).trim();
-    } else if (isBoxSizeValue(arg) && !boxSize) {
-      boxSize = String(arg).trim();
-    } else if (isAuthValue(arg) && !auth) {
-      auth = String(arg).trim();
+    } else if (pathVal && !pathDirection) {
+      pathDirection = pathVal;
+    } else if (colorVal && !color) {
+      color = colorVal;
+    } else if (sizeVal && !boxSize) {
+      boxSize = sizeVal;
+    } else if (authVal && !auth) {
+      auth = authVal;
     } else if (isPositionValue(arg) && position === "relative") {
       position = String(arg).trim();
     } else if (isPointerValue(arg) && pointer === "pointer") {
       pointer = String(arg).trim();
     } else if (!id && typeof arg === "string" && arg.toLowerCase() !== "none" && arg.toLowerCase() !== "id") {
-      id = arg.trim();
+      id = arg.replace(/^#/, "").trim();
     }
   }
 
@@ -283,8 +502,7 @@ function buildButtonConfigFrom8Slots(
   };
 }
 
-
-export function createButtonFromShorthand(config: ButtonShorthandConfig): ReactElement {
+export function createButtonFromShorthand(config: ButtonShorthandConfig): ReactElement & ButtonChainable {
   const {
     className,
     label = "Button",
@@ -367,7 +585,7 @@ export function createButtonFromShorthand(config: ButtonShorthandConfig): ReactE
 
   const classes = ["cr-button", className].filter(Boolean).join(" ");
 
-  return (
+  const element = (
     <button
       key={id || label}
       id={id}
@@ -379,6 +597,8 @@ export function createButtonFromShorthand(config: ButtonShorthandConfig): ReactE
       {label}
     </button>
   );
+
+  return attachButtonChaining(element, config);
 }
 
 export function createButtonDOMElement(config: ButtonShorthandConfig): HTMLButtonElement {
@@ -413,14 +633,6 @@ export function createButtonDOMElement(config: ButtonShorthandConfig): HTMLButto
 
 // ============================================================================
 // 2. INPUT SHORTHAND
-// Slot 1: placeholder / class (e.g. "Enter your email")
-// Slot 2: box size / width (e.g. "300px", "100%", "md")
-// Slot 3: ID (e.g. "email_input")
-// Slot 4: type (e.g. "text", "email", "password", "number")
-// Slot 5: label (e.g. "Email Address")
-// Slot 6: color (e.g. "blue", "red")
-// Slot 7: position (e.g. "relative")
-// Slot 8: pointer (e.g. "text", "pointer")
 // ============================================================================
 export interface InputShorthandConfig {
   placeholder?: string;
@@ -431,6 +643,42 @@ export interface InputShorthandConfig {
   color?: string;
   position?: string;
   pointer?: string;
+}
+
+export interface InputChainable {
+  email(): ReactElement & InputChainable;
+  password(): ReactElement & InputChainable;
+  number(): ReactElement & InputChainable;
+  search(): ReactElement & InputChainable;
+  text(): ReactElement & InputChainable;
+  type(t: string): ReactElement & InputChainable;
+
+  width(w: string): ReactElement & InputChainable;
+  size(s: string): ReactElement & InputChainable;
+  label(lbl: string): ReactElement & InputChainable;
+  id(idStr: string): ReactElement & InputChainable;
+}
+
+export function attachInputChaining(
+  element: ReactElement,
+  config: InputShorthandConfig
+): ReactElement & InputChainable {
+  const update = (patch: Partial<InputShorthandConfig>) =>
+    createInputFromShorthand({ ...config, ...patch });
+
+  return createChainableProxy(element, {
+    email: () => update({ type: "email" }),
+    password: () => update({ type: "password" }),
+    number: () => update({ type: "number" }),
+    search: () => update({ type: "search" }),
+    text: () => update({ type: "text" }),
+    type: (t: string) => update({ type: t }),
+
+    width: (w: string) => update({ boxSize: w }),
+    size: (s: string) => update({ boxSize: s }),
+    label: (lbl: string) => update({ label: lbl }),
+    id: (idStr: string) => update({ id: idStr }),
+  });
 }
 
 export function parseInputShorthand(args: any[]): InputShorthandConfig {
@@ -459,22 +707,28 @@ export function parseInputShorthand(args: any[]): InputShorthandConfig {
   for (let i = 1; i < args.length; i++) {
     const arg = args[i];
     if (arg === undefined || arg === null || arg === "") continue;
-    const s = String(arg).toLowerCase().trim();
 
-    if (INPUT_TYPES.has(s) && type === "text") {
-      type = s;
-    } else if (isBoxSizeValue(arg) && !boxSize) {
-      boxSize = String(arg).trim();
-    } else if (isColorValue(arg) && !color) {
-      color = String(arg).trim();
+    const typeVal = extractEnglishInputType(arg);
+    const sizeVal = extractEnglishSize(arg);
+    const colorVal = extractEnglishColor(arg);
+    const str = String(arg).trim();
+
+    if (typeVal && !INPUT_TYPES.has(type)) {
+      type = typeVal;
+    } else if (sizeVal && !boxSize) {
+      boxSize = sizeVal;
+    } else if (colorVal && !color) {
+      color = colorVal;
+    } else if (str.toLowerCase().startsWith("label ") || str.toLowerCase().startsWith("labeled ")) {
+      label = str.replace(/^(?:labeled|label)\s+['"]?|['"]?$/gi, "");
     } else if (isPositionValue(arg) && position === "relative") {
-      position = String(arg).trim();
+      position = str;
     } else if (isPointerValue(arg) && pointer === "text") {
-      pointer = String(arg).trim();
-    } else if (!id && (s.startsWith("#") || s.includes("id"))) {
-      id = String(arg).replace(/^#/, "").trim();
-    } else if (!label && s !== "none") {
-      label = String(arg).replace(/[_-]+/g, " ").trim();
+      pointer = str;
+    } else if (!id && (str.startsWith("#") || str.toLowerCase().includes("id"))) {
+      id = str.replace(/^#/, "").trim();
+    } else if (!label && str.toLowerCase() !== "none") {
+      label = str.replace(/[_-]+/g, " ").trim();
     }
   }
 
@@ -502,7 +756,7 @@ function parseInputShorthandString(str: string): InputShorthandConfig {
   return parseInputShorthand(parts);
 }
 
-export function createInputFromShorthand(config: InputShorthandConfig): ReactElement {
+export function createInputFromShorthand(config: InputShorthandConfig): ReactElement & InputChainable {
   const { placeholder, boxSize, id, type = "text", label, position = "relative", pointer = "text" } = config;
 
   const wrapperStyle: React.CSSProperties = {
@@ -511,7 +765,7 @@ export function createInputFromShorthand(config: InputShorthandConfig): ReactEle
     maxWidth: "400px",
   };
 
-  return (
+  const element = (
     <div key={id || placeholder} className="cr-form-field" style={wrapperStyle}>
       {label && <label className="cr-form-label">{label}</label>}
       <div className="cr-input-wrapper cr-input-wrapper--md">
@@ -525,10 +779,12 @@ export function createInputFromShorthand(config: InputShorthandConfig): ReactEle
       </div>
     </div>
   );
+
+  return attachInputChaining(element, config);
 }
 
 // ============================================================================
-// 3. HEADING SHORTHAND (Smart Type Detection)
+// 3. HEADING SHORTHAND
 // ============================================================================
 export interface HeadingShorthandConfig {
   text: string;
@@ -538,6 +794,68 @@ export interface HeadingShorthandConfig {
   color?: string;
   align?: string;
   position?: string;
+}
+
+export interface HeadingChainable {
+  level(lvl: 1 | 2 | 3 | 4 | 5 | 6): ReactElement & HeadingChainable;
+  h1(): ReactElement & HeadingChainable;
+  h2(): ReactElement & HeadingChainable;
+  h3(): ReactElement & HeadingChainable;
+  h4(): ReactElement & HeadingChainable;
+  h5(): ReactElement & HeadingChainable;
+  h6(): ReactElement & HeadingChainable;
+
+  center(): ReactElement & HeadingChainable;
+  left(): ReactElement & HeadingChainable;
+  right(): ReactElement & HeadingChainable;
+
+  gradient(): ReactElement & HeadingChainable;
+  color(c: string): ReactElement & HeadingChainable;
+  red(): ReactElement & HeadingChainable;
+  blue(): ReactElement & HeadingChainable;
+  green(): ReactElement & HeadingChainable;
+
+  size(s: string): ReactElement & HeadingChainable;
+  small(): ReactElement & HeadingChainable;
+  large(): ReactElement & HeadingChainable;
+  extraLarge(): ReactElement & HeadingChainable;
+
+  id(idStr: string): ReactElement & HeadingChainable;
+}
+
+export function attachHeadingChaining(
+  element: ReactElement,
+  config: HeadingShorthandConfig
+): ReactElement & HeadingChainable {
+  const update = (patch: Partial<HeadingShorthandConfig>) =>
+    createHeadingFromShorthand({ ...config, ...patch });
+
+  return createChainableProxy(element, {
+    level: (lvl: 1 | 2 | 3 | 4 | 5 | 6) => update({ level: lvl }),
+    h1: () => update({ level: 1 }),
+    h2: () => update({ level: 2 }),
+    h3: () => update({ level: 3 }),
+    h4: () => update({ level: 4 }),
+    h5: () => update({ level: 5 }),
+    h6: () => update({ level: 6 }),
+
+    center: () => update({ align: "center" }),
+    left: () => update({ align: "left" }),
+    right: () => update({ align: "right" }),
+
+    gradient: () => update({ color: "gradient" }),
+    color: (c: string) => update({ color: c }),
+    red: () => update({ color: "#e11d48" }),
+    blue: () => update({ color: "#6366f1" }),
+    green: () => update({ color: "#10b981" }),
+
+    size: (s: string) => update({ size: s }),
+    small: () => update({ size: "1.25rem" }),
+    large: () => update({ size: "2rem" }),
+    extraLarge: () => update({ size: "2.5rem" }),
+
+    id: (idStr: string) => update({ id: idStr }),
+  });
 }
 
 export function parseHeadingShorthand(args: any[]): HeadingShorthandConfig {
@@ -564,25 +882,24 @@ export function parseHeadingShorthand(args: any[]): HeadingShorthandConfig {
     const arg = args[i];
     if (arg === undefined || arg === null || arg === "") continue;
 
-    if (typeof arg === "number" && arg >= 1 && arg <= 6) {
-      level = arg as any;
-    } else if (typeof arg === "string") {
-      const s = arg.trim().toLowerCase();
-      if (/^[1-6]$/.test(s)) {
-        level = parseInt(s, 10) as any;
-      } else if (/^h[1-6]$/.test(s)) {
-        level = parseInt(s[1], 10) as any;
-      } else if (s === "center" || s === "left" || s === "right" || s === "justify") {
-        align = s;
-      } else if (s === "gradient" || isColorValue(arg)) {
-        color = arg.trim();
-      } else if (isBoxSizeValue(arg) || /^(xs|sm|md|lg|xl|2xl|3xl|4xl)$/.test(s)) {
-        size = arg.trim();
-      } else if (isPositionValue(arg)) {
-        position = arg.trim();
-      } else if (!id && s !== "id" && s !== "none") {
-        id = arg.replace(/^#/, "").trim();
-      }
+    const lvl = extractEnglishLevel(arg);
+    const alignVal = extractEnglishAlign(arg);
+    const colorVal = extractEnglishColor(arg);
+    const sizeVal = extractEnglishSize(arg);
+    const s = String(arg).trim().toLowerCase();
+
+    if (lvl) {
+      level = lvl;
+    } else if (alignVal) {
+      align = alignVal;
+    } else if (colorVal) {
+      color = colorVal;
+    } else if (sizeVal || /^(xs|sm|md|lg|xl|2xl|3xl|4xl)$/.test(s)) {
+      size = sizeVal || String(arg).trim();
+    } else if (isPositionValue(arg)) {
+      position = String(arg).trim();
+    } else if (!id && s !== "id" && s !== "none") {
+      id = String(arg).replace(/^#/, "").trim();
     }
   }
 
@@ -609,7 +926,7 @@ function parseHeadingShorthandString(str: string): HeadingShorthandConfig {
   return parseHeadingShorthand(parts);
 }
 
-export function createHeadingFromShorthand(config: HeadingShorthandConfig): ReactElement {
+export function createHeadingFromShorthand(config: HeadingShorthandConfig): ReactElement & HeadingChainable {
   const { text, level = 2, size, id, color, align = "left", position = "relative" } = config;
   const Component = `h${level}` as const;
   const isGradient = color === "gradient";
@@ -633,15 +950,17 @@ export function createHeadingFromShorthand(config: HeadingShorthandConfig): Reac
     .filter(Boolean)
     .join(" ");
 
-  return (
+  const element = (
     <Component key={id || text} id={id} className={classes} style={styles}>
       {text}
     </Component>
   );
+
+  return attachHeadingChaining(element, config);
 }
 
 // ============================================================================
-// 4. TEXT SHORTHAND (Smart Type Detection)
+// 4. TEXT SHORTHAND
 // ============================================================================
 export interface TextShorthandConfig {
   content: string;
@@ -650,6 +969,56 @@ export interface TextShorthandConfig {
   color?: string;
   align?: string;
   position?: string;
+}
+
+export interface TextChainable {
+  center(): ReactElement & TextChainable;
+  left(): ReactElement & TextChainable;
+  right(): ReactElement & TextChainable;
+
+  muted(): ReactElement & TextChainable;
+  secondary(): ReactElement & TextChainable;
+  primary(): ReactElement & TextChainable;
+  brand(): ReactElement & TextChainable;
+  color(c: string): ReactElement & TextChainable;
+
+  small(): ReactElement & TextChainable;
+  large(): ReactElement & TextChainable;
+  size(s: string): ReactElement & TextChainable;
+
+  bold(): ReactElement & TextChainable;
+  medium(): ReactElement & TextChainable;
+
+  id(idStr: string): ReactElement & TextChainable;
+}
+
+export function attachTextChaining(
+  element: ReactElement,
+  config: TextShorthandConfig
+): ReactElement & TextChainable {
+  const update = (patch: Partial<TextShorthandConfig>) =>
+    createTextFromShorthand({ ...config, ...patch });
+
+  return createChainableProxy(element, {
+    center: () => update({ align: "center" }),
+    left: () => update({ align: "left" }),
+    right: () => update({ align: "right" }),
+
+    muted: () => update({ color: "muted" }),
+    secondary: () => update({ color: "secondary" }),
+    primary: () => update({ color: "primary" }),
+    brand: () => update({ color: "brand" }),
+    color: (c: string) => update({ color: c }),
+
+    small: () => update({ size: "sm" }),
+    large: () => update({ size: "lg" }),
+    size: (s: string) => update({ size: s }),
+
+    bold: () => update({ size: config.size }),
+    medium: () => update({ size: config.size }),
+
+    id: (idStr: string) => update({ id: idStr }),
+  });
 }
 
 export function parseTextShorthand(args: any[]): TextShorthandConfig {
@@ -674,14 +1043,18 @@ export function parseTextShorthand(args: any[]): TextShorthandConfig {
   for (let i = 1; i < args.length; i++) {
     const arg = args[i];
     if (arg === undefined || arg === null || arg === "") continue;
+
+    const alignVal = extractEnglishAlign(arg);
+    const colorVal = extractEnglishColor(arg);
+    const sizeVal = extractEnglishSize(arg);
     const s = String(arg).toLowerCase().trim();
 
-    if (s === "center" || s === "left" || s === "right") {
-      align = s;
-    } else if (isColorValue(arg) || s === "muted" || s === "secondary" || s === "brand" || s === "primary") {
-      color = String(arg).trim();
-    } else if (isBoxSizeValue(arg) || /^(xs|sm|md|lg|xl)$/.test(s)) {
-      size = String(arg).trim();
+    if (alignVal) {
+      align = alignVal;
+    } else if (colorVal || s === "muted" || s === "secondary" || s === "brand" || s === "primary") {
+      color = colorVal || String(arg).trim();
+    } else if (sizeVal || /^(xs|sm|md|lg|xl)$/.test(s)) {
+      size = sizeVal || String(arg).trim();
     } else if (isPositionValue(arg)) {
       position = String(arg).trim();
     } else if (!id && s !== "id" && s !== "none") {
@@ -711,7 +1084,7 @@ function parseTextShorthandString(str: string): TextShorthandConfig {
   return parseTextShorthand(parts);
 }
 
-export function createTextFromShorthand(config: TextShorthandConfig): ReactElement {
+export function createTextFromShorthand(config: TextShorthandConfig): ReactElement & TextChainable {
   const { content, size = "md", id, color = "primary", align = "left", position = "relative" } = config;
 
   const styles: React.CSSProperties = {
@@ -729,15 +1102,17 @@ export function createTextFromShorthand(config: TextShorthandConfig): ReactEleme
     .filter(Boolean)
     .join(" ");
 
-  return (
+  const element = (
     <p key={id || content} id={id} className={classes} style={styles}>
       {content}
     </p>
   );
+
+  return attachTextChaining(element, config);
 }
 
 // ============================================================================
-// 5. CARD SHORTHAND (Smart Type Detection)
+// 5. CARD SHORTHAND
 // ============================================================================
 export interface CardShorthandConfig {
   content?: ReactNode;
@@ -747,6 +1122,40 @@ export interface CardShorthandConfig {
   color?: string;
   position?: string;
   pointer?: string;
+}
+
+export interface CardChainable {
+  glass(): ReactElement & CardChainable;
+  elevated(): ReactElement & CardChainable;
+  outline(): ReactElement & CardChainable;
+  subtle(): ReactElement & CardChainable;
+
+  width(w: string): ReactElement & CardChainable;
+  size(s: string): ReactElement & CardChainable;
+  padding(p: string): ReactElement & CardChainable;
+
+  id(idStr: string): ReactElement & CardChainable;
+}
+
+export function attachCardChaining(
+  element: ReactElement,
+  config: CardShorthandConfig
+): ReactElement & CardChainable {
+  const update = (patch: Partial<CardShorthandConfig>) =>
+    createCardFromShorthand({ ...config, ...patch });
+
+  return createChainableProxy(element, {
+    glass: () => update({ variant: "glass" }),
+    elevated: () => update({ variant: "elevated" }),
+    outline: () => update({ variant: "outline" }),
+    subtle: () => update({ variant: "subtle" }),
+
+    width: (w: string) => update({ boxSize: w }),
+    size: (s: string) => update({ boxSize: s }),
+    padding: (p: string) => update({ boxSize: p }),
+
+    id: (idStr: string) => update({ id: idStr }),
+  });
 }
 
 export function parseCardShorthand(args: any[]): CardShorthandConfig {
@@ -771,14 +1180,17 @@ export function parseCardShorthand(args: any[]): CardShorthandConfig {
   for (let i = 1; i < args.length; i++) {
     const arg = args[i];
     if (arg === undefined || arg === null || arg === "") continue;
+
+    const sizeVal = extractEnglishSize(arg);
+    const colorVal = extractEnglishColor(arg);
     const s = String(arg).toLowerCase().trim();
 
     if (VARIANTS.has(s)) {
       variant = s as any;
-    } else if (isBoxSizeValue(arg) && !boxSize) {
-      boxSize = String(arg).trim();
-    } else if (isColorValue(arg) && !color) {
-      color = String(arg).trim();
+    } else if (sizeVal) {
+      boxSize = sizeVal;
+    } else if (colorVal) {
+      color = colorVal;
     } else if (isPositionValue(arg)) {
       position = String(arg).trim();
     } else if (isPointerValue(arg)) {
@@ -799,7 +1211,7 @@ export function parseCardShorthand(args: any[]): CardShorthandConfig {
   };
 }
 
-export function createCardFromShorthand(config: CardShorthandConfig): ReactElement {
+export function createCardFromShorthand(config: CardShorthandConfig): ReactElement & CardChainable {
   const { content, boxSize, id, variant = "glass", color, position = "relative", pointer = "default" } = config;
 
   const styles: React.CSSProperties = {
@@ -809,15 +1221,17 @@ export function createCardFromShorthand(config: CardShorthandConfig): ReactEleme
     ...(color ? { background: color } : {}),
   };
 
-  return (
+  const element = (
     <div key={id || Math.random()} id={id} className={`cr-card cr-card--${variant} cr-card--padding-md`} style={styles}>
       {content}
     </div>
   );
+
+  return attachCardChaining(element, config);
 }
 
 // ============================================================================
-// 6. BADGE SHORTHAND (Smart Type Detection)
+// 6. BADGE SHORTHAND
 // ============================================================================
 export interface BadgeShorthandConfig {
   label: string;
@@ -825,6 +1239,44 @@ export interface BadgeShorthandConfig {
   id?: string;
   color?: string;
   position?: string;
+}
+
+export interface BadgeChainable {
+  red(): ReactElement & BadgeChainable;
+  green(): ReactElement & BadgeChainable;
+  blue(): ReactElement & BadgeChainable;
+  amber(): ReactElement & BadgeChainable;
+  purple(): ReactElement & BadgeChainable;
+  color(c: string): ReactElement & BadgeChainable;
+
+  small(): ReactElement & BadgeChainable;
+  large(): ReactElement & BadgeChainable;
+  size(s: string): ReactElement & BadgeChainable;
+
+  id(idStr: string): ReactElement & BadgeChainable;
+}
+
+export function attachBadgeChaining(
+  element: ReactElement,
+  config: BadgeShorthandConfig
+): ReactElement & BadgeChainable {
+  const update = (patch: Partial<BadgeShorthandConfig>) =>
+    createBadgeFromShorthand({ ...config, ...patch });
+
+  return createChainableProxy(element, {
+    red: () => update({ color: "danger" }),
+    green: () => update({ color: "success" }),
+    blue: () => update({ color: "primary" }),
+    amber: () => update({ color: "warning" }),
+    purple: () => update({ color: "purple" }),
+    color: (c: string) => update({ color: c }),
+
+    small: () => update({ size: "sm" }),
+    large: () => update({ size: "md" }),
+    size: (s: string) => update({ size: s }),
+
+    id: (idStr: string) => update({ id: idStr }),
+  });
 }
 
 export function parseBadgeShorthand(args: any[]): BadgeShorthandConfig {
@@ -841,12 +1293,15 @@ export function parseBadgeShorthand(args: any[]): BadgeShorthandConfig {
   for (let i = 1; i < args.length; i++) {
     const arg = args[i];
     if (arg === undefined || arg === null || arg === "") continue;
+
+    const colorVal = extractEnglishColor(arg);
+    const sizeVal = extractEnglishSize(arg);
     const s = String(arg).toLowerCase().trim();
 
-    if (isColorValue(arg) || s === "danger" || s === "success" || s === "warning" || s === "info") {
-      color = String(arg).trim();
-    } else if (/^(xs|sm|md|lg)$/.test(s) || isBoxSizeValue(arg)) {
-      size = String(arg).trim();
+    if (colorVal || s === "danger" || s === "success" || s === "warning" || s === "info") {
+      color = colorVal || String(arg).trim();
+    } else if (sizeVal || /^(xs|sm|md|lg)$/.test(s)) {
+      size = sizeVal || String(arg).trim();
     } else if (isPositionValue(arg)) {
       position = String(arg).trim();
     } else if (!id && s !== "id" && s !== "none") {
@@ -863,10 +1318,10 @@ export function parseBadgeShorthand(args: any[]): BadgeShorthandConfig {
   };
 }
 
-export function createBadgeFromShorthand(config: BadgeShorthandConfig): ReactElement {
+export function createBadgeFromShorthand(config: BadgeShorthandConfig): ReactElement & BadgeChainable {
   const { label, size = "sm", id, color = "primary", position = "relative" } = config;
 
-  return (
+  const element = (
     <span
       key={id || label}
       id={id}
@@ -876,10 +1331,12 @@ export function createBadgeFromShorthand(config: BadgeShorthandConfig): ReactEle
       {label}
     </span>
   );
+
+  return attachBadgeChaining(element, config);
 }
 
 // ============================================================================
-// 7. LINK SHORTHAND (Smart Type Detection)
+// 7. LINK SHORTHAND
 // ============================================================================
 export interface LinkShorthandConfig {
   label: string;
@@ -888,6 +1345,32 @@ export interface LinkShorthandConfig {
   color?: string;
   isExternal?: boolean;
   position?: string;
+}
+
+export interface LinkChainable {
+  to(path: string): ReactElement & LinkChainable;
+  link(path: string): ReactElement & LinkChainable;
+  external(): ReactElement & LinkChainable;
+  newTab(): ReactElement & LinkChainable;
+  color(c: string): ReactElement & LinkChainable;
+  id(idStr: string): ReactElement & LinkChainable;
+}
+
+export function attachLinkChaining(
+  element: ReactElement,
+  config: LinkShorthandConfig
+): ReactElement & LinkChainable {
+  const update = (patch: Partial<LinkShorthandConfig>) =>
+    createLinkFromShorthand({ ...config, ...patch });
+
+  return createChainableProxy(element, {
+    to: (path: string) => update({ href: path }),
+    link: (path: string) => update({ href: path }),
+    external: () => update({ isExternal: true }),
+    newTab: () => update({ isExternal: true }),
+    color: (c: string) => update({ color: c }),
+    id: (idStr: string) => update({ id: idStr }),
+  });
 }
 
 export function parseLinkShorthand(args: any[]): LinkShorthandConfig {
@@ -906,15 +1389,19 @@ export function parseLinkShorthand(args: any[]): LinkShorthandConfig {
     const arg = args[i];
     if (arg === undefined || arg === null || arg === "") continue;
 
+    const pathVal = extractEnglishPath(arg);
+    const colorVal = extractEnglishColor(arg);
+    const isExt = extractEnglishExternal(arg);
+
     if (typeof arg === "boolean") {
       isExternal = arg;
-    } else if (isPathValue(arg)) {
-      href = String(arg).trim();
-      if (href.startsWith("http://") || href.startsWith("https://")) isExternal = true;
-    } else if (String(arg).toLowerCase() === "external" || String(arg).toLowerCase() === "blank") {
+    } else if (isExt) {
       isExternal = true;
-    } else if (isColorValue(arg)) {
-      color = String(arg).trim();
+    } else if (pathVal) {
+      href = pathVal;
+      if (href.startsWith("http://") || href.startsWith("https://")) isExternal = true;
+    } else if (colorVal) {
+      color = colorVal;
     } else if (isPositionValue(arg)) {
       position = String(arg).trim();
     } else if (!id && String(arg).toLowerCase() !== "id") {
@@ -932,10 +1419,10 @@ export function parseLinkShorthand(args: any[]): LinkShorthandConfig {
   };
 }
 
-export function createLinkFromShorthand(config: LinkShorthandConfig): ReactElement {
+export function createLinkFromShorthand(config: LinkShorthandConfig): ReactElement & LinkChainable {
   const { label, href, id, color = "brand", isExternal = false, position = "relative" } = config;
 
-  return (
+  const element = (
     <a
       key={id || label}
       id={id}
@@ -948,10 +1435,12 @@ export function createLinkFromShorthand(config: LinkShorthandConfig): ReactEleme
       {label}
     </a>
   );
+
+  return attachLinkChaining(element, config);
 }
 
 // ============================================================================
-// 8. IMAGE SHORTHAND (Smart Type Detection)
+// 8. IMAGE SHORTHAND
 // ============================================================================
 export interface ImageShorthandConfig {
   src: string;
@@ -960,6 +1449,30 @@ export interface ImageShorthandConfig {
   alt?: string;
   rounded?: string;
   position?: string;
+}
+
+export interface ImageChainable {
+  size(w: string, h?: string): ReactElement & ImageChainable;
+  circle(): ReactElement & ImageChainable;
+  rounded(r?: string): ReactElement & ImageChainable;
+  alt(a: string): ReactElement & ImageChainable;
+  id(idStr: string): ReactElement & ImageChainable;
+}
+
+export function attachImageChaining(
+  element: ReactElement,
+  config: ImageShorthandConfig
+): ReactElement & ImageChainable {
+  const update = (patch: Partial<ImageShorthandConfig>) =>
+    createImageFromShorthand({ ...config, ...patch });
+
+  return createChainableProxy(element, {
+    size: (w: string, h?: string) => update({ boxSize: h ? `${w} ${h}` : w }),
+    circle: () => update({ rounded: "full" }),
+    rounded: (r: string = "md") => update({ rounded: r }),
+    alt: (a: string) => update({ alt: a }),
+    id: (idStr: string) => update({ id: idStr }),
+  });
 }
 
 export function parseImageShorthand(args: any[]): ImageShorthandConfig {
@@ -979,10 +1492,12 @@ export function parseImageShorthand(args: any[]): ImageShorthandConfig {
   for (let i = 1; i < args.length; i++) {
     const arg = args[i];
     if (arg === undefined || arg === null || arg === "") continue;
+
+    const sizeVal = extractEnglishSize(arg);
     const s = String(arg).toLowerCase().trim();
 
-    if (isBoxSizeValue(arg) && !boxSize) {
-      boxSize = String(arg).trim();
+    if (sizeVal) {
+      boxSize = sizeVal;
     } else if (ROUNDED_OPTIONS.has(s)) {
       rounded = s === "circle" ? "full" : s;
     } else if (isPositionValue(arg)) {
@@ -1004,7 +1519,7 @@ export function parseImageShorthand(args: any[]): ImageShorthandConfig {
   };
 }
 
-export function createImageFromShorthand(config: ImageShorthandConfig): ReactElement {
+export function createImageFromShorthand(config: ImageShorthandConfig): ReactElement & ImageChainable {
   const { src, boxSize, id, alt = "Image", rounded = "md", position = "relative" } = config;
 
   let width: string | undefined;
@@ -1023,11 +1538,13 @@ export function createImageFromShorthand(config: ImageShorthandConfig): ReactEle
     objectFit: "cover",
   };
 
-  return (
+  const element = (
     <div key={id || src} className={`cr-image-wrapper cr-image--rounded-${rounded}`} style={styles}>
       <img id={id} src={src} alt={alt} className="cr-image" />
     </div>
   );
+
+  return attachImageChaining(element, config);
 }
 
 // ============================================================================
@@ -1070,4 +1587,3 @@ export function Page(titleOrOptions: string | PageOptions | ReactNode[], ...elem
 }
 
 export const SimplePage = Page;
-
