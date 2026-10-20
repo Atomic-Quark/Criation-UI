@@ -1,0 +1,173 @@
+# 🚀 Criation UI
+
+**Criation UI** is a modular, high-performance React + TypeScript UI foundation and design system designed to make building new websites faster, standardized, and visually stunning.
+
+---
+
+## 🌟 Key Features
+
+- **Ultra-Simple 1-Line Component Calling**: Write UI elements directly in 1 line without writing `<tags> </tags>`! Call `Button(...)`, `Input(...)`, `Heading(...)`, `Text(...)`, `Badge(...)`, `Card(...)`, `Link(...)`, `Image(...)`.
+- **100% Optional Parameters**: Every single slot is optional — works whether you provide 1 parameter, 2 parameters, skip slots, or provide all slots!
+- **Clean Architectural Separation**: Pure UI styling (`class`, `size`, `color`, `position`, `pointer`) separated cleanly from decoupled **Routing** (`to`, `href`, `direction`) and **Authentication** (`AuthProvider`, `AuthGuard`, `ProtectedRoute`).
+- **Complete Component Suite**: 40+ production-grade components covering buttons, inputs, layouts, typography, navigation, feedback, overlays, and page templates.
+- **Modern Design System**: Dynamic light and dark modes with glassmorphism, tailored HSL color tokens, silky micro-animations, and fluid typography.
+- **First-Class TypeScript Support**: 100% strongly typed with full autocompletion and `.d.ts` declaration generation.
+- **Zero Heavy Dependencies**: Built with React and Lucide icons; no bulky CSS runtime or vendor lock-in.
+
+---
+
+## ⚡ 1-Line Ultra-Simple Component Shorthands
+
+Criation UI lets you build entire web pages without writing tedious JSX boilerplate:
+
+```tsx
+import { Heading, Text, Input, Button, Card, Badge, Link, Image } from "@criation/ui";
+
+export default function CartPage() {
+  return (
+    <div>
+      {/* 1. Heading(text, level/size, id, color, align, position) */}
+      {Heading("Shopping_Cart", 1, "title", "gradient")}
+
+      {/* 2. Text(content, size, id, color, align, position) */}
+      {Text("Review your selected items before checkout", "md", "desc", "muted")}
+
+      {/* 3. Badge(label, size, id, color, position) */}
+      {Badge("2_ITEMS_IN_CART", "sm", "", "success")}
+
+      {/* 4. Input(placeholder, boxSize, id, type, label, color, position, pointer) */}
+      {Input("Enter voucher code...", "320px", "voucher_input")}
+
+      {/* 5. Button(class/label, boxSize, id, auth, path, color, position, pointer) */}
+      {Button("Proceed_to_Payment", "12px 24px", "btn-pay", "user", "/payment", "green")}
+
+      {/* 6. Link(label, href, id, color, isExternal, position) */}
+      {Link("Return to Store Catalog", "/products")}
+
+      {/* 7. Image(src, boxSize, id, alt, rounded, position) */}
+      {Image("https://picsum.photos/300/200", "300px 200px", "img_1", "Product", "lg")}
+
+      {/* 8. Card(content, boxSize, id, variant, color, position, pointer) */}
+      {Card("Order confirmed! Your parcel will arrive in 2 days.", "360px", "card_1", "glass")}
+    </div>
+  );
+}
+```
+
+### 🧩 Positional Slots Reference (All 100% Optional!)
+
+| Component | Slot 1 | Slot 2 | Slot 3 | Slot 4 | Slot 5 | Slot 6 | Slot 7 | Slot 8 |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **`Button(...)`** | `class/label` | `box size` | `ID` | `Auth` | `path_direction` | `color` | `position` | `pointer` |
+| **`Input(...)`** | `placeholder` | `box size` | `ID` | `type` | `label` | `color` | `position` | `pointer` |
+| **`Heading(...)`** | `text` | `level/size` | `ID` | `color` | `align` | `position` | — | — |
+| **`Text(...)`** | `content` | `size` | `ID` | `color` | `align` | `position` | — | — |
+| **`Badge(...)`** | `label` | `size` | `ID` | `color` | `position` | — | — | — |
+| **`Card(...)`** | `content` | `box size` | `ID` | `variant` | `color` | `position` | `pointer` | — |
+| **`Link(...)`** | `label` | `href/path` | `ID` | `color` | `isExternal` | `position` | — | — |
+| **`Image(...)`** | `src` | `box size` | `ID` | `alt` | `rounded` | `position` | — | — |
+
+> **Skipping parameters:** You can call `Button("Go_to_cart")` with just 1 argument, or skip middle slots with empty strings: `Button("Go_to_cart", "", "", "", "/cart", "red")`.
+
+---
+
+## 📦 Installation & Setup
+
+In your project repository:
+
+```bash
+npm install @criation/ui
+```
+
+Import styles in your main entry file (`main.tsx` or `App.tsx`):
+
+```tsx
+import "@criation/ui/styles.css";
+```
+
+---
+
+## 💻 Standard JSX Quick Start
+
+If you prefer standard JSX tags, the traditional syntax is 100% supported too:
+
+```tsx
+import React from "react";
+import {
+  Button,
+  TextInput,
+  Card,
+  ThemeProvider,
+} from "@criation/ui";
+
+export default function App() {
+  return (
+    <ThemeProvider defaultTheme="dark">
+      <Card variant="glass" padding="lg">
+        <h2>Welcome to My Website</h2>
+        <TextInput placeholder="Enter your email" />
+        <Button variant="primary" onClick={() => alert("Ready!")}>
+          Get Started
+        </Button>
+      </Card>
+    </ThemeProvider>
+  );
+}
+```
+
+
+---
+
+## 📐 Standard Properties System
+
+Criation UI standardizes component properties across clear functional groups:
+
+| Property Group | Properties | Description |
+| :--- | :--- | :--- |
+| **Identity** | `id`, `name`, `data-testid` | Identifies elements and supports testing |
+| **Styling** | `className`, `style`, `variant` | Visual appearance and component variants |
+| **Dimensions** | `width`, `height`, `size`, `minWidth`, `maxWidth` | Layout dimensions (`xs`, `sm`, `md`, `lg`, `xl`) |
+| **Color** | `color`, `background`, `borderColor` | Dynamic color styling and CSS variable overrides |
+| **Layout** | `display`, `position`, `direction`, `align`, `justify`, `gap` | Flex and Grid layout controls |
+| **Interaction** | `onClick`, `disabled`, `loading`, `tabIndex` | User interaction and states |
+| **Pointer** | `cursor` | Explicit pointer / cursor behavior |
+| **Accessibility**| `aria-label`, `aria-describedby`, `role` | Screen-reader and ARIA compliance |
+| **Routing** | `to`, `href`, `target` | Navigation destinations (separated under routing) |
+| **Authentication** | `requiredRole`, `allowedRoles`, `fallback` | Protected access guards (separated under auth) |
+
+---
+
+## 📂 Project Structure
+
+```
+criation-ui/
+├── src/
+│   ├── core/              # Component foundations, types, and class helpers
+│   ├── design-system/     # Design tokens, themes (light/dark), and global CSS
+│   ├── components/        # Buttons, inputs, layout, typography, navigation, overlays, feedback
+│   ├── forms/             # FormField, FormLabel, FormError, FormProvider & validation
+│   ├── hooks/             # useTheme, useDisclosure, useDebounce, useClickOutside
+│   ├── routing/           # ProtectedRoute, PublicRoute, navigation helpers
+│   ├── auth/              # AuthProvider, useAuth, AuthGuard
+│   ├── api/               # API client factory, request, error handling
+│   ├── templates/         # LandingLayout, DashboardLayout, AuthLayout, SettingsLayout
+│   ├── accessibility/     # Focus trap, keyboard navigation, ARIA announcements
+│   ├── showcase/          # Interactive component documentation & studio app
+│   ├── index.ts           # Master library exports
+│   └── styles.css         # Complete library stylesheet
+```
+
+---
+
+## 🛠️ Available Scripts
+
+- `npm run dev`: Starts the interactive component showcase studio on `http://localhost:3000`.
+- `npm run build:lib`: Builds the distributable package bundle and TypeScript declarations into `dist/`.
+- `npm run build`: Builds the showcase application for hosting.
+- `npx tsc --noEmit`: Runs full TypeScript type-checking across the entire codebase.
+
+---
+
+## 📄 License
+
+MIT © Criation UI
