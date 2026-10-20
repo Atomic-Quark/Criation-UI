@@ -109,6 +109,7 @@ export * from "./components/navigation/Breadcrumbs";
 export * from "./components/navigation/Tabs";
 export * from "./components/navigation/Pagination";
 export * from "./components/navigation/DropdownMenu";
+export * from "./components/navigation/Footer";
 
 // Media
 export * from "./components/media/Image";

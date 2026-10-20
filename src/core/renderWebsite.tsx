@@ -55,12 +55,13 @@ export function renderWebsite(
         style={{
           minHeight: "100vh",
           padding: "3rem 2rem",
-          maxWidth: "1000px",
+          maxWidth: "1080px",
           margin: "0 auto",
           display: "flex",
           flexDirection: "column",
-          gap: "1.25rem",
-          alignItems: "flex-start",
+          gap: "1.5rem",
+          alignItems: "stretch",
+          width: "100%",
         }}
       >
         {AppOrComponents}
@@ -91,3 +92,46 @@ export function renderWebsite(
 // Aliases for convenience
 export const createWebsite = renderWebsite;
 export const mountWebsite = renderWebsite;
+
+/**
+ * Website - The simplest way to build a complete, interactive website in plain English style.
+ * 
+ * Examples:
+ * 1. Title + Array:
+ *    Website("My Store", [
+ *      Heading("Welcome").gradient().center(),
+ *      Text("Best goods online").muted(),
+ *      Button("Shop Now").green().link("/shop")
+ *    ]);
+ * 
+ * 2. Title + Elements:
+ *    Website("My Store",
+ *      Heading("Welcome").gradient(),
+ *      Button("Shop Now").green().link("/shop")
+ *    );
+ * 
+ * 3. Component:
+ *    Website(ShowcaseApp);
+ */
+export function Website(
+  titleOrContent: string | ComponentType<any> | ReactElement | ReactNode[],
+  ...rest: ReactNode[]
+): void {
+  if (typeof titleOrContent === "string") {
+    const title = titleOrContent;
+    let items: ReactNode[] = [];
+    if (rest.length === 1 && Array.isArray(rest[0])) {
+      items = rest[0];
+    } else {
+      items = rest;
+    }
+    renderWebsite(items, { title });
+    return;
+  }
+  if (rest.length > 0) {
+    renderWebsite([titleOrContent as ReactNode, ...rest]);
+    return;
+  }
+  renderWebsite(titleOrContent as any);
+}
+

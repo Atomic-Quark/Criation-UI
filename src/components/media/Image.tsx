@@ -5,6 +5,7 @@ import {
   parseImageShorthand,
   createImageFromShorthand,
   type ImageShorthandConfig,
+  type ImageChainable,
 } from "../../core/shorthand";
 
 export interface ImageProps extends ImgHTMLAttributes<HTMLImageElement> {
@@ -66,9 +67,11 @@ BaseImage.displayName = "BaseImage";
 
 /**
  * Universal Image:
- * 1. 1-Line Shorthand (all slots optional):
- *    Image("https://picsum.photos/300/200", "300px 200px", "img_1", "Sample image", "lg")
- * 2. JSX Component:
+ * 1. English Chaining:
+ *    Image("/hero.jpg").circle().size("200px 200px")
+ * 2. Natural English phrase:
+ *    Image("/hero.jpg, 200px 200px, circle")
+ * 3. JSX Component:
  *    <Image src="https://picsum.photos/300/200" alt="Sample" />
  */
 export function Image(props: ImageProps): ReactElement;
@@ -79,9 +82,9 @@ export function Image(
   alt?: string,
   rounded?: string,
   position?: string
-): ReactElement;
-export function Image(strings: TemplateStringsArray, ...values: any[]): ReactElement;
-export function Image(...args: any[]): ReactElement {
+): ReactElement & ImageChainable;
+export function Image(strings: TemplateStringsArray, ...values: any[]): ReactElement & ImageChainable;
+export function Image(...args: any[]): ReactElement & ImageChainable {
   if (
     typeof args[0] === "string" ||
     (Array.isArray(args[0]) && (args[0] as any).raw) ||
@@ -92,9 +95,10 @@ export function Image(...args: any[]): ReactElement {
   }
 
   const { ref, ...props } = (args[0] || {}) as ImageProps;
-  return <BaseImage ref={ref} {...props} />;
+  return (<BaseImage ref={ref} {...props} />) as any;
 }
 
 Image.displayName = "Image";
 Image.create = (config: ImageShorthandConfig) => createImageFromShorthand(config);
+
 

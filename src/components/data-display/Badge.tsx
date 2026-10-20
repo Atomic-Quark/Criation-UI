@@ -5,6 +5,7 @@ import {
   parseBadgeShorthand,
   createBadgeFromShorthand,
   type BadgeShorthandConfig,
+  type BadgeChainable,
 } from "../../core/shorthand";
 
 export interface BadgeProps extends HTMLAttributes<HTMLSpanElement> {
@@ -39,9 +40,11 @@ BaseBadge.displayName = "BaseBadge";
 
 /**
  * Universal Badge:
- * 1. 1-Line Shorthand (all slots optional):
- *    Badge("NEW", "sm", "", "green")
- * 2. JSX Component:
+ * 1. English Chaining:
+ *    Badge("NEW").green().small()
+ * 2. Natural English phrase:
+ *    Badge("NEW, in green, small")
+ * 3. JSX Component:
  *    <Badge variant="success">New</Badge>
  */
 export function Badge(props: BadgeProps): ReactElement;
@@ -51,9 +54,9 @@ export function Badge(
   id?: string,
   color?: string,
   position?: string
-): ReactElement;
-export function Badge(strings: TemplateStringsArray, ...values: any[]): ReactElement;
-export function Badge(...args: any[]): ReactElement {
+): ReactElement & BadgeChainable;
+export function Badge(strings: TemplateStringsArray, ...values: any[]): ReactElement & BadgeChainable;
+export function Badge(...args: any[]): ReactElement & BadgeChainable {
   if (
     typeof args[0] === "string" ||
     (Array.isArray(args[0]) && (args[0] as any).raw) ||
@@ -64,8 +67,9 @@ export function Badge(...args: any[]): ReactElement {
   }
 
   const props = (args[0] || {}) as BadgeProps;
-  return <BaseBadge {...props} />;
+  return (<BaseBadge {...props} />) as any;
 }
 
 Badge.displayName = "Badge";
 Badge.create = (config: BadgeShorthandConfig) => createBadgeFromShorthand(config);
+
