@@ -33,6 +33,8 @@ export * from "./hooks/useDebounce";
 export * from "./hooks/useClickOutside";
 export * from "./hooks/useLocalStorage";
 export * from "./hooks/useDisclosure";
+export * from "./hooks/useClipboard";
+
 
 // Utilities
 export * from "./utilities/formatDate";
