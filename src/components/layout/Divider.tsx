@@ -1,4 +1,4 @@
-import React, { forwardRef, type HTMLAttributes } from "react";
+import React, { forwardRef, type HTMLAttributes, type ReactElement } from "react";
 import { classNames } from "../../core/classNames";
 
 export interface DividerProps extends HTMLAttributes<HTMLHRElement> {
@@ -6,7 +6,7 @@ export interface DividerProps extends HTMLAttributes<HTMLHRElement> {
   variant?: "solid" | "dashed" | "dotted";
 }
 
-export const Divider = forwardRef<HTMLHRElement, DividerProps>(
+export const BaseDivider = forwardRef<HTMLHRElement, DividerProps>(
   ({ orientation = "horizontal", variant = "solid", className = "", ...props }, ref) => {
     return (
       <hr
@@ -22,5 +22,24 @@ export const Divider = forwardRef<HTMLHRElement, DividerProps>(
     );
   }
 );
+
+BaseDivider.displayName = "BaseDivider";
+
+/**
+ * Universal Divider:
+ * 1. Simple Function:
+ *    Divider() or Divider("dashed")
+ * 2. JSX Component:
+ *    <Divider variant="dashed" />
+ */
+export function Divider(props?: DividerProps | "solid" | "dashed" | "dotted" | "horizontal" | "vertical"): ReactElement {
+  if (typeof props === "string") {
+    if (props === "vertical" || props === "horizontal") {
+      return <BaseDivider orientation={props} />;
+    }
+    return <BaseDivider variant={props as any} />;
+  }
+  return <BaseDivider {...(props || {})} />;
+}
 
 Divider.displayName = "Divider";

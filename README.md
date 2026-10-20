@@ -16,9 +16,62 @@
 
 ---
 
+## ✨ Just Like Writing English: Fluent Chaining & Natural Sentences
+
+Criation UI makes writing user interfaces as natural and effortless as writing English. You have 3 expressive ways to build components:
+
+### 1. Fluent Dot-Chaining (Reads Literally Like a Sentence)
+Chain properties directly onto components. It renders immediately as a native React element:
+
+```tsx
+// Buttons
+Button("Go to cart").red().link("/cart").auth()
+Button("Proceed to Checkout").green().link("/checkout").large()
+Button("Back to Catalog").outline().back()
+
+// Headings & Text
+Heading("Welcome to Our Store").gradient().center().level(1)
+Text("Handcrafted goods delivered right to your door").muted().center()
+
+// Inputs & Badges
+Input("Search catalog...").search().width("350px")
+Input("Your email address").email().label("Email")
+Badge("HOT SALE").red().small()
+
+// Cards & Links
+Card("Order Confirmed!").glass().width("400px")
+Link("Read Documentation").to("/docs").external()
+```
+
+### 2. Natural English Phrases in Strings
+Prefer writing sentences? Pass English phrases directly:
+
+```tsx
+Button("Go to cart, colored red, go to /cart, auth required")
+Heading("Welcome to Store, level 1, centered, with gradient")
+Text("Handcrafted with pride, centered, muted, size large")
+Badge("50% DISCOUNT, in green, small")
+Link("Documentation, to /docs, open in new tab")
+```
+
+### 3. Whole Website in 3 Lines with `Website(...)`
+Mount a full website with themes, routing, toasts, responsive container, and zero HTML tags:
+
+```tsx
+import { Website, Heading, Text, Button } from "@criation/ui";
+
+Website("My Store", [
+  Heading("Welcome to My Store").gradient().center(),
+  Text("The fastest way to build web apps").muted().center(),
+  Button("Shop All Products").green().link("/shop")
+]);
+```
+
+---
+
 ## ⚡ 1-Line Ultra-Simple Component Shorthands
 
-Criation UI lets you build entire web pages without writing tedious JSX boilerplate:
+Criation UI also supports direct unordered arguments or classic 8-slot positional calls without writing `<tags> </tags>`:
 
 ```tsx
 import { Heading, Text, Input, Button, Card, Badge, Link, Image } from "@criation/ui";
