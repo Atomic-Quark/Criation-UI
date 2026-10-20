@@ -1,0 +1,193 @@
+/* ==========================================================================
+   Criation UI - Global CSS & Design System Variables
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  /* Fonts */
+  --cr-font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --cr-font-heading: 'Outfit', 'Inter', -apple-system, sans-serif;
+  --cr-font-mono: 'JetBrains Mono', ui-monospace, Menlo, Monaco, monospace;
+
+  /* Spacing Scale */
+  --cr-space-1: 0.25rem;
+  --cr-space-2: 0.5rem;
+  --cr-space-3: 0.75rem;
+  --cr-space-4: 1rem;
+  --cr-space-5: 1.25rem;
+  --cr-space-6: 1.5rem;
+  --cr-space-8: 2rem;
+  --cr-space-10: 2.5rem;
+  --cr-space-12: 3rem;
+  --cr-space-16: 4rem;
+
+  /* Border Radii */
+  --cr-radius-xs: 4px;
+  --cr-radius-sm: 6px;
+  --cr-radius-md: 8px;
+  --cr-radius-lg: 12px;
+  --cr-radius-xl: 16px;
+  --cr-radius-2xl: 24px;
+  --cr-radius-full: 9999px;
+
+  /* Transitions */
+  --cr-transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --cr-transition-normal: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --cr-transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Shadows */
+  --cr-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --cr-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.06);
+  --cr-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
+  --cr-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+}
+
+/* --------------------------------------------------------------------------
+   Light Theme Tokens
+   -------------------------------------------------------------------------- */
+:root, [data-theme="light"], .cr-theme-light {
+  --cr-bg-page: #f8fafc;
+  --cr-bg-surface: #ffffff;
+  --cr-bg-surface-hover: #f1f5f9;
+  --cr-bg-surface-active: #e2e8f0;
+  --cr-bg-glass: rgba(255, 255, 255, 0.85);
+  --cr-bg-overlay: rgba(15, 23, 42, 0.45);
+
+  --cr-border-subtle: #e2e8f0;
+  --cr-border-muted: #cbd5e1;
+  --cr-border-strong: #94a3b8;
+
+  --cr-text-primary: #0f172a;
+  --cr-text-secondary: #475569;
+  --cr-text-muted: #94a3b8;
+  --cr-text-inverse: #ffffff;
+
+  --cr-primary: #4f46e5;
+  --cr-primary-hover: #4338ca;
+  --cr-primary-active: #3730a3;
+  --cr-primary-subtle: #eef2ff;
+  --cr-primary-text: #4338ca;
+  --cr-primary-glow: 0 0 20px rgba(79, 70, 229, 0.25);
+
+  --cr-secondary: #0284c7;
+  --cr-secondary-hover: #0369a1;
+  --cr-secondary-subtle: #e0f2fe;
+
+  --cr-success: #10b981;
+  --cr-success-hover: #059669;
+  --cr-success-subtle: #ecfdf5;
+
+  --cr-warning: #f59e0b;
+  --cr-warning-hover: #d97706;
+  --cr-warning-subtle: #fffbeb;
+
+  --cr-danger: #f43f5e;
+  --cr-danger-hover: #e11d48;
+  --cr-danger-subtle: #fff1f2;
+
+  --cr-focus-ring: rgba(79, 70, 229, 0.4);
+  --cr-shadow-card: 0 4px 16px -2px rgba(15, 23, 42, 0.05);
+}
+
+/* --------------------------------------------------------------------------
+   Dark Theme Tokens (Default)
+   -------------------------------------------------------------------------- */
+[data-theme="dark"], .cr-theme-dark {
+  --cr-bg-page: #090d16;
+  --cr-bg-surface: #111726;
+  --cr-bg-surface-hover: #182034;
+  --cr-bg-surface-active: #1e2842;
+  --cr-bg-glass: rgba(17, 23, 38, 0.75);
+  --cr-bg-overlay: rgba(0, 0, 0, 0.7);
+
+  --cr-border-subtle: rgba(255, 255, 255, 0.08);
+  --cr-border-muted: rgba(255, 255, 255, 0.14);
+  --cr-border-strong: rgba(255, 255, 255, 0.25);
+
+  --cr-text-primary: #f8fafc;
+  --cr-text-secondary: #94a3b8;
+  --cr-text-muted: #64748b;
+  --cr-text-inverse: #090d16;
+
+  --cr-primary: #6366f1;
+  --cr-primary-hover: #818cf8;
+  --cr-primary-active: #4f46e5;
+  --cr-primary-subtle: rgba(99, 102, 241, 0.15);
+  --cr-primary-text: #a5b4fc;
+  --cr-primary-glow: 0 0 25px rgba(99, 102, 241, 0.4);
+
+  --cr-secondary: #38bdf8;
+  --cr-secondary-hover: #7dd3fc;
+  --cr-secondary-subtle: rgba(56, 189, 248, 0.15);
+
+  --cr-success: #34d399;
+  --cr-success-hover: #6ee7b7;
+  --cr-success-subtle: rgba(52, 211, 153, 0.15);
+
+  --cr-warning: #fbbf24;
+  --cr-warning-hover: #fcd34d;
+  --cr-warning-subtle: rgba(251, 191, 36, 0.15);
+
+  --cr-danger: #fb7185;
+  --cr-danger-hover: #fda4af;
+  --cr-danger-subtle: rgba(251, 113, 133, 0.15);
+
+  --cr-focus-ring: rgba(99, 102, 241, 0.6);
+  --cr-shadow-card: 0 8px 32px 0 rgba(0, 0, 0, 0.45);
+}
+
+/* --------------------------------------------------------------------------
+   Reset & Base
+   -------------------------------------------------------------------------- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-family: var(--cr-font-sans);
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  color-scheme: dark light;
+}
+
+body {
+  background-color: var(--cr-bg-page);
+  color: var(--cr-text-primary);
+  min-height: 100vh;
+  transition: background-color var(--cr-transition-normal), color var(--cr-transition-normal);
+}
+
+/* Animations */
+@keyframes cr-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes cr-fade-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes cr-scale-in {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes cr-shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.cr-animate-spin {
+  animation: cr-spin 0.8s linear infinite;
+}
+
+.cr-animate-fade-in {
+  animation: cr-fade-in var(--cr-transition-normal) ease-out;
+}
