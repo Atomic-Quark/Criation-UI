@@ -21,6 +21,7 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "build:lib": "tsc -b && vite build --config vite.config.lib.ts",
+    "test": "node scripts/test-suite.js",
     "preview": "vite preview"
   },
   "keywords": [

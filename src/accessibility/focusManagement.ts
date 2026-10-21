@@ -1,3 +1,5 @@
+import React from "react";
+
 export const FOCUSABLE_ELEMENTS = [
   "a[href]",
   "area[href]",
@@ -41,4 +43,27 @@ export function trapFocus(container: HTMLElement, event: KeyboardEvent): void {
       event.preventDefault();
     }
   }
+}
+
+/**
+ * React hook to trap focus within a container element when active
+ */
+export function useFocusTrap(
+  containerRef: React.RefObject<HTMLElement | null>,
+  isActive: boolean = true
+): void {
+  React.useEffect(() => {
+    if (!isActive) return;
+    const container = containerRef.current;
+    if (!container) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      trapFocus(container, e);
+    };
+
+    container.addEventListener("keydown", handleKeyDown);
+    return () => {
+      container.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [containerRef, isActive]);
 }
