@@ -1,0 +1,1371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Criation UI — Architectural Specification & User Manual</title>
+  <style>
+    @page {
+      size: A4;
+      margin: 18mm 14mm 18mm 14mm;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      font-size: 9.5pt;
+      line-height: 1.55;
+      color: #1e293b;
+      margin: 0;
+      padding: 0;
+    }
+
+    .cover-page {
+      page-break-after: always;
+      padding: 40px 30px;
+      text-align: center;
+      background: linear-gradient(145deg, #090d16 0%, #0f172a 60%, #1e293b 100%);
+      color: #ffffff;
+      border-radius: 12px;
+      margin-bottom: 30px;
+      border: 1px solid #334155;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    }
+
+    .cover-badge {
+      display: inline-block;
+      padding: 5px 14px;
+      background: rgba(56, 189, 248, 0.15);
+      border: 1px solid #38bdf8;
+      border-radius: 20px;
+      color: #38bdf8;
+      font-size: 8.5pt;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+
+    .cover-title {
+      font-size: 32pt;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin: 0 0 10px 0;
+      background: linear-gradient(90deg, #ffffff, #93c5fd);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .cover-subtitle {
+      font-size: 13pt;
+      font-weight: 400;
+      color: #94a3b8;
+      max-width: 600px;
+      margin: 0 auto 30px auto;
+      line-height: 1.4;
+    }
+
+    .cover-meta-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      max-width: 540px;
+      margin: 0 auto 30px auto;
+      text-align: left;
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      border-radius: 8px;
+      padding: 18px 22px;
+    }
+
+    .cover-meta-item {
+      font-size: 8.5pt;
+    }
+
+    .cover-meta-label {
+      color: #64748b;
+      font-size: 7.5pt;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 2px;
+    }
+
+    .cover-meta-value {
+      color: #f1f5f9;
+      font-weight: 600;
+    }
+
+    .cover-seal {
+      margin-top: 25px;
+      padding: 12px 20px;
+      background: rgba(234, 179, 8, 0.1);
+      border: 1px solid rgba(234, 179, 8, 0.4);
+      border-radius: 8px;
+      font-size: 8.5pt;
+      color: #fef08a;
+      display: inline-block;
+    }
+
+    h1 {
+      font-size: 18pt;
+      font-weight: 800;
+      color: #0f172a;
+      border-bottom: 2px solid #2563eb;
+      padding-bottom: 6px;
+      margin-top: 28pt;
+      margin-bottom: 12pt;
+      page-break-after: avoid;
+    }
+
+    h2 {
+      font-size: 14pt;
+      font-weight: 700;
+      color: #1e293b;
+      border-bottom: 1px solid #e2e8f0;
+      padding-bottom: 4px;
+      margin-top: 22pt;
+      margin-bottom: 8pt;
+      page-break-after: avoid;
+    }
+
+    h3 {
+      font-size: 11pt;
+      font-weight: 600;
+      color: #334155;
+      margin-top: 16pt;
+      margin-bottom: 6pt;
+      page-break-after: avoid;
+    }
+
+    h4 {
+      font-size: 10pt;
+      font-weight: 600;
+      color: #475569;
+      margin-top: 12pt;
+      margin-bottom: 4pt;
+      page-break-after: avoid;
+    }
+
+    p, ul, ol {
+      margin-top: 0;
+      margin-bottom: 10pt;
+    }
+
+    li {
+      margin-bottom: 4pt;
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid #e2e8f0;
+      margin: 18pt 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12pt 0;
+      font-size: 8.5pt;
+      page-break-inside: avoid;
+    }
+
+    th {
+      background: #0f172a;
+      color: #ffffff;
+      padding: 7px 10px;
+      font-weight: 600;
+      border: 1px solid #334155;
+      text-align: left;
+    }
+
+    td {
+      padding: 6px 10px;
+      border: 1px solid #cbd5e1;
+      vertical-align: top;
+    }
+
+    tr:nth-child(even) {
+      background: #f8fafc;
+    }
+
+    pre {
+      background: #090d16;
+      color: #f8fafc;
+      border: 1px solid #1e293b;
+      border-radius: 6px;
+      padding: 10px 14px;
+      font-family: "Consolas", "Monaco", "Courier New", monospace;
+      font-size: 8pt;
+      line-height: 1.45;
+      overflow-x: auto;
+      margin: 10pt 0 14pt 0;
+      page-break-inside: avoid;
+    }
+
+    code {
+      font-family: "Consolas", "Monaco", "Courier New", monospace;
+      font-size: 8.5pt;
+      background: #f1f5f9;
+      color: #0f172a;
+      border: 1px solid #e2e8f0;
+      padding: 1px 4px;
+      border-radius: 4px;
+    }
+
+    pre code {
+      background: transparent;
+      color: inherit;
+      border: none;
+      padding: 0;
+      font-size: 8pt;
+    }
+
+    blockquote {
+      margin: 12pt 0;
+      padding: 8px 14px;
+      background: #f0f9ff;
+      border-left: 4px solid #0284c7;
+      color: #0369a1;
+      border-radius: 0 6px 6px 0;
+      font-size: 8.5pt;
+      page-break-inside: avoid;
+    }
+
+    blockquote p {
+      margin: 0;
+    }
+
+    .footer-note {
+      margin-top: 30pt;
+      padding-top: 10pt;
+      border-top: 1px solid #e2e8f0;
+      text-align: center;
+      font-size: 8pt;
+      color: #64748b;
+    }
+
+    a {
+      color: #2563eb;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="cover-page">
+    <div class="cover-badge">Enterprise Architectural Specification & User Manual</div>
+    <div class="cover-title">Criation UI</div>
+    <div class="cover-subtitle">A Unified React 18+ Design System, Fluent English Chaining DSL, and Enterprise Component Framework</div>
+    
+    <div class="cover-meta-grid">
+      <div class="cover-meta-item">
+        <div class="cover-meta-label">System Release</div>
+        <div class="cover-meta-value">v0.2.1 (Production Ready)</div>
+      </div>
+      <div class="cover-meta-item">
+        <div class="cover-meta-label">Author & Proprietor</div>
+        <div class="cover-meta-value">Divyanshu Kumar (@Atomic-Quark)</div>
+      </div>
+      <div class="cover-meta-item">
+        <div class="cover-meta-label">Contact & Inquiries</div>
+        <div class="cover-meta-value">143479650+Atomic-Quark@users.noreply.github.com</div>
+      </div>
+      <div class="cover-meta-item">
+        <div class="cover-meta-label">Repository</div>
+        <div class="cover-meta-value">https://github.com/Atomic-Quark/Criation-UI</div>
+      </div>
+    </div>
+
+    <div class="cover-seal">
+      🔒 <strong>IRON SEAL PROPRIETARY & EXCLUSIVE LICENSE</strong><br>
+      Sole and unalienable property of Divyanshu Kumar. Unauthorized use, copying, or deployment is strictly prohibited.
+    </div>
+  </div>
+
+  <h1>📄 Criation UI: Comprehensive Architectural Specification &amp; Official User Manual</h1>
+<p><strong>A Unified React Design System, Fluent English Chaining DSL, and Enterprise Component Framework</strong></p>
+<hr>
+<table>
+<thead>
+<tr>
+<th align="left"><strong>Document Metadata</strong></th>
+<th align="left"><strong>Specification Details</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>System Title</strong></td>
+<td align="left">Criation UI Design System &amp; Component Library</td>
+</tr>
+<tr>
+<td align="left"><strong>Current Release</strong></td>
+<td align="left"><strong>v0.2.1</strong> (Production Enterprise Release)</td>
+</tr>
+<tr>
+<td align="left"><strong>Author &amp; Sole Proprietor</strong></td>
+<td align="left"><strong>Divyanshu Kumar</strong> (<a href="https://github.com/Atomic-Quark">@Atomic-Quark</a>)</td>
+</tr>
+<tr>
+<td align="left"><strong>Author Contact</strong></td>
+<td align="left"><code>143479650+Atomic-Quark@users.noreply.github.com</code></td>
+</tr>
+<tr>
+<td align="left"><strong>Copyright Notice</strong></td>
+<td align="left">Copyright © 2026 Divyanshu Kumar. All Rights Reserved.</td>
+</tr>
+<tr>
+<td align="left"><strong>Legal Framework</strong></td>
+<td align="left">Criation UI Iron Seal Proprietary &amp; Exclusive License</td>
+</tr>
+<tr>
+<td align="left"><strong>Target Runtimes</strong></td>
+<td align="left">React 18+, Next.js 14/15 (App Router &amp; Pages Router), Vite, Remix</td>
+</tr>
+<tr>
+<td align="left"><strong>Language &amp; Engine</strong></td>
+<td align="left">TypeScript 5.7+ (100% Strongly Typed), Vanilla CSS Custom Properties</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>📑 Table of Contents</h2>
+<ol>
+<li><a href="#1-abstract--executive-overview">Abstract &amp; Executive Overview</a></li>
+<li><a href="#2-architectural-foundation--core-philosophy">Architectural Foundation &amp; Core Philosophy</a></li>
+<li><a href="#3-the-three-expressive-modalities">The Three Expressive Modalities</a><ul>
+<li>3.1 <a href="#31-the-1-line-shorthand-system">The 1-Line Shorthand System</a></li>
+<li>3.2 <a href="#32-the-fluent-english-chaining-dsl">The Fluent English Chaining DSL</a></li>
+<li>3.3 <a href="#33-natural-english-sentences">Natural English Sentences</a></li>
+<li>3.4 <a href="#34-standard-jsx-syntax">Standard JSX Syntax</a></li>
+</ul>
+</li>
+<li><a href="#4-what-is-there-complete-component--hook-inventory">What Is There: Complete Component &amp; Hook Inventory</a><ul>
+<li>4.1 <a href="#41-core--typography-primitives">Core &amp; Typography Primitives</a></li>
+<li>4.2 <a href="#42-form--interactive-input-primitives">Form &amp; Interactive Input Primitives</a></li>
+<li>4.3 <a href="#43-layout-containers--grid-primitives">Layout, Containers &amp; Grid Primitives</a></li>
+<li>4.4 <a href="#44-feedback-indicators--overlays">Feedback, Indicators &amp; Overlays</a></li>
+<li>4.5 <a href="#45-navigation--app-scaffolds">Navigation &amp; App Scaffolds</a></li>
+<li>4.6 <a href="#46-complete-react-hooks-suite">Complete React Hooks Suite</a></li>
+<li>4.7 <a href="#47-utility-helpers--parsers">Utility Helpers &amp; Parsers</a></li>
+</ul>
+</li>
+<li><a href="#5-what-changed--what-was-fixed-v010-vs-v020v021">What Changed &amp; What Was Fixed: v0.1.0 vs v0.2.0/v0.2.1</a><ul>
+<li>5.1 <a href="#51-component-bug-fixes--hardening">Component Bug Fixes &amp; Hardening</a></li>
+<li>5.2 <a href="#52-accessibility-wai-aria--focus-management">Accessibility (WAI-ARIA) &amp; Focus Management</a></li>
+<li>5.3 <a href="#53-core-builders--key-handling">Core Builders &amp; Key Handling</a></li>
+<li>5.4 <a href="#54-asynchronous-remote-search--stale-request-cancellation">Asynchronous Remote Search &amp; Stale Request Cancellation</a></li>
+<li>5.5 <a href="#55-declarative-tables--controlled-accordions">Declarative Tables &amp; Controlled Accordions</a></li>
+<li>5.6 <a href="#56-the-typed-useform-engine">The Typed <code>useForm</code> Engine</a></li>
+<li>5.7 <a href="#57-nextjs-app-router-client-boundary">Next.js App Router Client Boundary</a></li>
+<li>5.8 <a href="#58-the-iron-seal-license-transition">The Iron Seal License Transition</a></li>
+</ul>
+</li>
+<li><a href="#6-how-it-works-under-the-hood">How It Works Under the Hood</a><ul>
+<li>6.1 <a href="#61-fluent-parsing--ast-token-extraction-engine">Fluent Parsing &amp; AST Token Extraction Engine</a></li>
+<li>6.2 <a href="#62-positional-slot-inference-algorithm">Positional Slot Inference Algorithm</a></li>
+<li>6.3 <a href="#63-wai-aria-focus-trap--focus-restoration-mechanism">WAI-ARIA Focus Trap &amp; Focus Restoration Mechanism</a></li>
+<li>6.4 <a href="#64-reactive-cross-tab-storage-bus">Reactive Cross-Tab Storage Bus</a></li>
+</ul>
+</li>
+<li><a href="#7-official-developer-user-manual-step-by-step-practical-recipes">Official Developer User Manual: Step-by-Step Practical Recipes</a><ul>
+<li>7.1 <a href="#71-installation--setup">Installation &amp; Setup</a></li>
+<li>7.2 <a href="#72-recipe-rapid-3-line-website-construction">Recipe: Rapid 3-Line Website Construction</a></li>
+<li>7.3 <a href="#73-recipe-production-authentication-form-with-useform">Recipe: Production Authentication Form with <code>useForm</code></a></li>
+<li>7.4 <a href="#74-recipe-declarative-table-with-custom-column-formatters">Recipe: Declarative Table with Custom Column Formatters</a></li>
+<li>7.5 <a href="#75-recipe-asynchronous-autocomplete-with-stale-request-protection">Recipe: Asynchronous Autocomplete with Stale Request Protection</a></li>
+<li>7.6 <a href="#76-recipe-accessible-overlays-modal-drawer-alertdialog">Recipe: Accessible Overlays (Modal, Drawer, AlertDialog)</a></li>
+<li>7.7 <a href="#77-recipe-cross-tab-synchronized-local-state">Recipe: Cross-Tab Synchronized Local State</a></li>
+<li>7.8 <a href="#78-recipe-nextjs-1415-app-router-clean-integration">Recipe: Next.js 14/15 App Router Clean Integration</a></li>
+</ul>
+</li>
+<li><a href="#8-comparative-analysis-the-difference">Comparative Analysis: The Difference</a><ul>
+<li>8.1 <a href="#81-criation-ui-vs-tailwind-css">Criation UI vs. Tailwind CSS</a></li>
+<li>8.2 <a href="#82-criation-ui-vs-material-ui--chakra-ui">Criation UI vs. Material UI &amp; Chakra UI</a></li>
+<li>8.3 <a href="#83-criation-ui-vs-shadcnui">Criation UI vs. Shadcn/ui</a></li>
+</ul>
+</li>
+<li><a href="#9-iron-seal-proprietary-legal-framework">Iron Seal Proprietary Legal Framework</a></li>
+<li><a href="#10-troubleshooting-edge-cases--faq">Troubleshooting, Edge Cases &amp; FAQ</a></li>
+</ol>
+<hr>
+<h2>1. Abstract &amp; Executive Overview</h2>
+<p>Modern web frontend development has reached an unsustainable level of boilerplate. Developers spend a disproportionate amount of time authoring repetitive JSX tags, managing unstandardized property names, binding accessible keyboard handlers, handling responsive styles through ad-hoc classes, and debugging race conditions in form state and asynchronous select widgets.</p>
+<p><strong>Criation UI</strong> is an enterprise-grade React design system, UI engine, and component library authored and owned solely by <strong>Divyanshu Kumar</strong> (<code>Atomic-Quark</code>). It eliminates frontend friction through a dual-engine architecture:</p>
+<ol>
+<li><strong>The Native JSX Engine</strong>: A battle-tested suite of 50+ fully accessible (WAI-ARIA compliant) React primitives and 14 reactive hooks.</li>
+<li><strong>The Fluent English Chaining DSL</strong>: A domain-specific language that allows developers to write user interfaces as naturally as writing an English sentence—either via chained method calls (<code>Button(&quot;Submit&quot;).green().large().link(&quot;/dashboard&quot;)</code>) or natural English phrases (<code>Button(&quot;Submit order, green, large, to /dashboard&quot;)</code>) or ultra-concise 1-line shorthands.</li>
+</ol>
+<p>This whitepaper and user manual serves as the definitive reference manual for understanding, implementing, and deploying Criation UI v0.2.1.</p>
+<hr>
+<h2>2. Architectural Foundation &amp; Core Philosophy</h2>
+<h3>2.1 The Problem Space</h3>
+<ul>
+<li><strong>Tag Fatigue</strong>: Writing <code>&lt;button className=&quot;...&quot; onClick={...}&gt;&lt;span&gt;Submit&lt;/span&gt;&lt;/button&gt;</code> dozens of times slows prototyping to a crawl.</li>
+<li><strong>Inconsistent Prop Surfaces</strong>: One component accepts <code>size=&quot;lg&quot;</code>, another accepts <code>fontSize=&quot;18px&quot;</code>, while another accepts <code>dimension=&quot;large&quot;</code>.</li>
+<li><strong>Accessibility Blindspots</strong>: Standard overlays frequently fail to trap keyboard focus, allow focus to escape into hidden background DOM nodes, or fail to restore focus to trigger elements upon dismissal.</li>
+<li><strong>Async State Regressions</strong>: Search inputs that do not cancel or ignore stale out-of-order network responses cause incorrect results to overwrite fresh searches.</li>
+</ul>
+<h3>2.2 The Criation UI Core Axioms</h3>
+<p>Criation UI is designed according to five architectural pillars:</p>
+<ol>
+<li><strong>Human Readability as First Principle</strong>: Writing code should feel like writing natural English. If a human can describe the button (&quot;A large red button that links to checkout&quot;), they can write it in code identically: <code>Button(&quot;Checkout&quot;).red().large().link(&quot;/checkout&quot;)</code>.</li>
+<li><strong>Zero Mandatory Configuration</strong>: Every property, slot, and argument across all 50+ components is 100% optional. Default fallbacks ensure elements look visually striking without specifying any props.</li>
+<li><strong>Ironclad Accessibility (a11y)</strong>: Focus trapping, focus restoration, roving tabindex keyboard navigation, and explicit WAI-ARIA relationship attributes (<code>aria-controls</code>, <code>aria-describedby</code>, <code>aria-labelledby</code>, <code>role</code>) are built directly into components.</li>
+<li><strong>Clean Separation of Concerns</strong>: Visual styling (<code>class</code>, <code>size</code>, <code>color</code>, <code>position</code>) is decoupled from routing destinations (<code>to</code>, <code>href</code>, <code>direction</code>) and authentication policies (<code>requiredRole</code>, <code>fallback</code>).</li>
+<li><strong>Lightweight &amp; Self-Contained</strong>: Powered exclusively by React 18+ and Lucide React. Zero heavy runtime dependencies, zero complex build configs, and zero third-party utility bloat.</li>
+</ol>
+<hr>
+<h2>3. The Three Expressive Modalities</h2>
+<p>Criation UI provides three distinct syntaxes to build interfaces. All three compile down to the exact same high-performance React elements.</p>
+<h3>3.1 The 1-Line Shorthand System</h3>
+<p>Call components directly as functions without writing <code>&lt;tags&gt; &lt;/tags&gt;</code>:</p>
+<pre><code class="language-tsx">import { Heading, Text, Input, Button, Card, Badge, Link, Image } from &quot;@criation/ui&quot;;
+
+export function StoreView() {
+  return (
+    &lt;div&gt;
+      {Heading(&quot;Summer Collection&quot;, 1, &quot;main-title&quot;, &quot;gradient&quot;)}
+      {Text(&quot;Handcrafted apparel designed for everyday comfort&quot;, &quot;lg&quot;, &quot;&quot;, &quot;muted&quot;)}
+      {Badge(&quot;IN STOCK&quot;, &quot;sm&quot;, &quot;&quot;, &quot;success&quot;)}
+      {Input(&quot;Search collection...&quot;, &quot;340px&quot;, &quot;search_box&quot;)}
+      {Button(&quot;Proceed to Cart&quot;, &quot;12px 28px&quot;, &quot;btn_cart&quot;, &quot;user&quot;, &quot;/cart&quot;, &quot;green&quot;)}
+      {Card(&quot;Special Offer: 20% off on all items above $100&quot;, &quot;400px&quot;, &quot;&quot;, &quot;glass&quot;)}
+    &lt;/div&gt;
+  );
+}
+</code></pre>
+<h4>Universal 8-Slot Positional Reference:</h4>
+<p>All parameters are optional. You can supply 1, 2, or any subset of arguments, or skip slots using empty strings:</p>
+<table>
+<thead>
+<tr>
+<th align="left">Component</th>
+<th align="left">Slot 1</th>
+<th align="left">Slot 2</th>
+<th align="left">Slot 3</th>
+<th align="left">Slot 4</th>
+<th align="left">Slot 5</th>
+<th align="left">Slot 6</th>
+<th align="left">Slot 7</th>
+<th align="left">Slot 8</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong><code>Button(...)</code></strong></td>
+<td align="left"><code>class/label</code></td>
+<td align="left"><code>box size</code></td>
+<td align="left"><code>ID</code></td>
+<td align="left"><code>Auth</code></td>
+<td align="left"><code>path_direction</code></td>
+<td align="left"><code>color</code></td>
+<td align="left"><code>position</code></td>
+<td align="left"><code>pointer</code></td>
+</tr>
+<tr>
+<td align="left"><strong><code>Input(...)</code></strong></td>
+<td align="left"><code>placeholder</code></td>
+<td align="left"><code>box size</code></td>
+<td align="left"><code>ID</code></td>
+<td align="left"><code>type</code></td>
+<td align="left"><code>label</code></td>
+<td align="left"><code>color</code></td>
+<td align="left"><code>position</code></td>
+<td align="left"><code>pointer</code></td>
+</tr>
+<tr>
+<td align="left"><strong><code>Heading(...)</code></strong></td>
+<td align="left"><code>text</code></td>
+<td align="left"><code>level/size</code></td>
+<td align="left"><code>ID</code></td>
+<td align="left"><code>color</code></td>
+<td align="left"><code>align</code></td>
+<td align="left"><code>position</code></td>
+<td align="left">—</td>
+<td align="left">—</td>
+</tr>
+<tr>
+<td align="left"><strong><code>Text(...)</code></strong></td>
+<td align="left"><code>content</code></td>
+<td align="left"><code>size</code></td>
+<td align="left"><code>ID</code></td>
+<td align="left"><code>color</code></td>
+<td align="left"><code>align</code></td>
+<td align="left"><code>position</code></td>
+<td align="left">—</td>
+<td align="left">—</td>
+</tr>
+<tr>
+<td align="left"><strong><code>Badge(...)</code></strong></td>
+<td align="left"><code>label</code></td>
+<td align="left"><code>size</code></td>
+<td align="left"><code>ID</code></td>
+<td align="left"><code>color</code></td>
+<td align="left"><code>position</code></td>
+<td align="left">—</td>
+<td align="left">—</td>
+<td align="left">—</td>
+</tr>
+<tr>
+<td align="left"><strong><code>Card(...)</code></strong></td>
+<td align="left"><code>content</code></td>
+<td align="left"><code>box size</code></td>
+<td align="left"><code>ID</code></td>
+<td align="left"><code>variant</code></td>
+<td align="left"><code>color</code></td>
+<td align="left"><code>position</code></td>
+<td align="left"><code>pointer</code></td>
+<td align="left">—</td>
+</tr>
+<tr>
+<td align="left"><strong><code>Link(...)</code></strong></td>
+<td align="left"><code>label</code></td>
+<td align="left"><code>href/path</code></td>
+<td align="left"><code>ID</code></td>
+<td align="left"><code>color</code></td>
+<td align="left"><code>isExternal</code></td>
+<td align="left"><code>position</code></td>
+<td align="left">—</td>
+<td align="left">—</td>
+</tr>
+<tr>
+<td align="left"><strong><code>Image(...)</code></strong></td>
+<td align="left"><code>src</code></td>
+<td align="left"><code>box size</code></td>
+<td align="left"><code>ID</code></td>
+<td align="left"><code>alt</code></td>
+<td align="left"><code>rounded</code></td>
+<td align="left"><code>position</code></td>
+<td align="left">—</td>
+<td align="left">—</td>
+</tr>
+</tbody></table>
+<hr>
+<h3>3.2 The Fluent English Chaining DSL</h3>
+<p>Chain styling, routing, authentication, and layout properties onto the component invocation. The result can be placed directly in JSX:</p>
+<pre><code class="language-tsx">import { Button, Heading, Text, Input, Badge, Card, Link } from &quot;@criation/ui&quot;;
+
+// Buttons
+Button(&quot;Go to Cart&quot;).red().large().link(&quot;/cart&quot;).auth()
+Button(&quot;Proceed to Checkout&quot;).green().link(&quot;/checkout&quot;)
+Button(&quot;Back to Store&quot;).outline().back()
+Button(&quot;Delete Account&quot;).danger().outline().pointer(&quot;pointer&quot;)
+
+// Headings &amp; Text
+Heading(&quot;Architectural Specification&quot;).gradient().center().level(1)
+Text(&quot;Confidential internal document&quot;).muted().center().size(&quot;sm&quot;)
+
+// Inputs &amp; Badges
+Input(&quot;Search documentation...&quot;).search().width(&quot;400px&quot;)
+Input(&quot;Work Email&quot;).email().label(&quot;Corporate Email&quot;).required()
+Badge(&quot;PRODUCTION READY&quot;).success().small()
+
+// Cards &amp; Links
+Card(&quot;System Status: All services operating normally&quot;).glass().width(&quot;450px&quot;)
+Link(&quot;View Source Code&quot;).to(&quot;https://github.com/Atomic-Quark/Criation-UI&quot;).external()
+</code></pre>
+<hr>
+<h3>3.3 Natural English Sentences</h3>
+<p>Pass plain English phrases directly as a single string argument. The built-in English tokenizer parses colors, sizes, alignment, variants, routing paths, and auth requirements automatically:</p>
+<pre><code class="language-tsx">import { Button, Heading, Text, Badge, Card } from &quot;@criation/ui&quot;;
+
+export function NaturalView() {
+  return (
+    &lt;div&gt;
+      {Heading(&quot;Welcome to Criation UI, level 1, centered, with gradient&quot;)}
+      {Text(&quot;Engineered for extreme developer velocity, muted, centered, size large&quot;)}
+      {Badge(&quot;NEW VERSION 0.2.1, in green, small&quot;)}
+      {Button(&quot;Explore Features, colored blue, large, go to /features&quot;)}
+      {Button(&quot;Admin Dashboard, red, auth required, to /admin&quot;)}
+      {Card(&quot;Security notice: All endpoints encrypted, glass variant, width 500px&quot;)}
+    &lt;/div&gt;
+  );
+}
+</code></pre>
+<hr>
+<h3>3.4 Standard JSX Syntax</h3>
+<p>For teams preferring traditional React JSX tags, every component exports clean JSX primitives:</p>
+<pre><code class="language-tsx">import React from &quot;react&quot;;
+import { 
+  Button, 
+  TextInput, 
+  Card, 
+  Stack, 
+  Badge, 
+  ThemeProvider 
+} from &quot;@criation/ui&quot;;
+
+export function App() {
+  return (
+    &lt;ThemeProvider defaultTheme=&quot;dark&quot;&gt;
+      &lt;Card variant=&quot;glass&quot; padding=&quot;xl&quot;&gt;
+        &lt;Stack direction=&quot;column&quot; gap=&quot;md&quot;&gt;
+          &lt;Badge variant=&quot;success&quot;&gt;Online&lt;/Badge&gt;
+          &lt;h2&gt;Standard JSX Mode&lt;/h2&gt;
+          &lt;TextInput placeholder=&quot;Enter your username&quot; label=&quot;Username&quot; /&gt;
+          &lt;Button variant=&quot;primary&quot; onClick={() =&gt; console.log(&quot;Activated&quot;)}&gt;
+            Save Changes
+          &lt;/Button&gt;
+        &lt;/Stack&gt;
+      &lt;/Card&gt;
+    &lt;/ThemeProvider&gt;
+  );
+}
+</code></pre>
+<hr>
+<h2>4. What Is There: Complete Component &amp; Hook Inventory</h2>
+<h3>4.1 Core &amp; Typography Primitives</h3>
+<ul>
+<li><strong><code>Button</code></strong>: Full-featured button primitive with variants (<code>primary</code>, <code>secondary</code>, <code>outline</code>, <code>ghost</code>, <code>danger</code>, <code>success</code>, <code>link</code>), sizes (<code>xs</code>, <code>sm</code>, <code>md</code>, <code>lg</code>, <code>xl</code>), full loading state management with accessible spinner, and custom cursor pointer control.</li>
+<li><strong><code>IconButton</code></strong>: Specialized square or circular button designed for standalone icon triggers with accessible labels.</li>
+<li><strong><code>ButtonGroup</code></strong>: Harmonious container for grouping buttons with optional connected borders (<code>attached</code>).</li>
+<li><strong><code>Heading</code></strong>: Typography heading (<code>h1</code> through <code>h6</code>) with linear gradients and responsive font-scaling.</li>
+<li><strong><code>Text</code></strong>: Paragraph, span, or label with weights (<code>normal</code>, <code>medium</code>, <code>semibold</code>, <code>bold</code>), colors, and text-truncation.</li>
+<li><strong><code>Label</code></strong>: Form field label with automated asterisk rendering for required inputs.</li>
+<li><strong><code>Link</code></strong>: Internal and external link primitive with automatic <code>noopener noreferrer</code> and external icon badges.</li>
+<li><strong><code>Code</code></strong>: Inline code highlights and preformatted code blocks with built-in one-click clipboard copying.</li>
+</ul>
+<h3>4.2 Form &amp; Interactive Input Primitives</h3>
+<ul>
+<li><strong><code>Input</code> / <code>TextInput</code></strong>: Foundational input supporting prefix/suffix icons, clear buttons, size tokens, and accessible error message strings.</li>
+<li><strong><code>PasswordInput</code></strong>: Secure password field with built-in toggle to reveal/hide characters.</li>
+<li><strong><code>EmailInput</code></strong>: Auto-configured email field with mail icon and built-in format validation attributes.</li>
+<li><strong><code>NumberInput</code></strong>: Numeric input with min, max, step, and keyboard increment controls.</li>
+<li><strong><code>TextArea</code></strong>: Multi-line text field featuring dynamic <code>autoResize</code> based on content <code>scrollHeight</code>.</li>
+<li><strong><code>SearchInput</code></strong>: Specialized search field with search icon, clear button, and platform shortcut badges (<kbd>⌘K</kbd> / <kbd>Ctrl+K</kbd>).</li>
+<li><strong><code>OTPInput</code></strong>: Multi-digit verification code input supporting masked PIN display, auto-focus advancement, paste distribution, and dynamic length resizing.</li>
+<li><strong><code>Rating</code></strong>: Interactive or read-only 5-star rating widget with hover states and keyboard arrow adjustments.</li>
+<li><strong><code>Combobox</code></strong>: Single-select searchable autocomplete dropdown with local filtering and remote asynchronous querying.</li>
+<li><strong><code>MultiSelect</code></strong>: Multi-tag select input with removable badge chips and remote search capability.</li>
+<li><strong><code>ColorPicker</code></strong>: Color selection widget featuring visual swatch preview and hex code readout.</li>
+<li><strong><code>Select</code></strong>: Native select element styled with custom chevrons, React-compliant default values, and error messaging.</li>
+<li><strong><code>Checkbox</code></strong>: Custom styled checkbox with title, subtitle description, and indeterminate state support.</li>
+<li><strong><code>Radio</code></strong>: Custom radio options for single-selection choice lists.</li>
+<li><strong><code>Switch</code></strong>: Smooth iOS-style sliding toggle switch for boolean settings.</li>
+<li><strong><code>Slider</code></strong>: Track and thumb range slider with real-time value readout.</li>
+<li><strong><code>DatePicker</code></strong>: Date selector with calendar icon and formatting constraints.</li>
+<li><strong><code>FileUpload</code></strong>: Drag-and-drop file upload zone with file size formatting, dragover animations, and progress readouts.</li>
+<li><strong><code>Form</code></strong>, <strong><code>FormField</code></strong>, <strong><code>FormLabel</code></strong>, <strong><code>FormError</code></strong>, <strong><code>FormProvider</code></strong>: Compound declarative form components.</li>
+</ul>
+<h3>4.3 Layout, Containers &amp; Grid Primitives</h3>
+<ul>
+<li><strong><code>Box</code></strong>: Polymorphic container (<code>as=&quot;div&quot; | &quot;section&quot; | &quot;article&quot; | ...</code>) with direct styling attributes (<code>padding</code>, <code>margin</code>, <code>position</code>, <code>cursor</code>, <code>background</code>, <code>color</code>).</li>
+<li><strong><code>Container</code></strong>: Max-width content boundary with responsive breakpoint centering (<code>sm</code>, <code>md</code>, <code>lg</code>, <code>xl</code>, <code>2xl</code>, <code>full</code>).</li>
+<li><strong><code>Stack</code></strong>: Flexbox layout engine supporting row/column direction, alignment, justification, and uniform gap spacing.</li>
+<li><strong><code>Grid</code></strong>: CSS Grid container supporting column counts, auto-fit responsive column sizing (<code>minChildWidth</code>), and grid gap tokens.</li>
+<li><strong><code>Flex</code></strong>: Shorthand flex wrapper with wrapping and alignment presets.</li>
+<li><strong><code>AspectRatio</code></strong>: Responsive aspect ratio box (<code>16:9</code>, <code>4:3</code>, <code>1:1</code>, etc.) preventing layout shifts during asset loads.</li>
+<li><strong><code>ScrollArea</code></strong>: Custom styled scroll container with customized cross-browser scrollbars and height clamping.</li>
+<li><strong><code>Collapsible</code></strong>: Expandable disclosure section with smooth height transition.</li>
+<li><strong><code>Card</code></strong>: Elevated, outlined, or glassmorphic content containers with customizable padding and hover effects.</li>
+<li><strong><code>Divider</code></strong>: Horizontal or vertical separating rule with optional embedded text.</li>
+<li><strong><code>Spacer</code></strong>: Explicit pixel or rem layout spacer.</li>
+</ul>
+<h3>4.4 Feedback, Indicators &amp; Overlays</h3>
+<ul>
+<li><strong><code>Alert</code></strong>: Notification banner with semantic themes (<code>info</code>, <code>success</code>, <code>warning</code>, <code>danger</code>) and dismiss actions.</li>
+<li><strong><code>Toast</code></strong>: Contextual, floating notification toasts managed via <code>useToast()</code>.</li>
+<li><strong><code>Modal</code></strong>: Accessible dialog overlay featuring backdrop blur, focus trapping, focus restoration, <kbd>Escape</kbd> dismissal, and root portal rendering.</li>
+<li><strong><code>Drawer</code></strong>: Sliding side sheet panel emerging from <code>left</code> or <code>right</code> viewport edges with focus trap.</li>
+<li><strong><code>AlertDialog</code></strong>: Confirmation modal with dedicated destructive action buttons and accessible alertdialog role.</li>
+<li><strong><code>Popover</code></strong>: Floating contextual popover with keyboard trigger activation and outside click closing.</li>
+<li><strong><code>Tooltip</code></strong>: Hover helper tooltip powered by leak-free timer refs and automated positioning.</li>
+<li><strong><code>ContextMenu</code></strong>: Right-click desktop menu overlay.</li>
+<li><strong><code>Spinner</code></strong>: Smooth animated circular loading spinner.</li>
+<li><strong><code>Skeleton</code></strong>: Shimmering geometric placeholder simulating content while loading.</li>
+<li><strong><code>Progress</code></strong>: Linear progress bar with percentage readout and color variants.</li>
+<li><strong><code>EmptyState</code></strong>: Zero-data illustration container with action button slots.</li>
+<li><strong><code>ErrorState</code></strong>: Standardized failure view with retry actions.</li>
+<li><strong><code>ErrorBoundary</code></strong>: React class component catching rendering crashes with fallback presentation.</li>
+</ul>
+<h3>4.5 Navigation &amp; App Scaffolds</h3>
+<ul>
+<li><strong><code>Navbar</code></strong>: Responsive header bar with brand logo, nav links, and mobile hamburger drawer.</li>
+<li><strong><code>Sidebar</code></strong>: Vertical collapsible navigation menu with active route tracking.</li>
+<li><strong><code>Tabs</code></strong>: Full WAI-ARIA tabbed switcher supporting roving arrow key navigation and matching tabpanels.</li>
+<li><strong><code>Breadcrumbs</code></strong>: Hierarchical path trail with separator icons.</li>
+<li><strong><code>Pagination</code></strong>: Multi-page selector with previous/next triggers and page number buttons.</li>
+<li><strong><code>DropdownMenu</code></strong>: Pop-out dropdown action list with divider rules.</li>
+<li><strong><code>Stepper</code></strong>: Multi-step wizard indicator tracking progress through numbered phases.</li>
+<li><strong><code>Timeline</code></strong>: Vertical chronological event stream with connecting lines and date tags.</li>
+<li><strong><code>Result</code></strong>: Full-page success, error, or warning status screen with illustrations and action buttons.</li>
+<li><strong><code>NotFoundPage</code></strong>: Production-ready 404 error page with search bar and home navigation.</li>
+<li><strong><code>LandingLayout</code></strong>, <strong><code>DashboardLayout</code></strong>, <strong><code>AuthLayout</code></strong>, <strong><code>SettingsLayout</code></strong>: Full-page responsive layout shells.</li>
+</ul>
+<h3>4.6 Complete React Hooks Suite</h3>
+<p>Criation UI includes 14 custom hooks covering state, DOM, lifecycle, and browser capabilities:</p>
+<ol>
+<li><strong><code>useForm&lt;T&gt;</code></strong>: Full-featured form management hook providing <code>values</code>, <code>errors</code>, <code>touched</code>, <code>isValid</code>, <code>isDirty</code>, <code>isSubmitting</code>, <code>register</code>, <code>handleChange</code>, <code>handleBlur</code>, <code>handleSubmit</code>, and <code>reset</code>.</li>
+<li><strong><code>useLocalStorage&lt;T&gt;</code></strong>: Reactive local storage state with automatic cross-tab synchronization and incognito mode safety.</li>
+<li><strong><code>useClipboard</code></strong>: Clipboard copy utility with ref-tracked timeout resolution preventing state collisions.</li>
+<li><strong><code>useTheme</code></strong>: Light/Dark mode state with system preference auto-detection.</li>
+<li><strong><code>useDisclosure</code></strong>: Common boolean disclosure controller (<code>isOpen</code>, <code>onOpen</code>, <code>onClose</code>, <code>onToggle</code>).</li>
+<li><strong><code>useDebounce&lt;T&gt;</code></strong>: Value debouncing hook for throttling search and window inputs.</li>
+<li><strong><code>useClickOutside</code></strong>: Detects and triggers callbacks for mouse clicks outside a specified element ref.</li>
+<li><strong><code>useMediaQuery</code></strong>: Reactive CSS media query evaluator matching viewport size changes.</li>
+<li><strong><code>useWindowSize</code></strong>: Real-time window viewport width and height dimensions.</li>
+<li><strong><code>useOnlineStatus</code></strong>: Real-time network connectivity monitor (<code>navigator.onLine</code>).</li>
+<li><strong><code>useIntersectionObserver</code></strong>: Viewport visibility tracker for infinite scrolling and lazy loading.</li>
+<li><strong><code>usePrevious&lt;T&gt;</code></strong>: Tracks the previous state or prop value across renders.</li>
+<li><strong><code>useEventListener</code></strong>: Managed DOM event listener with automated cleanup on unmount.</li>
+<li><strong><code>useKeyPress</code></strong>: Keyboard key press detector for global shortcuts (<kbd>Escape</kbd>, <kbd>Enter</kbd>, etc.).</li>
+</ol>
+<h3>4.7 Utility Helpers &amp; Parsers</h3>
+<ul>
+<li><strong><code>formatFileSize(bytes)</code></strong>: Converts raw bytes to human-readable format (<code>KB</code>, <code>MB</code>, <code>GB</code>, <code>TB</code>).</li>
+<li><strong><code>formatDate(date, format)</code></strong>: Flexible date formatter with relative time support.</li>
+<li><strong><code>formatNumber(num, options)</code></strong>: Currency, percentage, and localized number formatter.</li>
+<li><strong><code>validateEmail</code></strong>, <strong><code>validateRequired</code></strong>, <strong><code>validateUrl</code></strong>: Reusable validation predicate functions.</li>
+<li><strong><code>classNames(...args)</code></strong>: High-speed conditional class builder (equivalent to <code>clsx</code>).</li>
+<li><strong><code>throttle(fn, limitMs)</code></strong>: Execution frequency limiter for scroll and resize handlers.</li>
+</ul>
+<hr>
+<h2>5. What Changed &amp; What Was Fixed: v0.1.0 vs v0.2.0/v0.2.1</h2>
+<p>A major overhaul was conducted between v0.1.0 and v0.2.1 to transform Criation UI from an experimental component draft into a robust, enterprise-ready, accessible, and legally protected design system.</p>
+<h3>5.1 Component Bug Fixes &amp; Hardening</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Component / Hook</th>
+<th align="left">Issue in v0.1.0</th>
+<th align="left">Resolution in v0.2.0 / v0.2.1</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong><code>Input</code></strong></td>
+<td align="left">When <code>error=&quot;Required field&quot;</code> was supplied as a string, no visible DOM text element was rendered; only a red border appeared.</td>
+<td align="left">Added <code>&lt;span className=&quot;cr-input__error-message&quot; role=&quot;alert&quot;&gt;</code> displaying the exact error text, tied to the input via <code>aria-describedby</code>.</td>
+</tr>
+<tr>
+<td align="left"><strong><code>TextArea</code></strong></td>
+<td align="left">Multi-line textareas did not expand dynamically, causing awkward inner scrollbars. Strings passed to <code>error</code> did not display text.</td>
+<td align="left">Integrated automated <code>autoResize</code> based on <code>scrollHeight</code> recalculation on mount and input; added accessible error message text rendering.</td>
+</tr>
+<tr>
+<td align="left"><strong><code>Select</code></strong></td>
+<td align="left">The placeholder option rendered <code>&lt;option selected ...&gt;</code>, which caused React console warnings (<code>Use defaultValue or value instead</code>). Error string was not rendered.</td>
+<td align="left">Replaced with React-compliant <code>defaultValue=&quot;&quot;</code>; added accessible error message text rendering.</td>
+</tr>
+<tr>
+<td align="left"><strong><code>Tooltip</code></strong></td>
+<td align="left">Timeout identifiers were saved in component state (<code>useState</code>), causing race conditions and React state updates on unmounted components during fast pointer movement.</td>
+<td align="left">Migrated to `useRef&lt;number</td>
+</tr>
+<tr>
+<td align="left"><strong><code>useClipboard</code></strong></td>
+<td align="left">Calling <code>copy(text)</code> rapidly in succession left stale timers active, causing the <code>hasCopied</code> status to prematurely reset to <code>false</code>.</td>
+<td align="left">Added timer ref tracking (<code>timeoutRef.current</code>) that cancels prior timeouts upon each new copy invocation.</td>
+</tr>
+<tr>
+<td align="left"><strong><code>OTPInput</code></strong></td>
+<td align="left">When the <code>length</code> property changed dynamically (e.g., from 4 to 6 digits), internal state remained fixed at the initial length.</td>
+<td align="left">Added <code>useEffect</code> listening to <code>length</code> that dynamically synchronizes the internal <code>digits</code> array state.</td>
+</tr>
+<tr>
+<td align="left"><strong><code>useLocalStorage</code></strong></td>
+<td align="left">Did not synchronize across browser tabs; crashed with a <code>SecurityError</code> when accessed inside private/incognito browsing windows.</td>
+<td align="left">Added window <code>storage</code> and custom <code>local-storage-sync</code> event buses; wrapped all storage access in defensive <code>try/catch</code> fallbacks.</td>
+</tr>
+</tbody></table>
+<hr>
+<h3>5.2 Accessibility (WAI-ARIA) &amp; Focus Management</h3>
+<p>Overlays in v0.1.0 were basic DOM elements placed in the tree without focus constraints. In v0.2.0 and v0.2.1:</p>
+<ul>
+<li><strong><code>Modal</code> &amp; <code>Drawer</code> &amp; <code>AlertDialog</code></strong>:<ul>
+<li>Implemented the <code>useFocusTrap</code> hook, which intercepts <kbd>Tab</kbd> and <kbd>Shift+Tab</kbd> key events, ensuring keyboard navigation cycles exclusively within the interactive elements of the active dialog.</li>
+<li>Added <strong>automatic focus restoration</strong>: when the dialog opens, it saves <code>document.activeElement</code>; when the dialog closes, it seamlessly restores focus to the triggering button or link.</li>
+<li>Implemented <strong>Root-Level Portal Rendering</strong>: overlays render at <code>document.body</code> via <code>ReactDOM.createPortal(..., document.body)</code> with SSR safety checks (<code>typeof document !== &quot;undefined&quot;</code>), preventing CSS z-index and clipping bugs.</li>
+</ul>
+</li>
+<li><strong><code>Popover</code></strong>:<ul>
+<li>Added full keyboard activation: pressing <kbd>Enter</kbd> or <kbd>Space</kbd> on the trigger opens the popover; pressing <kbd>Escape</kbd> dismisses it and returns focus to the trigger. Added <code>role=&quot;button&quot;</code> and <code>tabIndex={0}</code>.</li>
+</ul>
+</li>
+<li><strong><code>Tabs</code></strong>:<ul>
+<li>Implemented the official WAI-ARIA Tabs pattern with roving focus: pressing <kbd>ArrowLeft</kbd> or <kbd>ArrowRight</kbd> moves focus between tabs; pressing <kbd>Home</kbd> or <kbd>End</kbd> jumps to the first or last tab.</li>
+<li>Explicitly linked tabs to panels via <code>aria-controls={panelId}</code> and <code>aria-labelledby={tabId}</code>.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3>5.3 Core Builders &amp; Key Handling</h3>
+<ul>
+<li><strong><code>renderWebsite</code> &amp; <code>shorthand</code></strong>:<ul>
+<li>In v0.1.0, rendering arrays of components via <code>Website(...)</code> triggered React console warnings (<code>Each child in a list should have a unique &quot;key&quot; prop</code>) because elements were cloned repeatedly with ad-hoc keys.</li>
+<li>In v0.2.0, React keys are systematically assigned at the map boundary (<code>item.id || &quot;section-${index}&quot;</code>) without introducing redundant cloning or key instability.</li>
+<li>Added <code>WebsiteLayoutOptions</code>: <code>createWebsiteLayout</code> now accepts <code>maxWidth</code>, <code>padding</code>, <code>header</code>, and <code>footer</code> customization parameters.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3>5.4 Asynchronous Remote Search &amp; Stale Request Cancellation</h3>
+<ul>
+<li><strong><code>Combobox</code> &amp; <code>MultiSelect</code></strong>:<ul>
+<li>Added native support for asynchronous querying via <code>onSearch?: (query: string) =&gt; Promise&lt;ComboboxOption[]&gt;</code>.</li>
+<li>Added visual loading spinners and dedicated error message displays.</li>
+<li><strong>Stale Request Cancellation</strong>: Implemented <code>latestRequestIdRef</code> tracking. If query <code>A</code> takes 500ms to resolve, but query <code>B</code> was initiated 200ms later and resolves in 100ms, the response from query <code>A</code> is automatically discarded, preventing out-of-order network responses from corrupting search results.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3>5.5 Declarative Tables &amp; Controlled Accordions</h3>
+<ul>
+<li><strong><code>Table</code></strong>:<ul>
+<li>In v0.1.0, tables only supported static JSX children (<code>&lt;thead&gt;&lt;tr&gt;&lt;th&gt;...</code>).</li>
+<li>In v0.2.0, tables accept declarative data configurations: <code>columns: TableColumn&lt;T&gt;[]</code> and <code>data: T[]</code>. Supports custom column cell formatters (<code>render: (value, row) =&gt; ...</code>), text alignments (<code>left</code>, <code>center</code>, <code>right</code>), and an <code>emptyText</code> fallback for empty data sets, while retaining 100% backward compatibility for raw JSX children.</li>
+</ul>
+</li>
+<li><strong><code>Accordion</code></strong>:<ul>
+<li>Added controlled behavior via <code>expandedIds?: string[]</code> and <code>onChange?: (ids: string[]) =&gt; void</code>.</li>
+<li>Maintained uncontrolled behavior via <code>defaultExpandedIds</code>.</li>
+<li>Connected buttons and collapsible regions via accessible <code>aria-controls</code> and <code>aria-labelledby</code> IDs.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3>5.6 The Typed <code>useForm</code> Engine</h3>
+<p>A brand-new, enterprise-grade form management hook was authored from scratch in <a href="file:///c:/Users/mrdiv/Desktop/UI_Librabry/src/forms/useForm.ts">src/forms/useForm.ts</a>:</p>
+<ul>
+<li><strong>Full Type Safety</strong>: Generically typed with form values <code>T</code>.</li>
+<li><strong>Form State</strong>: Tracks <code>values</code>, <code>errors</code>, <code>touched</code>, <code>isValid</code>, <code>isDirty</code>, and <code>isSubmitting</code>.</li>
+<li><strong>Validation</strong>: Supports synchronous or asynchronous validation rules returning field-specific error messages.</li>
+<li><strong>Automation</strong>: <code>register(name)</code> helper automatically attaches <code>name</code>, <code>value</code>, <code>onChange</code>, <code>onBlur</code>, and <code>error</code> attributes to any input.</li>
+</ul>
+<hr>
+<h3>5.7 Next.js App Router Client Boundary</h3>
+<ul>
+<li><strong>Vite &amp; Rollup Configuration</strong>:<ul>
+<li>In <a href="file:///c:/Users/mrdiv/Desktop/UI_Librabry/vite.config.lib.ts">vite.config.lib.ts</a>, added <code>banner: &#39;&quot;use client&quot;;\n&#39;</code> to the compiled library output.</li>
+<li>Ensures that when consumers import components from <code>@criation/ui</code> inside Next.js 14 or Next.js 15 App Router applications (<code>app/page.tsx</code>), the bundler treats them as client components without throwing server component serialization errors.</li>
+<li>Standardized CSS distribution so both <code>import &quot;@criation/ui/styles.css&quot;</code> and <code>import &quot;@criation/ui/ui.css&quot;</code> resolve cleanly.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3>5.8 The Iron Seal License Transition</h3>
+<ul>
+<li>Replaced the permissive generic license with the <strong>Criation UI — Iron Seal Proprietary &amp; Exclusive License</strong>.</li>
+<li>Sole author, creator, and proprietor established legally as <strong>Divyanshu Kumar</strong> (<code>@Atomic-Quark</code>).</li>
+<li>Third-party copying, modification, deployment, sublicensing, or use in any project is strictly prohibited without explicit, signed, prior written permission from Divyanshu Kumar.</li>
+</ul>
+<hr>
+<h2>6. How It Works Under the Hood</h2>
+<h3>6.1 Fluent Parsing &amp; AST Token Extraction Engine</h3>
+<p>When you invoke a component using a natural English sentence:</p>
+<pre><code class="language-tsx">Button(&quot;Proceed to Checkout, green, large, to /checkout, auth required&quot;)
+</code></pre>
+<p>The internal parser executes the following pipeline:</p>
+<ol>
+<li><strong>String Tokenization</strong>: The argument is split by commas into descriptor tokens: <code>[&quot;Proceed to Checkout&quot;, &quot;green&quot;, &quot;large&quot;, &quot;to /checkout&quot;, &quot;auth required&quot;]</code>.</li>
+<li><strong>First Slot Extraction</strong>: The first token (<code>Proceed to Checkout</code>) is identified as the visible label.</li>
+<li><strong>Pattern Matching &amp; AST Normalization</strong>: Each subsequent token is scanned against known grammar dictionaries:<ul>
+<li>Color Dictionary: <code>&quot;green&quot;</code> $\rightarrow$ <code>color: &quot;green&quot;</code>, <code>variant: &quot;success&quot;</code>.</li>
+<li>Size Dictionary: <code>&quot;large&quot;</code> $\rightarrow$ <code>size: &quot;lg&quot;</code>.</li>
+<li>Routing Dictionary: <code>&quot;to /checkout&quot;</code> $\rightarrow$ <code>to: &quot;/checkout&quot;</code>.</li>
+<li>Auth Dictionary: <code>&quot;auth required&quot;</code> $\rightarrow$ <code>requiredRole: &quot;user&quot;</code>.</li>
+</ul>
+</li>
+<li><strong>React Element Synthesis</strong>: The normalized properties are fed directly into the native React primitive, returning <code>React.createElement(ButtonComponent, resolvedProps)</code>.</li>
+</ol>
+<hr>
+<h3>6.2 Positional Slot Inference Algorithm</h3>
+<p>When you call <code>Button(&quot;Go to cart&quot;, &quot;300px&quot;, &quot;btn_cart&quot;, &quot;admin&quot;, &quot;/cart&quot;, &quot;red&quot;)</code>:</p>
+<ul>
+<li>The engine uses an inference algorithm that checks parameter types:<ul>
+<li>If argument 2 contains <code>&quot;px&quot;</code>, <code>&quot;rem&quot;</code>, or space-separated units, it assigns it to <code>width</code> / <code>boxSize</code>.</li>
+<li>If argument 4 matches <code>&quot;admin&quot;</code>, <code>&quot;user&quot;</code>, or <code>&quot;auth&quot;</code>, it sets authentication guards.</li>
+<li>If argument 5 starts with <code>&quot;/&quot;</code> or <code>&quot;http&quot;</code>, it sets navigation routing.
+This allows developers to omit slot indices without breaking property assignments.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3>6.3 WAI-ARIA Focus Trap &amp; Focus Restoration Mechanism</h3>
+<p>When a <code>Modal</code>, <code>Drawer</code>, or <code>AlertDialog</code> mounts:</p>
+<pre><code class="language-mermaid">graph TD
+    A[User clicks Trigger Button] --&gt; B[Save activeElement into triggerRef]
+    B --&gt; C[Render Dialog via Portal to document.body]
+    C --&gt; D[useFocusTrap scans all interactive elements in Dialog]
+    D --&gt; E[Move active focus to first interactive element]
+    E --&gt; F{User presses Tab / Shift+Tab}
+    F --&gt;|At last element| G[Cycle focus back to first element]
+    F --&gt;|At first element + Shift| H[Cycle focus back to last element]
+    F --&gt;|User presses Escape or Close| I[Unmount Portal]
+    I --&gt; J[Restore active focus to triggerRef]
+</code></pre>
+<ol>
+<li><strong>Trigger Element Capture</strong>: <code>const triggerRef = useRef&lt;HTMLElement | null&gt;(document.activeElement as HTMLElement)</code>.</li>
+<li><strong>Interactive Node Querying</strong>: The trap scans all focusable selectors: <code>button, [href], input, select, textarea, [tabindex]:not([tabindex=&quot;-1&quot;])</code>.</li>
+<li><strong>Key Event Interception</strong>: A <code>keydown</code> listener intercepts <kbd>Tab</kbd> events:<ul>
+<li>If the user is on the last focusable element and presses <kbd>Tab</kbd>, the event is prevented and focus moves to the first focusable element.</li>
+<li>If the user is on the first focusable element and presses <kbd>Shift+Tab</kbd>, the event is prevented and focus moves to the last focusable element.</li>
+</ul>
+</li>
+<li><strong>Focus Restoration</strong>: During the unmount phase of <code>useEffect</code>, <code>triggerRef.current?.focus()</code> is called to return focus to the user&#39;s previous context.</li>
+</ol>
+<hr>
+<h3>6.4 Reactive Cross-Tab Storage Bus</h3>
+<p>The <code>useLocalStorage</code> hook establishes real-time synchronization across browser tabs without inefficient polling:</p>
+<ol>
+<li>When <code>setValue(newValue)</code> is called in Tab A:<ul>
+<li><code>window.localStorage.setItem(key, serialized)</code> writes to disk.</li>
+<li>A custom <code>window.dispatchEvent(new CustomEvent(&quot;local-storage-sync&quot;, { detail: { key, value } }))</code> updates other components in Tab A immediately.</li>
+</ul>
+</li>
+<li>In Tab B, the native <code>window.addEventListener(&quot;storage&quot;, (event) =&gt; ...)</code> fires automatically.</li>
+<li>The hook checks if <code>event.key === targetKey</code>, parses the payload safely in a <code>try/catch</code> block, and updates the local React state.</li>
+</ol>
+<hr>
+<h2>7. Official Developer User Manual: Step-by-Step Practical Recipes</h2>
+<h3>7.1 Installation &amp; Setup</h3>
+<p>In your React or Next.js project:</p>
+<pre><code class="language-bash">npm install @criation/ui
+</code></pre>
+<p>Import the stylesheet once at the root of your application (<code>src/main.tsx</code> or <code>app/layout.tsx</code>):</p>
+<pre><code class="language-tsx">import &quot;@criation/ui/styles.css&quot;;
+</code></pre>
+<hr>
+<h3>7.2 Recipe: Rapid 3-Line Website Construction</h3>
+<p>You can build a full marketing page with dark mode, responsive container, gradient headings, badges, and buttons in 3 lines:</p>
+<pre><code class="language-tsx">import { Website, Heading, Text, Button, Badge } from &quot;@criation/ui&quot;;
+
+export default function HomePage() {
+  return Website(&quot;My SaaS Application&quot;, [
+    Badge(&quot;NEW GENERATION 2.0&quot;).green().small(),
+    Heading(&quot;Build Websites 10x Faster&quot;).gradient().center().level(1),
+    Text(&quot;The ultimate fluent React component foundation&quot;).muted().center(),
+    Button(&quot;Start Your Free Trial&quot;).green().large().link(&quot;/signup&quot;),
+  ]);
+}
+</code></pre>
+<hr>
+<h3>7.3 Recipe: Production Authentication Form with <code>useForm</code></h3>
+<p>Build a secure login form with type safety, field errors, touched states, and asynchronous submission:</p>
+<pre><code class="language-tsx">import React from &quot;react&quot;;
+import { useForm, Card, Stack, Input, Button, Alert } from &quot;@criation/ui&quot;;
+
+interface LoginFormValues {
+  email: string;
+  password: string;
+}
+
+export function LoginForm() {
+  const { 
+    values, 
+    errors, 
+    touched, 
+    isSubmitting, 
+    register, 
+    handleSubmit, 
+    reset 
+  } = useForm&lt;LoginFormValues&gt;({
+    initialValues: {
+      email: &quot;&quot;,
+      password: &quot;&quot;,
+    },
+    validate: (vals) =&gt; {
+      const errs: Partial&lt;Record&lt;keyof LoginFormValues, string&gt;&gt; = {};
+      if (!vals.email) {
+        errs.email = &quot;Email address is required&quot;;
+      } else if (!vals.email.includes(&quot;@&quot;)) {
+        errs.email = &quot;Please enter a valid email address&quot;;
+      }
+      if (!vals.password) {
+        errs.password = &quot;Password is required&quot;;
+      } else if (vals.password.length &lt; 8) {
+        errs.password = &quot;Password must be at least 8 characters long&quot;;
+      }
+      return errs;
+    },
+    onSubmit: async (vals) =&gt; {
+      // Simulate API call
+      await new Promise((res) =&gt; setTimeout(res, 1500));
+      alert(`Logged in successfully as ${vals.email}`);
+      reset();
+    },
+  });
+
+  return (
+    &lt;Card variant=&quot;glass&quot; padding=&quot;xl&quot; style={{ maxWidth: &quot;420px&quot;, margin: &quot;2rem auto&quot; }}&gt;
+      &lt;form onSubmit={handleSubmit}&gt;
+        &lt;Stack direction=&quot;column&quot; gap=&quot;md&quot;&gt;
+          &lt;h2&gt;Sign In to Your Account&lt;/h2&gt;
+
+          {errors.email &amp;&amp; touched.email &amp;&amp; (
+            &lt;Alert variant=&quot;danger&quot; title=&quot;Validation Error&quot;&gt;
+              {errors.email}
+            &lt;/Alert&gt;
+          )}
+
+          &lt;Input
+            {...register(&quot;email&quot;)}
+            type=&quot;email&quot;
+            label=&quot;Email Address&quot;
+            placeholder=&quot;you@company.com&quot;
+          /&gt;
+
+          &lt;Input
+            {...register(&quot;password&quot;)}
+            type=&quot;password&quot;
+            label=&quot;Password&quot;
+            placeholder=&quot;••••••••&quot;
+          /&gt;
+
+          &lt;Button
+            type=&quot;submit&quot;
+            variant=&quot;primary&quot;
+            loading={isSubmitting}
+            style={{ width: &quot;100%&quot;, marginTop: &quot;1rem&quot; }}
+          &gt;
+            {isSubmitting ? &quot;Authenticating...&quot; : &quot;Sign In&quot;}
+          &lt;/Button&gt;
+        &lt;/Stack&gt;
+      &lt;/form&gt;
+    &lt;/Card&gt;
+  );
+}
+</code></pre>
+<hr>
+<h3>7.4 Recipe: Declarative Table with Custom Column Formatters</h3>
+<p>Render tabular data cleanly using the declarative <code>columns</code> and <code>data</code> API:</p>
+<pre><code class="language-tsx">import React from &quot;react&quot;;
+import { Table, TableColumn, Badge } from &quot;@criation/ui&quot;;
+
+interface Order {
+  id: string;
+  customer: string;
+  amount: number;
+  status: &quot;paid&quot; | &quot;pending&quot; | &quot;refunded&quot;;
+  date: string;
+}
+
+const orders: Order[] = [
+  { id: &quot;ORD-001&quot;, customer: &quot;Alice Smith&quot;, amount: 149.99, status: &quot;paid&quot;, date: &quot;2026-10-21&quot; },
+  { id: &quot;ORD-002&quot;, customer: &quot;Bob Jones&quot;, amount: 89.50, status: &quot;pending&quot;, date: &quot;2026-10-20&quot; },
+  { id: &quot;ORD-003&quot;, customer: &quot;Charlie Brown&quot;, amount: 24.00, status: &quot;refunded&quot;, date: &quot;2026-10-19&quot; },
+];
+
+const columns: TableColumn&lt;Order&gt;[] = [
+  {
+    key: &quot;id&quot;,
+    header: &quot;Order ID&quot;,
+    render: (val) =&gt; &lt;strong&gt;{String(val)}&lt;/strong&gt;,
+  },
+  {
+    key: &quot;customer&quot;,
+    header: &quot;Customer&quot;,
+  },
+  {
+    key: &quot;amount&quot;,
+    header: &quot;Amount&quot;,
+    align: &quot;right&quot;,
+    render: (val) =&gt; `$${Number(val).toFixed(2)}`,
+  },
+  {
+    key: &quot;status&quot;,
+    header: &quot;Status&quot;,
+    align: &quot;center&quot;,
+    render: (val) =&gt; {
+      const variant = val === &quot;paid&quot; ? &quot;success&quot; : val === &quot;pending&quot; ? &quot;warning&quot; : &quot;danger&quot;;
+      return &lt;Badge variant={variant}&gt;{String(val).toUpperCase()}&lt;/Badge&gt;;
+    },
+  },
+  {
+    key: &quot;date&quot;,
+    header: &quot;Date&quot;,
+  },
+];
+
+export function OrdersTable() {
+  return (
+    &lt;Table
+      columns={columns}
+      data={orders}
+      striped
+      hoverable
+      emptyText=&quot;No customer orders found.&quot;
+    /&gt;
+  );
+}
+</code></pre>
+<hr>
+<h3>7.5 Recipe: Asynchronous Autocomplete with Stale Request Protection</h3>
+<p>Search remote data sources cleanly without worrying about slow responses overwriting fast responses:</p>
+<pre><code class="language-tsx">import React, { useState } from &quot;react&quot;;
+import { Combobox, ComboboxOption } from &quot;@criation/ui&quot;;
+
+export function UserSearchCombobox() {
+  const [selectedUser, setSelectedUser] = useState(&quot;&quot;);
+
+  const handleRemoteSearch = async (query: string): Promise&lt;ComboboxOption[]&gt; =&gt; {
+    const response = await fetch(`https://api.example.com/users?q=${encodeURIComponent(query)}`);
+    const users = await response.json();
+    return users.map((u: { id: string; name: string }) =&gt; ({
+      value: u.id,
+      label: u.name,
+    }));
+  };
+
+  return (
+    &lt;Combobox
+      placeholder=&quot;Type to search users remotely...&quot;
+      value={selectedUser}
+      onChange={setSelectedUser}
+      onSearch={handleRemoteSearch}
+      label=&quot;Assignee&quot;
+    /&gt;
+  );
+}
+</code></pre>
+<hr>
+<h3>7.6 Recipe: Accessible Overlays (Modal, Drawer, AlertDialog)</h3>
+<p>Trigger overlays with guaranteed focus trapping, focus restoration, and backdrop dismissal:</p>
+<pre><code class="language-tsx">import React from &quot;react&quot;;
+import { Modal, AlertDialog, Drawer, Button, useDisclosure } from &quot;@criation/ui&quot;;
+
+export function OverlaysDemo() {
+  const modal = useDisclosure();
+  const alert = useDisclosure();
+  const drawer = useDisclosure();
+
+  return (
+    &lt;div&gt;
+      &lt;Button variant=&quot;primary&quot; onClick={modal.onOpen}&gt;
+        Open Settings Modal
+      &lt;/Button&gt;
+      &lt;Button variant=&quot;danger&quot; onClick={alert.onOpen}&gt;
+        Delete Project
+      &lt;/Button&gt;
+      &lt;Button variant=&quot;secondary&quot; onClick={drawer.onOpen}&gt;
+        Open Navigation Drawer
+      &lt;/Button&gt;
+
+      {/* 1. Modal with Focus Trap &amp; Restoration */}
+      &lt;Modal
+        isOpen={modal.isOpen}
+        onClose={modal.onClose}
+        title=&quot;Account Preferences&quot;
+      &gt;
+        &lt;p&gt;Modal content is fully isolated in a root portal.&lt;/p&gt;
+        &lt;Button onClick={modal.onClose}&gt;Save &amp; Close&lt;/Button&gt;
+      &lt;/Modal&gt;
+
+      {/* 2. Destructive Alert Dialog */}
+      &lt;AlertDialog
+        isOpen={alert.isOpen}
+        onClose={alert.onClose}
+        onConfirm={() =&gt; {
+          alert.onClose();
+          console.log(&quot;Project destroyed&quot;);
+        }}
+        title=&quot;Permanently Delete Project?&quot;
+        message=&quot;This action is irreversible. All assets and databases will be deleted.&quot;
+        confirmText=&quot;Yes, Delete Permanently&quot;
+      /&gt;
+
+      {/* 3. Slide-in Side Drawer */}
+      &lt;Drawer
+        isOpen={drawer.isOpen}
+        onClose={drawer.onClose}
+        title=&quot;Navigation Menu&quot;
+        placement=&quot;right&quot;
+      &gt;
+        &lt;p&gt;Drawer slides smoothly from the right with focus trapped inside.&lt;/p&gt;
+      &lt;/Drawer&gt;
+    &lt;/div&gt;
+  );
+}
+</code></pre>
+<hr>
+<h3>7.7 Recipe: Cross-Tab Synchronized Local State</h3>
+<p>Keep user preferences or carts in sync across multiple browser tabs automatically:</p>
+<pre><code class="language-tsx">import React from &quot;react&quot;;
+import { useLocalStorage, Button, Badge } from &quot;@criation/ui&quot;;
+
+export function ShoppingCartBadge() {
+  // Synchronized across all tabs in real-time
+  const [cartCount, setCartCount] = useLocalStorage&lt;number&gt;(&quot;cart_item_count&quot;, 0);
+
+  return (
+    &lt;div&gt;
+      &lt;Badge variant=&quot;success&quot;&gt;Items in Cart: {cartCount}&lt;/Badge&gt;
+      &lt;Button onClick={() =&gt; setCartCount((prev) =&gt; prev + 1)}&gt;
+        Add Item (Syncs Across Tabs)
+      &lt;/Button&gt;
+      &lt;Button variant=&quot;outline&quot; onClick={() =&gt; setCartCount(0)}&gt;
+        Clear Cart
+      &lt;/Button&gt;
+    &lt;/div&gt;
+  );
+}
+</code></pre>
+<hr>
+<h3>7.8 Recipe: Next.js 14/15 App Router Clean Integration</h3>
+<p>In a Next.js App Router project:</p>
+<p><code>app/layout.tsx</code>:</p>
+<pre><code class="language-tsx">import &quot;@criation/ui/styles.css&quot;;
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    &lt;html lang=&quot;en&quot;&gt;
+      &lt;body&gt;{children}&lt;/body&gt;
+    &lt;/html&gt;
+  );
+}
+</code></pre>
+<p><code>app/page.tsx</code>:</p>
+<pre><code class="language-tsx">import { Heading, Text, Button, Card, Stack } from &quot;@criation/ui&quot;;
+
+export default function Page() {
+  return (
+    &lt;main style={{ padding: &quot;3rem&quot; }}&gt;
+      &lt;Card variant=&quot;glass&quot; padding=&quot;xl&quot;&gt;
+        &lt;Stack direction=&quot;column&quot; gap=&quot;md&quot;&gt;
+          {Heading(&quot;Next.js 14/15 App Router Ready&quot;).gradient().level(1)}
+          {Text(&quot;Criation UI seamlessly resolves client-boundary directives.&quot;).muted()}
+          {Button(&quot;Explore Dashboard&quot;).green().link(&quot;/dashboard&quot;)}
+        &lt;/Stack&gt;
+      &lt;/Card&gt;
+    &lt;/main&gt;
+  );
+}
+</code></pre>
+<hr>
+<h2>8. Comparative Analysis: The Difference</h2>
+<h3>8.1 Criation UI vs. Tailwind CSS</h3>
+<ul>
+<li><strong>Tailwind CSS</strong>: Requires authoring long strings of utility classes (<code>className=&quot;flex flex-col items-center justify-between p-4 bg-slate-900 border border-slate-800 rounded-xl hover:bg-slate-800 transition-all duration-200&quot;</code>). It creates noisy JSX and lacks native accessible component logic (no built-in modals, focus traps, or autocomplete).</li>
+<li><strong>Criation UI</strong>: Provides rich, pre-built design system tokens with glassmorphism, micro-animations, and full accessible component primitives. You can write <code>Card(&quot;...&quot;).glass()</code> instead of 20 utility classes.</li>
+</ul>
+<h3>8.2 Criation UI vs. Material UI &amp; Chakra UI</h3>
+<ul>
+<li><strong>MUI &amp; Chakra UI</strong>: Heavy bundle sizes (often adding 300KB+ to JavaScript bundles), complex CSS-in-JS runtimes (Emotion/styled-components) that degrade Next.js App Router performance, and rigid opinionated aesthetics.</li>
+<li><strong>Criation UI</strong>: Zero CSS-in-JS runtime overhead. Uses clean Vanilla CSS custom properties with instant compilation. Zero runtime styling penalty, and 100% Next.js 14/15 compatibility out of the box.</li>
+</ul>
+<h3>8.3 Criation UI vs. Shadcn/ui</h3>
+<ul>
+<li><strong>Shadcn/ui</strong>: Requires copying dozens of raw files into your repository (<code>components/ui/...</code>), requiring you to manage, patch, and maintain Radix primitives, Tailwind configs, and utility files yourself.</li>
+<li><strong>Criation UI</strong>: Ships as an integrated, production-built, tree-shakeable NPM package (<code>@criation/ui</code>) with automated TypeScript <code>.d.ts</code> declarations, zero copy-paste maintenance, and the revolutionary Fluent English Chaining DSL.</li>
+</ul>
+<h4>Comparative Benchmark Matrix:</h4>
+<table>
+<thead>
+<tr>
+<th align="left">Feature / Metric</th>
+<th align="left">Criation UI (v0.2.1)</th>
+<th align="left">Tailwind CSS</th>
+<th align="left">Material UI (MUI)</th>
+<th align="left">Shadcn/ui</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>Fluent English Chaining</strong></td>
+<td align="left">✅ Native First-Class</td>
+<td align="left">❌ None</td>
+<td align="left">❌ None</td>
+<td align="left">❌ None</td>
+</tr>
+<tr>
+<td align="left"><strong>1-Line Component Shorthands</strong></td>
+<td align="left">✅ Native First-Class</td>
+<td align="left">❌ None</td>
+<td align="left">❌ None</td>
+<td align="left">❌ None</td>
+</tr>
+<tr>
+<td align="left"><strong>3-Line Website Scaffold (<code>Website</code>)</strong></td>
+<td align="left">✅ Built-in</td>
+<td align="left">❌ None</td>
+<td align="left">❌ None</td>
+<td align="left">❌ None</td>
+</tr>
+<tr>
+<td align="left"><strong>Next.js 14/15 Client Boundary</strong></td>
+<td align="left">✅ Pre-configured</td>
+<td align="left">⚠️ Manual config</td>
+<td align="left">⚠️ Complex SSR setup</td>
+<td align="left">⚠️ Manual <code>&quot;use client&quot;</code></td>
+</tr>
+<tr>
+<td align="left"><strong>Runtime CSS Overhead</strong></td>
+<td align="left"><strong>0 KB (Vanilla CSS)</strong></td>
+<td align="left">0 KB</td>
+<td align="left">⚠️ Heavy (Emotion)</td>
+<td align="left">0 KB (Tailwind)</td>
+</tr>
+<tr>
+<td align="left"><strong>Keyboard Focus Trapping</strong></td>
+<td align="left">✅ Built-in (<code>Modal</code>/<code>Drawer</code>)</td>
+<td align="left">❌ None</td>
+<td align="left">✅ Built-in</td>
+<td align="left">✅ Radix-dependent</td>
+</tr>
+<tr>
+<td align="left"><strong>Stale Request Cancellation</strong></td>
+<td align="left">✅ Built-in (<code>Combobox</code>)</td>
+<td align="left">❌ None</td>
+<td align="left">❌ Manual</td>
+<td align="left">❌ Manual</td>
+</tr>
+<tr>
+<td align="left"><strong>Cross-Tab Sync State</strong></td>
+<td align="left">✅ Built-in (<code>useLocalStorage</code>)</td>
+<td align="left">❌ None</td>
+<td align="left">❌ None</td>
+<td align="left">❌ None</td>
+</tr>
+<tr>
+<td align="left"><strong>Form Management Engine</strong></td>
+<td align="left">✅ Built-in (<code>useForm</code>)</td>
+<td align="left">❌ None</td>
+<td align="left">❌ None</td>
+<td align="left">❌ None</td>
+</tr>
+<tr>
+<td align="left"><strong>Component Maintenance Burden</strong></td>
+<td align="left"><strong>Zero (Package-managed)</strong></td>
+<td align="left">Manual</td>
+<td align="left">Package-managed</td>
+<td align="left">⚠️ High (Local copies)</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>9. Iron Seal Proprietary Legal Framework</h2>
+<p>Criation UI is strictly protected under the <strong>Criation UI — Iron Seal Proprietary &amp; Exclusive License</strong>:</p>
+<ol>
+<li><strong>Sole Ownership</strong>: The software, architectures, AST chaining parsers, CSS tokens, and component source code are the sole, exclusive, and unalienable property of <strong>Divyanshu Kumar</strong> (<code>Atomic-Quark</code>).</li>
+<li><strong>Absolute Prohibition on Unauthorized Use</strong>:<ul>
+<li>No individual, entity, corporation, institution, or automated system may copy, modify, distribute, fork, sublicense, reverse-engineer, deploy, or run Criation UI in any commercial, non-commercial, private, or SaaS application without explicit, prior, written, and signed authorization directly from Divyanshu Kumar.</li>
+</ul>
+</li>
+<li><strong>No Implied License</strong>: Merely cloning, viewing, downloading, or starring the repository does NOT confer any usage license.</li>
+<li><strong>Licensing &amp; Permission Inquiries</strong>:<ul>
+<li><strong>Proprietor</strong>: Divyanshu Kumar</li>
+<li><strong>GitHub</strong>: <a href="https://github.com/Atomic-Quark">https://github.com/Atomic-Quark</a></li>
+<li><strong>Email</strong>: <code>143479650+Atomic-Quark@users.noreply.github.com</code></li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2>10. Troubleshooting, Edge Cases &amp; FAQ</h2>
+<h3>Q1: Does Criation UI require Tailwind CSS or a CSS processor?</h3>
+<p><strong>No.</strong> Criation UI is 100% self-contained. It relies on vanilla CSS variables. You simply import <code>@criation/ui/styles.css</code> once at your application root.</p>
+<h3>Q2: Why did I receive a warning when rendering a list of items?</h3>
+<p>In v0.1.0, rendering lists without explicit keys could trigger React key warnings. In v0.2.0+, all list mapping operations inside <code>Website(...)</code> automatically assign unique, stable keys. When rendering your own custom arrays in JSX, provide <code>key={item.id}</code> as standard React practice.</p>
+<h3>Q3: How do I handle SSR in frameworks like Next.js?</h3>
+<p>All components in <code>@criation/ui</code> are compiled with the <code>&quot;use client&quot;;</code> boundary banner in v0.2.0+. You can import them directly into any App Router client component or page. All browser APIs (<code>window</code>, <code>localStorage</code>, <code>document</code>) are defended with SSR checks (<code>typeof window !== &quot;undefined&quot;</code>).</p>
+<h3>Q4: How does <code>Combobox</code> handle rapid typing with slow network connections?</h3>
+<p><code>Combobox</code> and <code>MultiSelect</code> utilize internal request ID counters. If an older, slower search query completes after a newer search query has already returned, the older response is discarded automatically, preventing race condition UI bugs.</p>
+<hr>
+<p><em>Criation UI Architectural Specification &amp; User Manual — Authored and Maintained by Divyanshu Kumar (Atomic-Quark).</em></p>
+
+
+  <div class="footer-note">
+    Criation UI v0.2.1 • Official Technical Specification & User Manual • Copyright © 2026 Divyanshu Kumar. All Rights Reserved.
+  </div>
+
+</body>
+</html>

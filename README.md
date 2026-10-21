@@ -2,7 +2,7 @@
 
 **Criation UI** is a modular, high-performance React + TypeScript UI foundation and design system designed to make building new websites faster, standardized, and visually stunning.
 
-> 📖 **Official Architecture & User Manual**: Read the complete [Criation UI Specification & Developer User Manual](docs/CRIATION-UI-SPECIFICATION-AND-USER-MANUAL.md) for deep technical architecture, complete component catalogs, practical code recipes, and migration guidelines.
+> 📖 **Official Architecture & User Manual**: Read the online [Criation UI Specification & Developer User Manual (Markdown)](docs/CRIATION-UI-SPECIFICATION-AND-USER-MANUAL.md) or download the publication-ready [Criation UI Specification & User Manual (PDF)](Criation-UI-Specification-and-User-Manual.pdf) formatted according to enterprise industry standards.
 
 ---
 

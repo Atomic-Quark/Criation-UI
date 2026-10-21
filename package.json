@@ -24,6 +24,7 @@
     "build:lib": "tsc -b && vite build --config vite.config.lib.ts",
     "pretest": "npm run build:lib",
     "test": "node scripts/test-suite.js",
+    "generate:pdf": "node scripts/generate-pdf.js",
     "preview": "vite preview"
   },
   "keywords": [
@@ -45,6 +46,7 @@
     "@types/react": "^18.3.18",
     "@types/react-dom": "^18.3.5",
     "@vitejs/plugin-react": "^4.3.4",
+    "marked": "^18.1.1",
     "typescript": "^5.7.3",
     "vite": "^6.1.0",
     "vite-plugin-dts": "^4.5.0"
