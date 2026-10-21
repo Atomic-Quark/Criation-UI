@@ -35,7 +35,11 @@ export function renderWebsite(
   const rootId = opts.rootId || "root";
   const defaultTheme = opts.theme || "dark";
 
-  if (opts.title && typeof document !== "undefined") {
+  if (typeof document === "undefined") {
+    return;
+  }
+
+  if (opts.title) {
     document.title = opts.title;
   }
 
@@ -134,4 +138,27 @@ export function Website(
   }
   renderWebsite(titleOrContent as any);
 }
+
+export function createWebsiteLayout(items: ReactNode[]): ReactElement {
+  return (
+    <div
+      className="cr-simple-website-layout"
+      style={{
+        minHeight: "100vh",
+        padding: "3rem 2rem",
+        maxWidth: "1080px",
+        margin: "0 auto",
+        display: "flex",
+        flexDirection: "column",
+        gap: "1.5rem",
+        alignItems: "stretch",
+        width: "100%",
+      }}
+    >
+      {items}
+    </div>
+  );
+}
+
+Website.layout = createWebsiteLayout;
 

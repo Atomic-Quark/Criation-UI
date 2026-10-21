@@ -30,3 +30,28 @@ export const validators = {
     return regex.test(value) ? null : msg;
   },
 };
+
+export function validateRequired(value: unknown): boolean {
+  if (value === undefined || value === null) return false;
+  if (typeof value === "string") return value.trim().length > 0;
+  if (Array.isArray(value)) return value.length > 0;
+  return true;
+}
+
+export function validateEmail(value: string): boolean {
+  if (!value) return false;
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim());
+}
+
+export function validateMinLength(value: string, min: number): boolean {
+  return typeof value === "string" && value.length >= min;
+}
+
+export function validateUrl(value: string): boolean {
+  try {
+    const url = new URL(value);
+    return url.protocol === "http:" || url.protocol === "https:";
+  } catch {
+    return false;
+  }
+}
