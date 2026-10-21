@@ -1,6 +1,7 @@
-import React, { forwardRef, type HTMLAttributes } from "react";
+import React, { forwardRef, type HTMLAttributes, type ReactNode, type ReactElement } from "react";
 import type { FlexAlign, FlexJustify, FlexDirection } from "../../core/types";
 import { classNames } from "../../core/classNames";
+import { createChainableProxy } from "../../core/shorthand";
 
 export interface FlexProps extends HTMLAttributes<HTMLDivElement> {
   direction?: FlexDirection;
@@ -11,7 +12,7 @@ export interface FlexProps extends HTMLAttributes<HTMLDivElement> {
   inline?: boolean;
 }
 
-export const Flex = forwardRef<HTMLDivElement, FlexProps>(
+export const BaseFlex = forwardRef<HTMLDivElement, FlexProps>(
   (
     {
       direction = "row",
@@ -55,5 +56,77 @@ export const Flex = forwardRef<HTMLDivElement, FlexProps>(
     );
   }
 );
+
+BaseFlex.displayName = "BaseFlex";
+
+export interface FlexChainable {
+  center(): ReactElement & FlexChainable;
+  between(): ReactElement & FlexChainable;
+  around(): ReactElement & FlexChainable;
+  gap(g: string | number): ReactElement & FlexChainable;
+  column(): ReactElement & FlexChainable;
+  row(): ReactElement & FlexChainable;
+  wrap(): ReactElement & FlexChainable;
+}
+
+function attachFlexChaining(
+  element: ReactElement,
+  props: FlexProps,
+  children: ReactNode[]
+): ReactElement & FlexChainable {
+  const update = (patch: Partial<FlexProps>) =>
+    createFlexElement({ ...props, ...patch }, children);
+
+  return createChainableProxy(element, {
+    center: () => update({ align: "center", justify: "center" }),
+    between: () => update({ justify: "between" }),
+    around: () => update({ justify: "around" }),
+    gap: (g: string | number) => update({ gap: g }),
+    column: () => update({ direction: "column" }),
+    row: () => update({ direction: "row" }),
+    wrap: () => update({ wrap: true }),
+  });
+}
+
+function createFlexElement(props: FlexProps, children: ReactNode[]): ReactElement & FlexChainable {
+  const mapped = React.Children.map(children, (child, i) =>
+    React.isValidElement(child) ? React.cloneElement(child, { key: child.key || `flx-${i}` }) : child
+  );
+  const element = <BaseFlex {...props}>{mapped}</BaseFlex>;
+  return attachFlexChaining(element, props, children);
+}
+
+/**
+ * Universal Flex:
+ * 1. English Chaining:
+ *    Flex(Button("A"), Button("B")).between().gap("1rem")
+ * 2. Natural Function Call:
+ *    Flex([ Button("A"), Button("B") ])
+ * 3. JSX Component:
+ *    <Flex justify="between">...</Flex>
+ */
+export function Flex(props: FlexProps): ReactElement;
+export function Flex(...children: ReactNode[]): ReactElement & FlexChainable;
+export function Flex(children: ReactNode[]): ReactElement & FlexChainable;
+export function Flex(first?: any, ...rest: any[]): ReactElement & FlexChainable {
+  if (
+    first &&
+    typeof first === "object" &&
+    !React.isValidElement(first) &&
+    !Array.isArray(first) &&
+    ("direction" in first || "align" in first || "justify" in first || "gap" in first || "children" in first || "className" in first)
+  ) {
+    return (<BaseFlex {...first} />) as any;
+  }
+
+  let children: ReactNode[] = [];
+  if (Array.isArray(first)) {
+    children = first;
+  } else if (first !== undefined) {
+    children = [first, ...rest];
+  }
+
+  return createFlexElement({}, children);
+}
 
 Flex.displayName = "Flex";

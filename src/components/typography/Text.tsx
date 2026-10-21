@@ -5,6 +5,7 @@ import {
   parseTextShorthand,
   createTextFromShorthand,
   type TextShorthandConfig,
+  type TextChainable,
 } from "../../core/shorthand";
 
 export interface TextProps extends HTMLAttributes<HTMLElement> {
@@ -57,9 +58,11 @@ BaseText.displayName = "BaseText";
 
 /**
  * Universal Text:
- * 1. 1-Line Shorthand (all slots optional):
- *    Text("Fast shipping worldwide", "sm", "", "muted", "center")
- * 2. JSX Component:
+ * 1. English Chaining:
+ *    Text("Criation UI is awesome").muted().center().small()
+ * 2. Natural English phrase:
+ *    Text("Fast shipping worldwide, centered, muted, small")
+ * 3. JSX Component:
  *    <Text>Hello</Text>
  */
 export function Text(props: TextProps): ReactElement;
@@ -70,9 +73,9 @@ export function Text(
   color?: string,
   align?: string,
   position?: string
-): ReactElement;
-export function Text(strings: TemplateStringsArray, ...values: any[]): ReactElement;
-export function Text(...args: any[]): ReactElement {
+): ReactElement & TextChainable;
+export function Text(strings: TemplateStringsArray, ...values: any[]): ReactElement & TextChainable;
+export function Text(...args: any[]): ReactElement & TextChainable {
   if (
     typeof args[0] === "string" ||
     (Array.isArray(args[0]) && (args[0] as any).raw) ||
@@ -83,8 +86,9 @@ export function Text(...args: any[]): ReactElement {
   }
 
   const props = (args[0] || {}) as TextProps;
-  return <BaseText {...props} />;
+  return (<BaseText {...props} />) as any;
 }
 
 Text.displayName = "Text";
 Text.create = (config: TextShorthandConfig) => createTextFromShorthand(config);
+

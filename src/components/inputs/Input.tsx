@@ -5,6 +5,7 @@ import {
   parseInputShorthand,
   createInputFromShorthand,
   type InputShorthandConfig,
+  type InputChainable,
 } from "../../core/shorthand";
 
 export interface InputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, "size"> {
@@ -85,9 +86,11 @@ BaseInput.displayName = "BaseInput";
 
 /**
  * Universal Input:
- * 1. 1-Line Shorthand (all slots optional):
- *    Input("Enter your email", "300px", "email_id", "email")
- * 2. JSX Component:
+ * 1. English Chaining:
+ *    Input("Enter your email").email().width("350px").label("Email")
+ * 2. Natural English phrase:
+ *    Input("Enter your email, type email, width 320px, labeled Email Address")
+ * 3. JSX Component:
  *    <Input placeholder="Enter your email" />
  */
 export function Input(props: InputProps): ReactElement;
@@ -100,9 +103,9 @@ export function Input(
   color?: string,
   position?: string,
   pointer?: string
-): ReactElement;
-export function Input(strings: TemplateStringsArray, ...values: any[]): ReactElement;
-export function Input(...args: any[]): ReactElement {
+): ReactElement & InputChainable;
+export function Input(strings: TemplateStringsArray, ...values: any[]): ReactElement & InputChainable;
+export function Input(...args: any[]): ReactElement & InputChainable {
   if (
     typeof args[0] === "string" ||
     (Array.isArray(args[0]) && (args[0] as any).raw) ||
@@ -113,7 +116,7 @@ export function Input(...args: any[]): ReactElement {
   }
 
   const { ref, ...props } = (args[0] || {}) as InputProps;
-  return <BaseInput ref={ref} {...props} />;
+  return (<BaseInput ref={ref} {...props} />) as any;
 }
 
 Input.displayName = "Input";
