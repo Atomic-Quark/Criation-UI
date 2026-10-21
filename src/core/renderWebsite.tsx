@@ -4,7 +4,17 @@ import { ThemeProvider } from "../design-system/themes/ThemeProvider";
 import { ToastProvider } from "../components/feedback/Toast";
 import "../styles.css";
 
-export interface RenderWebsiteOptions {
+export interface WebsiteLayoutOptions {
+  maxWidth?: string | number;
+  padding?: string | number;
+  gap?: string | number;
+  header?: ReactNode;
+  footer?: ReactNode;
+  className?: string;
+  style?: React.CSSProperties;
+}
+
+export interface RenderWebsiteOptions extends WebsiteLayoutOptions {
   rootId?: string;
   theme?: "dark" | "light" | "system";
   title?: string;
@@ -53,24 +63,7 @@ export function renderWebsite(
   let content: ReactNode;
 
   if (Array.isArray(AppOrComponents)) {
-    content = (
-      <div
-        className="cr-simple-website-layout"
-        style={{
-          minHeight: "100vh",
-          padding: "3rem 2rem",
-          maxWidth: "1080px",
-          margin: "0 auto",
-          display: "flex",
-          flexDirection: "column",
-          gap: "1.5rem",
-          alignItems: "stretch",
-          width: "100%",
-        }}
-      >
-        {AppOrComponents}
-      </div>
-    );
+    content = createWebsiteLayout(AppOrComponents, opts);
   } else if (
     typeof AppOrComponents === "function" ||
     (typeof AppOrComponents === "object" &&
@@ -139,23 +132,46 @@ export function Website(
   renderWebsite(titleOrContent as any);
 }
 
-export function createWebsiteLayout(items: ReactNode[]): ReactElement {
+export function createWebsiteLayout(
+  items: ReactNode[],
+  options?: WebsiteLayoutOptions
+): ReactElement {
+  const {
+    maxWidth = "1080px",
+    padding = "3rem 2rem",
+    gap = "1.5rem",
+    header,
+    footer,
+    className = "",
+    style = {},
+  } = options || {};
+
   return (
     <div
-      className="cr-simple-website-layout"
+      className={`cr-simple-website-layout ${className}`.trim()}
       style={{
         minHeight: "100vh",
-        padding: "3rem 2rem",
-        maxWidth: "1080px",
+        padding,
+        maxWidth,
         margin: "0 auto",
         display: "flex",
         flexDirection: "column",
-        gap: "1.5rem",
+        gap,
         alignItems: "stretch",
         width: "100%",
+        ...style,
       }}
     >
-      {items}
+      {header && <header className="cr-website-layout__header">{header}</header>}
+      {items.map((item, index) => {
+        if (React.isValidElement(item)) {
+          return item.key != null
+            ? item
+            : React.cloneElement(item, { key: `cr-item-${index}` });
+        }
+        return <React.Fragment key={`cr-item-${index}`}>{item}</React.Fragment>;
+      })}
+      {footer && <footer className="cr-website-layout__footer">{footer}</footer>}
     </div>
   );
 }

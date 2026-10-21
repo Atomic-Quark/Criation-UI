@@ -13,6 +13,8 @@ export interface AccordionProps {
   items: AccordionItem[];
   allowMultiple?: boolean;
   defaultExpanded?: string[];
+  expandedIds?: string[];
+  onChange?: (expandedIds: string[]) => void;
   className?: string;
 }
 
@@ -20,17 +22,25 @@ export function Accordion({
   items,
   allowMultiple = false,
   defaultExpanded = [],
+  expandedIds: controlledExpandedIds,
+  onChange,
   className = "",
 }: AccordionProps) {
-  const [expandedIds, setExpandedIds] = useState<string[]>(defaultExpanded);
+  const isControlled = controlledExpandedIds !== undefined;
+  const [internalExpandedIds, setInternalExpandedIds] = useState<string[]>(defaultExpanded);
+  const expandedIds = isControlled ? controlledExpandedIds : internalExpandedIds;
 
   const toggleItem = (id: string) => {
-    setExpandedIds((prev) => {
-      if (prev.includes(id)) {
-        return prev.filter((item) => item !== id);
-      }
-      return allowMultiple ? [...prev, id] : [id];
-    });
+    let next: string[];
+    if (expandedIds.includes(id)) {
+      next = expandedIds.filter((item) => item !== id);
+    } else {
+      next = allowMultiple ? [...expandedIds, id] : [id];
+    }
+    if (!isControlled) {
+      setInternalExpandedIds(next);
+    }
+    onChange?.(next);
   };
 
   return (
@@ -48,11 +58,13 @@ export function Accordion({
             )}
           >
             <button
+              id={`cr-accordion-header-${item.id}`}
               type="button"
               className="cr-accordion__header"
               disabled={item.disabled}
               onClick={() => toggleItem(item.id)}
               aria-expanded={isExpanded}
+              aria-controls={`cr-accordion-panel-${item.id}`}
             >
               <span className="cr-accordion__title">{item.title}</span>
               <ChevronDown
@@ -64,7 +76,14 @@ export function Accordion({
               />
             </button>
             {isExpanded && (
-              <div className="cr-accordion__content cr-animate-fade-in">{item.content}</div>
+              <div
+                id={`cr-accordion-panel-${item.id}`}
+                role="region"
+                aria-labelledby={`cr-accordion-header-${item.id}`}
+                className="cr-accordion__content cr-animate-fade-in"
+              >
+                {item.content}
+              </div>
             )}
           </div>
         );

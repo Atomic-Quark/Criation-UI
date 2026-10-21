@@ -142,6 +142,7 @@ export * from "./forms/FormField";
 export * from "./forms/FormLabel";
 export * from "./forms/FormError";
 export * from "./forms/FormProvider";
+export * from "./forms/useForm";
 export * from "./forms/validation";
 
 // Routing

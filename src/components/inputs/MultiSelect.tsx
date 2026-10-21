@@ -15,7 +15,7 @@ export interface MultiSelectOption {
 }
 
 export interface MultiSelectProps {
-  options: (string | MultiSelectOption)[];
+  options?: (string | MultiSelectOption)[];
   value?: string[];
   defaultValue?: string[];
   onChange?: (values: string[]) => void;
@@ -24,12 +24,15 @@ export interface MultiSelectProps {
   disabled?: boolean;
   className?: string;
   style?: React.CSSProperties;
+  onSearch?: (query: string) => Promise<(string | MultiSelectOption)[]>;
+  loading?: boolean;
+  emptyText?: string;
 }
 
 export const BaseMultiSelect = forwardRef<HTMLDivElement, MultiSelectProps>(
   (
     {
-      options,
+      options = [],
       value: controlledValue,
       defaultValue = [],
       onChange,
@@ -38,6 +41,9 @@ export const BaseMultiSelect = forwardRef<HTMLDivElement, MultiSelectProps>(
       disabled = false,
       className = "",
       style,
+      onSearch,
+      loading: controlledLoading = false,
+      emptyText = "No options found",
     },
     ref
   ) => {
@@ -47,15 +53,54 @@ export const BaseMultiSelect = forwardRef<HTMLDivElement, MultiSelectProps>(
 
     const [isOpen, setIsOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
+    const [asyncOptions, setAsyncOptions] = useState<MultiSelectOption[]>([]);
+    const [isSearching, setIsSearching] = useState(false);
+    const [searchError, setSearchError] = useState<string | null>(null);
+
+    const searchRequestId = useRef(0);
     const containerRef = useRef<HTMLDivElement>(null);
 
-    const normalizedOptions: MultiSelectOption[] = options.map((opt) =>
+    const normalizedStaticOptions: MultiSelectOption[] = options.map((opt) =>
       typeof opt === "string" ? { label: opt, value: opt } : opt
     );
 
-    const filteredOptions = normalizedOptions.filter((opt) =>
-      opt.label.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    const activeOptions = onSearch ? asyncOptions : normalizedStaticOptions;
+
+    const filteredOptions = onSearch
+      ? activeOptions
+      : activeOptions.filter((opt) =>
+          opt.label.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+
+    const isLoading = controlledLoading || isSearching;
+
+    useEffect(() => {
+      if (!onSearch) return;
+      const currentReq = ++searchRequestId.current;
+      setIsSearching(true);
+      setSearchError(null);
+
+      const timer = setTimeout(() => {
+        onSearch(searchQuery)
+          .then((res) => {
+            if (currentReq === searchRequestId.current) {
+              const mapped = res.map((opt) =>
+                typeof opt === "string" ? { label: opt, value: opt } : opt
+              );
+              setAsyncOptions(mapped);
+              setIsSearching(false);
+            }
+          })
+          .catch((err) => {
+            if (currentReq === searchRequestId.current) {
+              setSearchError(err?.message || "Search failed");
+              setIsSearching(false);
+            }
+          });
+      }, 150);
+
+      return () => clearTimeout(timer);
+    }, [searchQuery, onSearch]);
 
     useEffect(() => {
       const handleClickOutside = (e: MouseEvent) => {
@@ -123,7 +168,7 @@ export const BaseMultiSelect = forwardRef<HTMLDivElement, MultiSelectProps>(
             </span>
           ) : (
             selectedValues.map((val) => {
-              const label = normalizedOptions.find((o) => o.value === val)?.label || val;
+              const label = activeOptions.find((o) => o.value === val)?.label || val;
               return (
                 <span
                   key={val}
@@ -233,9 +278,17 @@ export const BaseMultiSelect = forwardRef<HTMLDivElement, MultiSelectProps>(
               }}
             />
 
-            {filteredOptions.length === 0 ? (
+            {isLoading ? (
+              <div style={{ padding: "8px 12px", fontSize: "0.875rem", color: "var(--cr-text-muted)", display: "flex", alignItems: "center", gap: "8px" }}>
+                <span className="cr-spinner cr-spinner--xs" style={{ width: 14, height: 14 }} /> Loading options...
+              </div>
+            ) : searchError ? (
+              <div style={{ padding: "8px 12px", fontSize: "0.875rem", color: "var(--cr-danger, #f43f5e)" }}>
+                {searchError}
+              </div>
+            ) : filteredOptions.length === 0 ? (
               <div style={{ padding: "8px 12px", fontSize: "0.875rem", color: "var(--cr-text-muted)" }}>
-                No options found
+                {emptyText}
               </div>
             ) : (
               filteredOptions.map((opt) => {
