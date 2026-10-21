@@ -26,6 +26,9 @@ jobs:
       - name: TypeScript Type-Check
         run: npx tsc --noEmit
 
+      - name: Run Automated Test Suite
+        run: npm test
+
       - name: Build Library Bundle
         run: npm run build:lib
 
