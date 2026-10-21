@@ -34,8 +34,8 @@
     "criation-ui",
     "typescript"
   ],
-  "author": "Criation UI Team",
-  "license": "MIT",
+  "author": "Divyanshu Kumar <143479650+Atomic-Quark@users.noreply.github.com>",
+  "license": "SEE LICENSE IN LICENSE",
   "dependencies": {
     "lucide-react": "^1.16.0",
     "react": "^18.3.1",
