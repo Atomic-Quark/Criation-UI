@@ -190,25 +190,35 @@ Criation UI standardizes component properties across clear functional groups:
 
 ---
 
-## 📂 Project Structure
+## 🧩 Comprehensive Production Component Catalog
 
-```
-criation-ui/
-├── src/
-│   ├── core/              # Component foundations, types, and class helpers
-│   ├── design-system/     # Design tokens, themes (light/dark), and global CSS
-│   ├── components/        # Buttons, inputs, layout, typography, navigation, overlays, feedback
-│   ├── forms/             # FormField, FormLabel, FormError, FormProvider & validation
-│   ├── hooks/             # useTheme, useDisclosure, useDebounce, useClickOutside
-│   ├── routing/           # ProtectedRoute, PublicRoute, navigation helpers
-│   ├── auth/              # AuthProvider, useAuth, AuthGuard
-│   ├── api/               # API client factory, request, error handling
-│   ├── templates/         # LandingLayout, DashboardLayout, AuthLayout, SettingsLayout
-│   ├── accessibility/     # Focus trap, keyboard navigation, ARIA announcements
-│   ├── showcase/          # Interactive component documentation & studio app
-│   ├── index.ts           # Master library exports
-│   └── styles.css         # Complete library stylesheet
-```
+Criation UI includes 50+ modular components and 13 reactive hooks:
+
+### Core & Typography
+- `Button`, `IconButton`, `ButtonGroup`
+- `Heading`, `Text`, `Link`, `Code`, `Label`
+
+### Inputs & Forms
+- `Input`, `TextInput`, `PasswordInput`, `EmailInput`, `NumberInput`, `TextArea`
+- `SearchInput`, `OTPInput`, `Rating`, `Combobox`, `MultiSelect`, `ColorPicker`
+- `Select`, `Checkbox`, `Radio`, `Switch`, `Slider`, `DatePicker`, `FileUpload`
+- `Form`, `FormField`, `FormLabel`, `FormError`, `FormProvider`, `validation`
+
+### Layout & Containers
+- `Box`, `Container`, `Stack`, `Grid`, `Flex`, `Spacer`, `Divider`
+- `AspectRatio`, `ScrollArea`, `Collapsible`, `Card`
+
+### Feedback & Overlays
+- `Alert`, `Toast`, `Spinner`, `Skeleton`, `Progress`, `EmptyState`, `ErrorState`
+- `ErrorBoundary`, `Modal`, `Drawer`, `Popover`, `Tooltip`, `ContextMenu`, `AlertDialog`
+
+### Navigation & Templates
+- `Navbar`, `Footer`, `Sidebar`, `Stepper`, `Timeline`, `Tabs`, `Breadcrumbs`, `Pagination`, `DropdownMenu`
+- `LandingLayout`, `DashboardLayout`, `AuthLayout`, `SettingsLayout`, `Result`, `NotFoundPage`
+
+### Reactive Hooks
+- `useTheme`, `useDisclosure`, `useClipboard`, `useDebounce`, `useLocalStorage`, `useClickOutside`, `useMediaQuery`
+- `useWindowSize`, `useOnlineStatus`, `useIntersectionObserver`, `usePrevious`, `useEventListener`, `useKeyPress`
 
 ---
 
@@ -216,6 +226,7 @@ criation-ui/
 
 - `npm run dev`: Starts the interactive component showcase studio on `http://localhost:3000`.
 - `npm run build:lib`: Builds the distributable package bundle and TypeScript declarations into `dist/`.
+- `npm test`: Runs the automated unit, integration, and rendering test suite (36 tests).
 - `npm run build`: Builds the showcase application for hosting.
 - `npx tsc --noEmit`: Runs full TypeScript type-checking across the entire codebase.
 
