@@ -234,4 +234,7 @@ Criation UI includes 50+ modular components and 13 reactive hooks:
 
 ## 📄 License
 
-MIT © Criation UI
+**Criation UI — Iron Seal Proprietary & Exclusive License**  
+Copyright © 2026 **Divyanshu Kumar**. All Rights Reserved.
+
+This software, its architecture, fluent chaining engine, design systems, and components are the sole and exclusive intellectual property of **Divyanshu Kumar**. Any unauthorized reproduction, modification, redistribution, execution, deployment, or commercial/non-commercial use without explicit prior written permission from Divyanshu Kumar is strictly prohibited. For licensing inquiries, see the [LICENSE](LICENSE) file.
