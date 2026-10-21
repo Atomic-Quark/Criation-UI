@@ -17,7 +17,7 @@ export interface ComboboxOption {
 }
 
 export interface ComboboxProps {
-  options: (string | ComboboxOption)[];
+  options?: (string | ComboboxOption)[];
   value?: string;
   defaultValue?: string;
   onChange?: (value: string) => void;
@@ -26,12 +26,15 @@ export interface ComboboxProps {
   disabled?: boolean;
   className?: string;
   style?: React.CSSProperties;
+  onSearch?: (query: string) => Promise<(string | ComboboxOption)[]>;
+  loading?: boolean;
+  emptyText?: string;
 }
 
 export const BaseCombobox = forwardRef<HTMLDivElement, ComboboxProps>(
   (
     {
-      options,
+      options = [],
       value: controlledValue,
       defaultValue = "",
       onChange,
@@ -40,6 +43,9 @@ export const BaseCombobox = forwardRef<HTMLDivElement, ComboboxProps>(
       disabled = false,
       className = "",
       style,
+      onSearch,
+      loading: controlledLoading = false,
+      emptyText = "No options found",
     },
     ref
   ) => {
@@ -50,17 +56,55 @@ export const BaseCombobox = forwardRef<HTMLDivElement, ComboboxProps>(
     const [isOpen, setIsOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
     const [highlightIndex, setHighlightIndex] = useState(0);
+    const [asyncOptions, setAsyncOptions] = useState<ComboboxOption[]>([]);
+    const [isSearching, setIsSearching] = useState(false);
+    const [searchError, setSearchError] = useState<string | null>(null);
 
+    const searchRequestId = useRef(0);
     const containerRef = useRef<HTMLDivElement>(null);
     const inputRef = useRef<HTMLInputElement>(null);
 
-    const normalizedOptions: ComboboxOption[] = options.map((opt) =>
+    const normalizedStaticOptions: ComboboxOption[] = options.map((opt) =>
       typeof opt === "string" ? { label: opt, value: opt } : opt
     );
 
-    const filteredOptions = normalizedOptions.filter((opt) =>
-      opt.label.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    const activeOptions = onSearch ? asyncOptions : normalizedStaticOptions;
+
+    const filteredOptions = onSearch
+      ? activeOptions
+      : activeOptions.filter((opt) =>
+          opt.label.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+
+    const isLoading = controlledLoading || isSearching;
+
+    useEffect(() => {
+      if (!onSearch) return;
+      const currentReq = ++searchRequestId.current;
+      setIsSearching(true);
+      setSearchError(null);
+
+      const timer = setTimeout(() => {
+        onSearch(searchQuery)
+          .then((res) => {
+            if (currentReq === searchRequestId.current) {
+              const mapped = res.map((opt) =>
+                typeof opt === "string" ? { label: opt, value: opt } : opt
+              );
+              setAsyncOptions(mapped);
+              setIsSearching(false);
+            }
+          })
+          .catch((err) => {
+            if (currentReq === searchRequestId.current) {
+              setSearchError(err?.message || "Search failed");
+              setIsSearching(false);
+            }
+          });
+      }, 150);
+
+      return () => clearTimeout(timer);
+    }, [searchQuery, onSearch]);
 
     useEffect(() => {
       const handleClickOutside = (e: MouseEvent) => {
@@ -119,7 +163,7 @@ export const BaseCombobox = forwardRef<HTMLDivElement, ComboboxProps>(
       xl: "1.125rem",
     };
 
-    const selectedLabel = normalizedOptions.find((o) => o.value === selectedValue)?.label || "";
+    const selectedLabel = activeOptions.find((o) => o.value === selectedValue)?.label || "";
 
     return (
       <div
@@ -187,9 +231,13 @@ export const BaseCombobox = forwardRef<HTMLDivElement, ComboboxProps>(
               transition: "transform var(--cr-transition-fast)",
             }}
           >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <polyline points="6 9 12 15 18 9" />
-            </svg>
+            {isLoading ? (
+              <span className="cr-spinner cr-spinner--xs" style={{ width: 14, height: 14 }} />
+            ) : (
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <polyline points="6 9 12 15 18 9" />
+              </svg>
+            )}
           </span>
         </div>
 
@@ -213,9 +261,17 @@ export const BaseCombobox = forwardRef<HTMLDivElement, ComboboxProps>(
               padding: "4px",
             }}
           >
-            {filteredOptions.length === 0 ? (
+            {isLoading ? (
+              <div style={{ padding: "8px 12px", fontSize: "0.875rem", color: "var(--cr-text-muted)", display: "flex", alignItems: "center", gap: "8px" }}>
+                <span className="cr-spinner cr-spinner--xs" style={{ width: 14, height: 14 }} /> Loading options...
+              </div>
+            ) : searchError ? (
+              <div style={{ padding: "8px 12px", fontSize: "0.875rem", color: "var(--cr-danger, #f43f5e)" }}>
+                {searchError}
+              </div>
+            ) : filteredOptions.length === 0 ? (
               <div style={{ padding: "8px 12px", fontSize: "0.875rem", color: "var(--cr-text-muted)" }}>
-                No options found
+                {emptyText}
               </div>
             ) : (
               filteredOptions.map((opt, i) => {

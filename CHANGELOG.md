@@ -8,45 +8,59 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.2.0] - 2026-10-21
 
-### Added
-- **New Core Components**:
-  - `Label`: Accessible standalone label component with required indicator and English chaining.
-  - `SearchInput`: Dedicated search bar with clear button, debounce support, and keyboard shortcut badge.
-  - `OTPInput`: Numeric one-time password inputs with auto-focus, paste distribution, and masked PIN support.
-  - `Rating`: Interactive and read-only star rating component with half-star support and keyboard controls.
-  - `AlertDialog`: Accessible confirmation modal with focus trapping, destructive variants, and escape key listener.
-  - `AspectRatio`: Layout container preventing layout shift for images, videos, and embedded media.
-  - `ScrollArea`: Sleek cross-browser custom scrollbar wrapper.
-  - `Stepper`: Multi-step progress tracker for checkout, onboarding, and multi-step forms.
-  - `Timeline`: Activity and order status tracking timeline with status nodes and connecting lines.
-  - `Collapsible`: Standalone collapsible expand/collapse panel with smooth transition.
-  - `Combobox`: Autocomplete dropdown with search filter and keyboard navigation.
-  - `MultiSelect`: Multiple tag selector with removable chips and option filter.
-  - `ColorPicker`: Color swatch trigger with hex input, native picker, and preset palettes.
-  - `Result`: Status result template for success, error, warning, 404, and 403 pages.
-  - `NotFoundPage`: Pre-built 404 template with navigation recovery button.
-  - `ErrorBoundary`: React error boundary with fallback UI and reset capabilities.
+### 🛠️ Bug Fixes & Resiliency
+- **`Input` & `TextArea` Error Text Rendering**:
+  - Fixed an issue where string errors (`error="Invalid value"`) were not displayed on screen. A dedicated `<span className="cr-input__error-message" role="alert">` element is now rendered below the field with proper `aria-describedby` linking.
+- **`TextArea` Auto-Resize**:
+  - Implemented dynamic auto-resizing via `autoResize` prop calculating `scrollHeight` on mount, input, and controlled value updates.
+- **`Select` React DOM Warning**:
+  - Replaced non-standard `selected` attribute on `<option>` with React-compliant `defaultValue=""` on `<select>`.
+- **`Tooltip` Memory Leak Prevention**:
+  - Moved timer tracking into `useRef` with cleanup on unmount to eliminate stale timer leaks.
+- **`useClipboard` Rapid Copy Flickering**:
+  - Added timer reference tracking to clear pending timeouts on consecutive copy calls, preventing premature reset.
+- **`OTPInput` Dynamic Length Sync**:
+  - Added synchronization hook to dynamically update digit count when `length` prop changes.
+- **`useLocalStorage` Cross-Tab Sync & SSR Resilience**:
+  - Added `storage` event listener for multi-tab synchronization and wrapped all storage operations in defensive try/catch blocks for private browsing mode.
 
-- **New Reactive Hooks**:
-  - `useWindowSize()`: Tracks responsive viewport width and height.
-  - `useOnlineStatus()`: Detects browser network connectivity changes.
-  - `useIntersectionObserver()`: Tracks element viewport visibility.
-  - `usePrevious()`: Retains previous prop or state value across renders.
-  - `useEventListener()`: Safe DOM event listener management with automatic cleanup.
-  - `useKeyPress()`: Detects target keyboard key presses.
+### ♿ Accessibility & Focus Management
+- **Focus Trapping & Restoration (`Modal`, `Drawer`, `AlertDialog`)**:
+  - Dialogs now mount via `ReactDOM.createPortal(..., document.body)` with SSR safety.
+  - Added focus trapping via `useFocusTrap` to keep <kbd>Tab</kbd> navigation inside the open dialog.
+  - Automatically captures the previously focused element on open and restores focus back to it on close.
+  - Added `initialFocusRef` and `finalFocusRef` props for custom focus management.
+- **`Popover` Keyboard Navigation**:
+  - Non-button triggers now include `role="button"`, `tabIndex={0}`, and handle <kbd>Enter</kbd> / <kbd>Space</kbd> key presses. Pressing <kbd>Escape</kbd> closes the popover.
+- **`Tabs` WAI-ARIA Relationships**:
+  - Added arrow key cycling (<kbd>ArrowLeft</kbd> / <kbd>ArrowRight</kbd> / <kbd>Home</kbd> / <kbd>End</kbd>) across tabs.
+  - Proper ARIA linking with `aria-controls="cr-tabpanel-[id]"` and `aria-labelledby="cr-tab-[id]"`.
 
-- **Utilities & Design Tokens**:
-  - `formatFileSize`: Converts byte values into human-readable strings (KB, MB, GB).
-  - `validateEmail`, `validateRequired`, `validateMinLength`, `validateUrl`: Standalone validator functions.
-  - `mediaQueryUp`, `mediaQueryDown`: Breakpoint query generators.
-  - `useFocusTrap`: Accessible focus trapping inside dialogs.
-  - `.cr-sr-only`, `.cr-scrollbar`, and responsive layout classes (`.cr-hide-sm`, `.cr-hide-md`, etc.).
-  - `@media (prefers-reduced-motion: reduce)` accessibility normalization.
+### 🚀 Core Builders & Layouts
+- **React Key Warning Elimination**:
+  - `renderWebsite`, `createWebsiteLayout`, and `Page` now automatically provide stable keys when mapping arrays of children, eliminating React list key console warnings.
+- **Layout Customization**:
+  - `createWebsiteLayout` and `renderWebsite` now support `maxWidth`, `padding`, `gap`, `header`, `footer`, and custom `style` props.
 
-- **Automated Testing Suite**:
-  - Added `scripts/test-suite.js` with 36 automated unit, integration, and rendering tests.
-  - Added `npm test` script.
+### 🧩 Component Enhancements
+- **`Combobox` & `MultiSelect` Asynchronous Remote Search**:
+  - Added `onSearch?: (query: string) => Promise<Option[]>` prop with 150ms debouncing.
+  - Built-in loading spinners, error message display, and stale request cancellation via request tracking.
+- **Controlled `Accordion`**:
+  - Added `expandedIds?: string[]` and `onChange?: (ids: string[]) => void` for programmatic control alongside existing `defaultExpanded`.
+- **Declarative `Table`**:
+  - Added support for declarative `columns` and `data` props (`<Table columns={cols} data={data} emptyText="No items" />`) with custom cell renderers while maintaining full backward compatibility with raw children.
 
-### Changed
-- Refactored `src/index.ts` to export all 50+ components, 13 hooks, and utilities.
-- Hardened SSR safety in `renderWebsite` and `Website`.
+### 📋 Form Management
+- **`useForm` Hook**:
+  - Introduced a typed hook for managing form state: `values`, `errors`, `touched`, `isValid`, `isDirty`, `isSubmitting`, `handleChange`, `handleBlur`, `handleSubmit`, `reset`, and input helper `register(name)`.
+
+### ⚡ Next.js App Router Compatibility
+- Added `"use client";` preservation banner in Rollup bundle output and configured `react/jsx-runtime` global to guarantee zero-config compatibility in Next.js Server Components.
+
+---
+
+### 📖 Migration Notes
+- **Zero Breaking Changes**: All existing APIs continue to function as before.
+- **Table**: If you are currently passing raw `<thead>`/`<tbody>` as children to `<Table>`, that pattern continues to work 100%. The new `columns` and `data` props are purely additive.
+- **Modal / Drawer / AlertDialog**: Because these components now render into `document.body` via `createPortal`, ensure your application root has access to standard `document.body` (standard in all browsers; during SSR, fallback markup is rendered inline).

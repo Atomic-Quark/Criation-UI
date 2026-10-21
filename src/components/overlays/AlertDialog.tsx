@@ -5,8 +5,10 @@ import React, {
   type ReactElement,
   type ReactNode,
 } from "react";
+import { createPortal } from "react-dom";
 import { classNames } from "../../core/classNames";
 import { createChainableProxy } from "../../core/shorthand";
+import { useFocusTrap } from "../../accessibility/focusManagement";
 
 export interface AlertDialogProps {
   isOpen: boolean;
@@ -38,14 +40,44 @@ export const BaseAlertDialog = forwardRef<HTMLDivElement, AlertDialogProps>(
     ref
   ) => {
     const dialogRef = useRef<HTMLDivElement>(null);
+    const previousFocusRef = useRef<HTMLElement | null>(null);
+
+    useFocusTrap(dialogRef, isOpen);
 
     useEffect(() => {
       if (!isOpen) return;
+
+      previousFocusRef.current = document.activeElement as HTMLElement | null;
+
       const handleKeyDown = (e: KeyboardEvent) => {
         if (e.key === "Escape") onCancel();
       };
       window.addEventListener("keydown", handleKeyDown);
-      return () => window.removeEventListener("keydown", handleKeyDown);
+      const originalOverflow = document.body.style.overflow;
+      document.body.style.overflow = "hidden";
+
+      const focusTimer = setTimeout(() => {
+        if (dialogRef.current) {
+          const firstFocusable = dialogRef.current.querySelector<HTMLElement>(
+            'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+          );
+          if (firstFocusable) {
+            firstFocusable.focus();
+          } else {
+            dialogRef.current.focus();
+          }
+        }
+      }, 50);
+
+      return () => {
+        clearTimeout(focusTimer);
+        window.removeEventListener("keydown", handleKeyDown);
+        document.body.style.overflow = originalOverflow;
+
+        if (previousFocusRef.current && typeof previousFocusRef.current.focus === "function") {
+          previousFocusRef.current.focus();
+        }
+      };
     }, [isOpen, onCancel]);
 
     if (!isOpen) return null;
@@ -70,7 +102,7 @@ export const BaseAlertDialog = forwardRef<HTMLDivElement, AlertDialogProps>(
 
     const currentStyle = variantColors[variant] || variantColors.danger;
 
-    return (
+    const dialogContent = (
       <div
         className="cr-alert-dialog-backdrop"
         style={{
@@ -94,6 +126,7 @@ export const BaseAlertDialog = forwardRef<HTMLDivElement, AlertDialogProps>(
           aria-modal="true"
           aria-labelledby="cr-dialog-title"
           aria-describedby="cr-dialog-desc"
+          tabIndex={-1}
           className={classNames("cr-alert-dialog", className)}
           style={{
             backgroundColor: "var(--cr-bg-surface)",
@@ -202,6 +235,12 @@ export const BaseAlertDialog = forwardRef<HTMLDivElement, AlertDialogProps>(
         </div>
       </div>
     );
+
+    if (typeof document !== "undefined" && document.body) {
+      return createPortal(dialogContent, document.body);
+    }
+
+    return dialogContent;
   }
 );
 

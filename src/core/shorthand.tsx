@@ -1580,7 +1580,12 @@ export function Page(titleOrOptions: string | PageOptions | ReactNode[], ...elem
         </h1>
       )}
       <div style={{ display: "flex", flexDirection: "column", gap, alignItems: "flex-start" }}>
-        {children}
+        {children.map((child, idx) => {
+          if (React.isValidElement(child)) {
+            return child.key != null ? child : React.cloneElement(child, { key: `cr-page-item-${idx}` });
+          }
+          return <React.Fragment key={`cr-page-item-${idx}`}>{child}</React.Fragment>;
+        })}
       </div>
     </div>
   );

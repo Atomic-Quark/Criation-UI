@@ -1,6 +1,8 @@
-import React, { useEffect, type ReactNode } from "react";
+import React, { useEffect, useRef, type ReactNode } from "react";
+import { createPortal } from "react-dom";
 import { classNames } from "../../core/classNames";
 import type { ComponentSize } from "../../core/types";
+import { useFocusTrap } from "../../accessibility/focusManagement";
 import { X } from "lucide-react";
 
 export interface ModalProps {
@@ -13,6 +15,8 @@ export interface ModalProps {
   closeOnOverlayClick?: boolean;
   closeOnEsc?: boolean;
   className?: string;
+  initialFocusRef?: React.RefObject<HTMLElement | null>;
+  finalFocusRef?: React.RefObject<HTMLElement | null>;
 }
 
 export function Modal({
@@ -25,9 +29,18 @@ export function Modal({
   closeOnOverlayClick = true,
   closeOnEsc = true,
   className = "",
+  initialFocusRef,
+  finalFocusRef,
 }: ModalProps) {
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const previousFocusRef = useRef<HTMLElement | null>(null);
+
+  useFocusTrap(dialogRef, isOpen);
+
   useEffect(() => {
     if (!isOpen) return;
+
+    previousFocusRef.current = document.activeElement as HTMLElement | null;
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (closeOnEsc && e.key === "Escape") {
@@ -36,18 +49,50 @@ export function Modal({
     };
 
     document.addEventListener("keydown", handleKeyDown);
+    const originalOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
 
+    // Auto-focus initial element or dialog
+    const focusTimer = setTimeout(() => {
+      if (initialFocusRef?.current) {
+        initialFocusRef.current.focus();
+      } else if (dialogRef.current) {
+        const firstFocusable = dialogRef.current.querySelector<HTMLElement>(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        );
+        if (firstFocusable) {
+          firstFocusable.focus();
+        } else {
+          dialogRef.current.focus();
+        }
+      }
+    }, 50);
+
     return () => {
+      clearTimeout(focusTimer);
       document.removeEventListener("keydown", handleKeyDown);
-      document.body.style.overflow = "unset";
+      document.body.style.overflow = originalOverflow;
+
+      // Restore focus to trigger element
+      if (finalFocusRef?.current) {
+        finalFocusRef.current.focus();
+      } else if (previousFocusRef.current && typeof previousFocusRef.current.focus === "function") {
+        previousFocusRef.current.focus();
+      }
     };
-  }, [isOpen, closeOnEsc, onClose]);
+  }, [isOpen, closeOnEsc, onClose, initialFocusRef, finalFocusRef]);
 
   if (!isOpen) return null;
 
-  return (
-    <div className="cr-modal-portal" role="dialog" aria-modal="true">
+  const modalContent = (
+    <div
+      ref={dialogRef}
+      className="cr-modal-portal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby={title ? "cr-modal-title" : undefined}
+      tabIndex={-1}
+    >
       <div
         className="cr-modal__backdrop"
         onClick={closeOnOverlayClick ? onClose : undefined}
@@ -63,7 +108,7 @@ export function Modal({
         >
           {title && (
             <div className="cr-modal__header">
-              <h3 className="cr-modal__title">{title}</h3>
+              <h3 id="cr-modal-title" className="cr-modal__title">{title}</h3>
               <button
                 type="button"
                 className="cr-modal__close-btn"
@@ -80,4 +125,10 @@ export function Modal({
       </div>
     </div>
   );
+
+  if (typeof document !== "undefined" && document.body) {
+    return createPortal(modalContent, document.body);
+  }
+
+  return modalContent;
 }
