@@ -42,6 +42,13 @@ export const BaseOTPInput = forwardRef<HTMLDivElement, OTPInputProps>(
       Array.from({ length }, (_, i) => (controlledValue ? controlledValue[i] || "" : ""))
     );
 
+    React.useEffect(() => {
+      setInternalDigits((prev) => {
+        if (prev.length === length) return prev;
+        return Array.from({ length }, (_, i) => prev[i] || "");
+      });
+    }, [length]);
+
     const digits = isControlled
       ? Array.from({ length }, (_, i) => controlledValue?.[i] || "")
       : internalDigits;

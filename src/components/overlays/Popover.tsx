@@ -7,6 +7,8 @@ export interface PopoverProps {
   content: ReactNode;
   placement?: "top" | "bottom" | "left" | "right";
   className?: string;
+  isOpen?: boolean;
+  onOpenChange?: (open: boolean) => void;
 }
 
 export function Popover({
@@ -14,17 +16,46 @@ export function Popover({
   content,
   placement = "bottom",
   className = "",
+  isOpen: controlledOpen,
+  onOpenChange,
 }: PopoverProps) {
-  const [isOpen, setIsOpen] = useState(false);
+  const [internalOpen, setInternalOpen] = useState(false);
+  const isControlled = controlledOpen !== undefined;
+  const isOpen = isControlled ? controlledOpen : internalOpen;
+
   const containerRef = useRef<HTMLDivElement>(null);
 
-  useClickOutside(containerRef, () => setIsOpen(false), isOpen);
+  const toggle = (nextState?: boolean) => {
+    const newState = nextState !== undefined ? nextState : !isOpen;
+    if (!isControlled) {
+      setInternalOpen(newState);
+    }
+    onOpenChange?.(newState);
+  };
+
+  useClickOutside(containerRef, () => toggle(false), isOpen);
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      toggle();
+    } else if (e.key === "Escape" && isOpen) {
+      e.preventDefault();
+      toggle(false);
+    }
+  };
 
   return (
-    <div ref={containerRef} className="cr-popover-wrapper">
+    <div
+      ref={containerRef}
+      className="cr-popover-wrapper"
+      onKeyDown={handleKeyDown}
+    >
       <div
         className="cr-popover__trigger"
-        onClick={() => setIsOpen((prev) => !prev)}
+        onClick={() => toggle()}
+        role="button"
+        tabIndex={0}
         aria-haspopup="true"
         aria-expanded={isOpen}
       >

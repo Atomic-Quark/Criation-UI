@@ -31,8 +31,19 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
     ref
   ) => {
     const hasError = Boolean(error);
+    const errorMessage = typeof error === "string" ? error : undefined;
+    const errorId = props.id ? `${props.id}-error` : undefined;
 
-    return (
+    const selectDefaultValue =
+      props.value === undefined
+        ? props.defaultValue !== undefined
+          ? props.defaultValue
+          : placeholder
+          ? ""
+          : undefined
+        : undefined;
+
+    const selectWrapper = (
       <div
         className={classNames(
           "cr-select-wrapper",
@@ -42,9 +53,17 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
           className
         )}
       >
-        <select ref={ref} disabled={disabled} className="cr-select" {...props}>
+        <select
+          ref={ref}
+          disabled={disabled}
+          className="cr-select"
+          defaultValue={selectDefaultValue}
+          aria-invalid={hasError}
+          aria-describedby={errorMessage && errorId ? errorId : props["aria-describedby"]}
+          {...props}
+        >
           {placeholder && (
-            <option value="" disabled selected hidden>
+            <option value="" disabled hidden>
               {placeholder}
             </option>
           )}
@@ -61,6 +80,19 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
         </span>
       </div>
     );
+
+    if (errorMessage) {
+      return (
+        <div className="cr-select-field" style={{ display: "inline-flex", flexDirection: "column", width: "100%" }}>
+          {selectWrapper}
+          <span id={errorId} className="cr-select__error-message" role="alert" style={{ color: "var(--cr-danger, #f43f5e)", fontSize: "0.8125rem", marginTop: "0.25rem" }}>
+            {errorMessage}
+          </span>
+        </div>
+      );
+    }
+
+    return selectWrapper;
   }
 );
 

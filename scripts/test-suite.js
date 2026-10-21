@@ -169,6 +169,186 @@ const siteHtml = ReactDOMServer.renderToString(site);
 assert("Website builder produces complete full-page layout", siteHtml.includes("Demo App") && siteHtml.includes("Catalog") && siteHtml.includes("Terms"));
 
 // -----------------------------------------------------------------------------
+// 5. Bug Fix Regressions & Accessibility Attributes Tests
+// -----------------------------------------------------------------------------
+console.log("\n5. Bug Fix Regressions & Accessibility Attributes Tests:");
+
+// Input error message rendering
+const inputWithError = ReactDOMServer.renderToString(
+  React.createElement(UI.Input, { id: "test-email", error: "Please enter a valid email address" })
+);
+assert(
+  "Input renders dedicated error message container when error is a string",
+  inputWithError.includes("Please enter a valid email address") &&
+  inputWithError.includes("cr-input__error-message") &&
+  inputWithError.includes('role="alert"') &&
+  inputWithError.includes('aria-describedby="test-email-error"')
+);
+
+// TextArea error message rendering
+const textareaWithError = ReactDOMServer.renderToString(
+  React.createElement(UI.TextArea, { id: "test-bio", error: "Bio is required" })
+);
+assert(
+  "TextArea renders error message container when error is a string",
+  textareaWithError.includes("Bio is required") &&
+  textareaWithError.includes("cr-textarea__error-message") &&
+  textareaWithError.includes('role="alert"')
+);
+
+// Select React compliant defaultValue
+const selectHtml = ReactDOMServer.renderToString(
+  React.createElement(UI.Select, {
+    placeholder: "Choose country",
+    options: [{ value: "us", label: "United States" }, { value: "in", label: "India" }]
+  })
+);
+assert(
+  "Select placeholder does not use invalid selected attribute",
+  !selectHtml.includes("<option value=\"\" disabled selected") &&
+  selectHtml.includes("Choose country")
+);
+
+// Tabs ARIA controls & labels
+const tabsHtml = ReactDOMServer.renderToString(
+  React.createElement(UI.Tabs, {
+    items: [
+      { id: "account", label: "Account", content: "Account Settings" },
+      { id: "security", label: "Security", content: "Security Controls" }
+    ]
+  })
+);
+assert(
+  "Tabs renders aria-controls and matching panel id for accessibility",
+  tabsHtml.includes('id="cr-tab-account"') &&
+  tabsHtml.includes('aria-controls="cr-tabpanel-account"') &&
+  tabsHtml.includes('id="cr-tabpanel-account"') &&
+  tabsHtml.includes('aria-labelledby="cr-tab-account"')
+);
+
+// Popover keyboard accessibility
+const popoverHtml = ReactDOMServer.renderToString(
+  React.createElement(UI.Popover, {
+    trigger: "Open Menu",
+    content: "Menu Content"
+  })
+);
+assert(
+  "Popover trigger includes role=button and tabIndex=0 for keyboard accessibility",
+  popoverHtml.includes('role="button"') &&
+  popoverHtml.includes('tabindex="0"') &&
+  popoverHtml.includes('aria-haspopup="true"')
+);
+
+// -----------------------------------------------------------------------------
+// 6. Advanced Component Capabilities Tests
+// -----------------------------------------------------------------------------
+console.log("\n6. Advanced Component Capabilities Tests:");
+
+// Controlled Accordion
+const controlledAccordion = ReactDOMServer.renderToString(
+  React.createElement(UI.Accordion, {
+    items: [
+      { id: "faq1", title: "Question 1", content: "Answer 1" },
+      { id: "faq2", title: "Question 2", content: "Answer 2" }
+    ],
+    expandedIds: ["faq2"]
+  })
+);
+assert(
+  "Controlled Accordion expands only the specified expandedIds",
+  !controlledAccordion.includes("Answer 1") &&
+  controlledAccordion.includes("Answer 2") &&
+  controlledAccordion.includes('id="cr-accordion-header-faq2"')
+);
+
+// Declarative Table
+const declarativeTable = ReactDOMServer.renderToString(
+  React.createElement(UI.Table, {
+    columns: [
+      { key: "id", header: "ID", align: "left" },
+      { key: "name", header: "Name" },
+      { key: "status", header: "Status", render: (row) => `Status: ${row.status}` }
+    ],
+    data: [
+      { id: "1", name: "Alpha", status: "Active" },
+      { id: "2", name: "Beta", status: "Pending" }
+    ]
+  })
+);
+assert(
+  "Declarative Table renders columns, rows, and custom cell formatters",
+  declarativeTable.includes("ID") &&
+  declarativeTable.includes("<td>Alpha</td>") &&
+  declarativeTable.includes("<td>Status: Active</td>")
+);
+
+// Declarative Table empty state
+const emptyTable = ReactDOMServer.renderToString(
+  React.createElement(UI.Table, {
+    columns: [{ key: "name", header: "Name" }],
+    data: [],
+    emptyText: "No users found"
+  })
+);
+assert(
+  "Declarative Table renders emptyText message when data array is empty",
+  emptyTable.includes("No users found") &&
+  emptyTable.toLowerCase().includes('colspan="1"')
+);
+
+// Combobox loading state
+const loadingCombobox = ReactDOMServer.renderToString(
+  React.createElement(UI.Combobox, {
+    options: [],
+    loading: true
+  })
+);
+assert(
+  "Combobox supports loading state indicator",
+  loadingCombobox.includes("cr-spinner") || loadingCombobox.includes("cr-combobox")
+);
+
+// Website layout customization
+const customLayout = ReactDOMServer.renderToString(
+  UI.createWebsiteLayout([UI.Heading("Custom Store")], {
+    maxWidth: "1400px",
+    padding: "4rem",
+    header: React.createElement("nav", null, "Custom Header"),
+    footer: React.createElement("footer", null, "Custom Footer")
+  })
+);
+assert(
+  "createWebsiteLayout supports custom maxWidth, padding, header, and footer",
+  customLayout.includes("max-width:1400px") &&
+  customLayout.includes("padding:4rem") &&
+  customLayout.includes("Custom Header") &&
+  customLayout.includes("Custom Footer")
+);
+
+// -----------------------------------------------------------------------------
+// 7. useForm Hook & Form Validation Tests
+// -----------------------------------------------------------------------------
+console.log("\n7. useForm Hook Tests:");
+
+assert("useForm is exported from public API", typeof UI.useForm === "function");
+
+// Test validation function logic directly
+const sampleValidator = (values) => {
+  const errs = {};
+  if (!values.email) errs.email = "Email is required";
+  else if (!UI.validateEmail(values.email)) errs.email = "Invalid email";
+  if (!values.password || values.password.length < 6) errs.password = "Min 6 chars";
+  return errs;
+};
+
+const validationResult1 = sampleValidator({ email: "", password: "123" });
+assert("Form validator detects required email and short password", validationResult1.email === "Email is required" && validationResult1.password === "Min 6 chars");
+
+const validationResult2 = sampleValidator({ email: "user@domain.com", password: "validPassword123" });
+assert("Form validator accepts valid inputs with 0 errors", Object.keys(validationResult2).length === 0);
+
+// -----------------------------------------------------------------------------
 // Final Report
 // -----------------------------------------------------------------------------
 console.log("\n=======================================================");

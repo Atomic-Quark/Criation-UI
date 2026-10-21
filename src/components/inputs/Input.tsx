@@ -38,9 +38,11 @@ export const BaseInput = forwardRef<HTMLInputElement, InputProps>(
     ref
   ) => {
     const hasError = Boolean(error);
+    const errorMessage = typeof error === "string" ? error : undefined;
     const showClear = isClearable && !disabled && Boolean(value);
+    const errorId = props.id ? `${props.id}-error` : undefined;
 
-    return (
+    const inputWrapper = (
       <div
         className={classNames(
           "cr-input-wrapper",
@@ -61,6 +63,7 @@ export const BaseInput = forwardRef<HTMLInputElement, InputProps>(
           className="cr-input"
           style={{ cursor }}
           aria-invalid={hasError}
+          aria-describedby={errorMessage && errorId ? errorId : props["aria-describedby"]}
           {...props}
         />
         {showClear && (
@@ -79,6 +82,19 @@ export const BaseInput = forwardRef<HTMLInputElement, InputProps>(
         )}
       </div>
     );
+
+    if (errorMessage) {
+      return (
+        <div className="cr-input-field" style={{ display: "inline-flex", flexDirection: "column", width: style?.width || "100%" }}>
+          {inputWrapper}
+          <span id={errorId} className="cr-input__error-message" role="alert" style={{ color: "var(--cr-danger, #f43f5e)", fontSize: "0.8125rem", marginTop: "0.25rem" }}>
+            {errorMessage}
+          </span>
+        </div>
+      );
+    }
+
+    return inputWrapper;
   }
 );
 
