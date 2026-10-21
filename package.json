@@ -21,6 +21,7 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "build:lib": "tsc -b && vite build --config vite.config.lib.ts",
+    "pretest": "npm run build:lib",
     "test": "node scripts/test-suite.js",
     "preview": "vite preview"
   },
