@@ -4,6 +4,7 @@ import {
   parseHeadingShorthand,
   createHeadingFromShorthand,
   type HeadingShorthandConfig,
+  type HeadingChainable,
 } from "../../core/shorthand";
 
 export interface HeadingProps extends HTMLAttributes<HTMLHeadingElement> {
@@ -40,9 +41,11 @@ BaseHeading.displayName = "BaseHeading";
 
 /**
  * Universal Heading:
- * 1. 1-Line Shorthand (all slots optional):
- *    Heading("Welcome to My Store", 1, "store_title", "gradient", "center")
- * 2. JSX Component:
+ * 1. English Chaining:
+ *    Heading("Welcome to Store").gradient().center().level(1)
+ * 2. Natural English phrase:
+ *    Heading("Welcome to My Store, level 1, centered, with gradient")
+ * 3. JSX Component:
  *    <Heading level={1}>Welcome</Heading>
  */
 export function Heading(props: HeadingProps): ReactElement;
@@ -53,9 +56,9 @@ export function Heading(
   color?: string,
   align?: string,
   position?: string
-): ReactElement;
-export function Heading(strings: TemplateStringsArray, ...values: any[]): ReactElement;
-export function Heading(...args: any[]): ReactElement {
+): ReactElement & HeadingChainable;
+export function Heading(strings: TemplateStringsArray, ...values: any[]): ReactElement & HeadingChainable;
+export function Heading(...args: any[]): ReactElement & HeadingChainable {
   if (
     typeof args[0] === "string" ||
     (Array.isArray(args[0]) && (args[0] as any).raw) ||
@@ -66,7 +69,7 @@ export function Heading(...args: any[]): ReactElement {
   }
 
   const props = (args[0] || {}) as HeadingProps;
-  return <BaseHeading {...props} />;
+  return (<BaseHeading {...props} />) as any;
 }
 
 Heading.displayName = "Heading";

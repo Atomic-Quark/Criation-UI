@@ -55,6 +55,7 @@ import {
   Criation,
   Input,
   Image,
+  Footer,
 } from "../index";
 import {
   Sun,
@@ -224,10 +225,110 @@ Link = "Explore Documentation", "https://github.com", "doc_link", "brand", true`
                   1-Line Component Shorthand (All Components Simplified)
                 </Heading>
                 <Text size="lg" color="secondary" style={{ marginTop: "0.5rem" }}>
-                  Every component is now ultra-simple! Write clean 1-line function calls without <code>&lt;tags&gt; &lt;/tags&gt;</code>.
-                  Every single parameter is <strong>100% optional</strong>: provide all, provide one, or skip slots with empty quotes!
+                  Every component is now ultra-simple! Write clean code that reads <strong>just like plain English</strong>.
+                  Use fluent dot-chaining, natural English phrases in strings, or classic shorthands. Every parameter is optional!
                 </Text>
               </div>
+
+              {/* NEW: JUST LIKE WRITING ENGLISH (FLUENT CHAINING & NATURAL STRINGS) */}
+              <Card variant="glass" padding="lg" style={{ border: "1px solid rgba(99, 102, 241, 0.4)", background: "linear-gradient(135deg, rgba(99, 102, 241, 0.08), rgba(236, 72, 153, 0.05))" }}>
+                <Flex justify="between" align="center" style={{ marginBottom: "1rem" }}>
+                  <div>
+                    <Heading level={2} size="xl" gradient>
+                      ✨ Just Like Writing English: Fluent Dot-Chaining & Natural Phrases
+                    </Heading>
+                    <Text size="md" color="secondary" style={{ marginTop: "0.25rem" }}>
+                      Write UI that reads like a sentence! Chain properties fluidly or pass natural English phrases. Zero learning curve, 100% full power.
+                    </Text>
+                  </div>
+                  <Badge variant="primary" size="md">English-Style API</Badge>
+                </Flex>
+
+                <Grid columns={2} gap="1.5rem" style={{ marginTop: "1rem" }}>
+                  {/* Column 1: Fluent Dot Chaining */}
+                  <Card variant="outline" padding="md">
+                    <Flex justify="between" align="center" style={{ marginBottom: "0.75rem" }}>
+                      <Heading level={3} size="sm">1. Fluent Dot-Chaining (Reads Like English)</Heading>
+                      <Badge variant="success" size="xs">Chainable</Badge>
+                    </Flex>
+                    <Code block language="tsx">
+{`// Reads literally like an English sentence!
+Button("Go to cart").red().link("/cart").auth()
+Button("Shop Now").green().link("/shop")
+Heading("Welcome to Criation").gradient().center().level(1)
+Text("Fastest way to build apps").muted().center()
+Badge("HOT SALE").red().small()
+Input("Search items...").search().width("350px")`}
+                    </Code>
+
+                    <div style={{ marginTop: "1.25rem", padding: "1rem", background: "var(--cr-bg-surface-hover)", borderRadius: "8px" }}>
+                      <Text size="xs" color="muted" weight="bold" style={{ textTransform: "uppercase", marginBottom: "0.75rem" }}>
+                        Live Chained Elements:
+                      </Text>
+                      <Stack spacing="0.75rem">
+                        {Heading("Welcome to Criation").gradient().center().level(3)}
+                        {Text("Handcrafted components built for ultimate speed and developer delight.").muted().center()}
+                        <Flex gap="0.75rem" justify="center" wrap>
+                          {Button("Go to Cart").red().link("/cart").auth()}
+                          {Button("Shop Now").green().link("/shop")}
+                          {Badge("HOT SALE").red().small()}
+                        </Flex>
+                        <div style={{ maxWidth: "350px", margin: "0 auto", width: "100%" }}>
+                          {Input("Search products...").search().width("100%")}
+                        </div>
+                      </Stack>
+                    </div>
+                  </Card>
+
+                  {/* Column 2: Natural English Phrases */}
+                  <Card variant="outline" padding="md">
+                    <Flex justify="between" align="center" style={{ marginBottom: "0.75rem" }}>
+                      <Heading level={3} size="sm">2. Natural English Phrases in Strings</Heading>
+                      <Badge variant="primary" size="xs">Smart NLP</Badge>
+                    </Flex>
+                    <Code block language="tsx">
+{`// Write natural English keywords in strings!
+Button("Go to cart, colored red, go to /cart, auth required")
+Heading("Welcome to Criation, level 2, centered, with gradient")
+Text("Handcrafted with pride, centered, muted, size large")
+Badge("50% DISCOUNT, in green, small")
+Link("Read Documentation, to /docs, open in new tab")`}
+                    </Code>
+
+                    <div style={{ marginTop: "1.25rem", padding: "1rem", background: "var(--cr-bg-surface-hover)", borderRadius: "8px" }}>
+                      <Text size="xs" color="muted" weight="bold" style={{ textTransform: "uppercase", marginBottom: "0.75rem" }}>
+                        Live Rendered Natural Phrases:
+                      </Text>
+                      <Stack spacing="0.75rem">
+                        {Heading("Welcome to Store, level 3, centered, with gradient")}
+                        {Text("The fastest way to write UI in plain English, centered, muted")}
+                        <Flex gap="0.75rem" justify="center" wrap>
+                          {Button("Go to cart, colored red, go to /cart, auth required")}
+                          {Badge("50% DISCOUNT, in green, small")}
+                        </Flex>
+                        <div style={{ textAlign: "center" }}>
+                          {Link("Read Documentation, to /docs, open in new tab")}
+                        </div>
+                      </Stack>
+                    </div>
+                  </Card>
+                </Grid>
+
+                {/* Website in 3 Lines Callout */}
+                <Box padding="1.25rem" background="var(--cr-bg-surface-hover)" borderRadius="10px" style={{ marginTop: "1.5rem", borderLeft: "4px solid #10b981" }}>
+                  <Flex justify="between" align="center" wrap gap="1rem">
+                    <div>
+                      <Heading level={4} size="sm" style={{ color: "#10b981" }}>
+                        🚀 Whole Website in 3 Lines of Plain Code:
+                      </Heading>
+                      <code style={{ fontSize: "0.85rem", color: "var(--cr-text-primary)", display: "block", marginTop: "0.25rem" }}>
+                        Website("My Store", [ Heading("Welcome").gradient(), Button("Buy").green().link("/cart") ]);
+                      </code>
+                    </div>
+                    <Badge variant="success" size="sm">Zero Boilerplate</Badge>
+                  </Flex>
+                </Box>
+              </Card>
 
               {/* Complete Webpage / Product Demo Built with Zero HTML Tags */}
               <Card variant="glass" padding="lg">
@@ -423,6 +524,97 @@ Link = "Explore Documentation", "https://github.com", "doc_link", "brand", true`
                       Card(content, boxSize, id, variant, color, position, pointer)
                     </code>
                     {Card("Ultra simple card with string content & zero configuration!", "100%", "card_str", "glass")}
+                  </Card>
+
+                  {/* 9. STACK */}
+                  <Card variant="outline" padding="md">
+                    <Flex justify="between" align="center" style={{ marginBottom: "0.75rem" }}>
+                      <Heading level={4} size="sm">9. Stack(...)</Heading>
+                      <Badge variant="success" size="xs">Fluent Chaining</Badge>
+                    </Flex>
+                    <code style={{ fontSize: "0.8rem", color: "#38bdf8", display: "block", marginBottom: "0.75rem" }}>
+                      Stack(Button("1"), Button("2")).row().gap("1rem")
+                    </code>
+                    {Stack(
+                      Button("Item 1").small(),
+                      Button("Item 2").small().green(),
+                      Button("Item 3").small().outline()
+                    ).row().gap("0.75rem")}
+                  </Card>
+
+                  {/* 10. GRID */}
+                  <Card variant="outline" padding="md">
+                    <Flex justify="between" align="center" style={{ marginBottom: "0.75rem" }}>
+                      <Heading level={4} size="sm">10. Grid(...)</Heading>
+                      <Badge variant="success" size="xs">Columns + Chaining</Badge>
+                    </Flex>
+                    <code style={{ fontSize: "0.8rem", color: "#38bdf8", display: "block", marginBottom: "0.75rem" }}>
+                      Grid(3, [ Card("A"), Card("B"), Card("C") ]).gap("0.75rem")
+                    </code>
+                    {Grid(3, [
+                      Card("Col 1", "100%", "c1", "outline"),
+                      Card("Col 2", "100%", "c2", "outline"),
+                      Card("Col 3", "100%", "c3", "outline"),
+                    ]).gap("0.5rem")}
+                  </Card>
+
+                  {/* 11. FLEX */}
+                  <Card variant="outline" padding="md">
+                    <Flex justify="between" align="center" style={{ marginBottom: "0.75rem" }}>
+                      <Heading level={4} size="sm">11. Flex(...)</Heading>
+                      <Badge variant="success" size="xs">Auto-Align</Badge>
+                    </Flex>
+                    <code style={{ fontSize: "0.8rem", color: "#38bdf8", display: "block", marginBottom: "0.75rem" }}>
+                      Flex(Button("Back"), Button("Next")).between()
+                    </code>
+                    {Flex(
+                      Button("Previous Step").outline().small(),
+                      Button("Next Step").green().small()
+                    ).between()}
+                  </Card>
+
+                  {/* 12. ALERT */}
+                  <Card variant="outline" padding="md">
+                    <Flex justify="between" align="center" style={{ marginBottom: "0.75rem" }}>
+                      <Heading level={4} size="sm">12. Alert(...)</Heading>
+                      <Badge variant="success" size="xs">Variant Chaining</Badge>
+                    </Flex>
+                    <code style={{ fontSize: "0.8rem", color: "#38bdf8", display: "block", marginBottom: "0.75rem" }}>
+                      Alert("Your order is confirmed!").success()
+                    </code>
+                    {Alert("Your payment was processed successfully!").success()}
+                  </Card>
+
+                  {/* 13. DIVIDER */}
+                  <Card variant="outline" padding="md">
+                    <Flex justify="between" align="center" style={{ marginBottom: "0.75rem" }}>
+                      <Heading level={4} size="sm">13. Divider()</Heading>
+                      <Badge variant="primary" size="xs">Zero Params</Badge>
+                    </Flex>
+                    <code style={{ fontSize: "0.8rem", color: "#38bdf8", display: "block", marginBottom: "0.75rem" }}>
+                      Divider() or Divider("dashed")
+                    </code>
+                    <Stack spacing="0.75rem">
+                      <Text size="xs" color="muted">Solid Divider:</Text>
+                      {Divider()}
+                      <Text size="xs" color="muted">Dashed Divider:</Text>
+                      {Divider("dashed")}
+                    </Stack>
+                  </Card>
+
+                  {/* 14. NAVBAR & FOOTER */}
+                  <Card variant="outline" padding="md">
+                    <Flex justify="between" align="center" style={{ marginBottom: "0.75rem" }}>
+                      <Heading level={4} size="sm">14. Navbar(...) & Footer(...)</Heading>
+                      <Badge variant="success" size="xs">Complete Layout</Badge>
+                    </Flex>
+                    <code style={{ fontSize: "0.8rem", color: "#38bdf8", display: "block", marginBottom: "0.75rem" }}>
+                      Navbar("My Brand", ["Home", "Products", "Cart"])
+                    </code>
+                    <Box padding="0.75rem" background="var(--cr-bg-surface-hover)" borderRadius="8px">
+                      {Navbar("ShopNow", ["Catalog", "Cart"], Button("Sign In").small().blue())}
+                      {Footer("© 2026 ShopNow", ["Privacy", "Terms"])}
+                    </Box>
                   </Card>
                 </Grid>
               </div>

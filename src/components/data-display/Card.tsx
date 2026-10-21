@@ -5,6 +5,7 @@ import {
   parseCardShorthand,
   createCardFromShorthand,
   type CardShorthandConfig,
+  type CardChainable,
 } from "../../core/shorthand";
 
 export interface CardProps extends HTMLAttributes<HTMLDivElement> {
@@ -53,10 +54,11 @@ BaseCard.displayName = "BaseCard";
 
 /**
  * Universal Card:
- * 1. 1-Line Shorthand (all slots optional):
- *    Card("Hello World", "300px", "card_1", "glass")
- *    Card([Heading("Cart"), Button("Checkout", "/checkout", "green")])
- * 2. JSX Component:
+ * 1. English Chaining:
+ *    Card("Pro Plan").glass().width("350px")
+ * 2. Natural English phrase:
+ *    Card("Pro Plan, glass, width 350px")
+ * 3. JSX Component:
  *    <Card variant="glass">...</Card>
  */
 export function Card(props: CardProps): ReactElement;
@@ -68,8 +70,8 @@ export function Card(
   color?: string,
   position?: string,
   pointer?: string
-): ReactElement;
-export function Card(...args: any[]): ReactElement {
+): ReactElement & CardChainable;
+export function Card(...args: any[]): ReactElement & CardChainable {
   // If first argument is React props object with children or variant and NOT an array or primitive
   const first = args[0];
   const isPropsObject =
@@ -80,7 +82,7 @@ export function Card(...args: any[]): ReactElement {
     ("children" in first || "variant" in first || "padding" in first);
 
   if (isPropsObject) {
-    return <BaseCard {...first} />;
+    return (<BaseCard {...first} />) as any;
   }
 
   const config = parseCardShorthand(args);
@@ -89,3 +91,4 @@ export function Card(...args: any[]): ReactElement {
 
 Card.displayName = "Card";
 Card.create = (config: CardShorthandConfig) => createCardFromShorthand(config);
+

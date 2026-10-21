@@ -5,6 +5,7 @@ import {
   parseLinkShorthand,
   createLinkFromShorthand,
   type LinkShorthandConfig,
+  type LinkChainable,
 } from "../../core/shorthand";
 
 export interface LinkProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
@@ -56,10 +57,11 @@ BaseLink.displayName = "BaseLink";
 
 /**
  * Universal Link:
- * 1. 1-Line Shorthand (all slots optional):
- *    Link("View Documentation", "https://docs.example.com", "doc_link", "brand", true)
- *    Link("About Us", "/about")
- * 2. JSX Component:
+ * 1. English Chaining:
+ *    Link("Documentation").to("/docs").external()
+ * 2. Natural English phrase:
+ *    Link("Documentation, to /docs, open in new tab")
+ * 3. JSX Component:
  *    <Link href="/about">About Us</Link>
  */
 export function Link(props: LinkProps): ReactElement;
@@ -70,9 +72,9 @@ export function Link(
   color?: string,
   isExternal?: boolean,
   position?: string
-): ReactElement;
-export function Link(strings: TemplateStringsArray, ...values: any[]): ReactElement;
-export function Link(...args: any[]): ReactElement {
+): ReactElement & LinkChainable;
+export function Link(strings: TemplateStringsArray, ...values: any[]): ReactElement & LinkChainable;
+export function Link(...args: any[]): ReactElement & LinkChainable {
   if (
     typeof args[0] === "string" ||
     (Array.isArray(args[0]) && (args[0] as any).raw) ||
@@ -83,9 +85,10 @@ export function Link(...args: any[]): ReactElement {
   }
 
   const { ref, ...props } = (args[0] || {}) as LinkProps;
-  return <BaseLink ref={ref} {...props} />;
+  return (<BaseLink ref={ref} {...props} />) as any;
 }
 
 Link.displayName = "Link";
 Link.create = (config: LinkShorthandConfig) => createLinkFromShorthand(config);
+
 
