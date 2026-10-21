@@ -56,6 +56,20 @@ import {
   Input,
   Image,
   Footer,
+  SearchInput,
+  OTPInput,
+  Rating,
+  Label,
+  Combobox,
+  MultiSelect,
+  ColorPicker,
+  AlertDialog,
+  Stepper,
+  Timeline,
+  AspectRatio,
+  ScrollArea,
+  Collapsible,
+  Result,
 } from "../index";
 import {
   Sun,
@@ -615,6 +629,119 @@ Link("Read Documentation, to /docs, open in new tab")`}
                       {Navbar("ShopNow", ["Catalog", "Cart"], Button("Sign In").small().blue())}
                       {Footer("© 2026 ShopNow", ["Privacy", "Terms"])}
                     </Box>
+                  </Card>
+
+                  {/* 15. SEARCH INPUT */}
+                  <Card variant="outline" padding="md">
+                    <Flex justify="between" align="center" style={{ marginBottom: "0.75rem" }}>
+                      <Heading level={4} size="sm">15. SearchInput(...)</Heading>
+                      <Badge variant="success" size="xs">Debounced</Badge>
+                    </Flex>
+                    <code style={{ fontSize: "0.8rem", color: "#38bdf8", display: "block", marginBottom: "0.75rem" }}>
+                      SearchInput("Find files...").shortcut("Ctrl+K").width("100%")
+                    </code>
+                    {SearchInput("Search library components...").shortcut("Ctrl+K").width("100%")}
+                  </Card>
+
+                  {/* 16. OTP INPUT */}
+                  <Card variant="outline" padding="md">
+                    <Flex justify="between" align="center" style={{ marginBottom: "0.75rem" }}>
+                      <Heading level={4} size="sm">16. OTPInput(...)</Heading>
+                      <Badge variant="primary" size="xs">Auto-Focus</Badge>
+                    </Flex>
+                    <code style={{ fontSize: "0.8rem", color: "#38bdf8", display: "block", marginBottom: "0.75rem" }}>
+                      OTPInput(6).onComplete(code =&gt; ...)
+                    </code>
+                    <Flex justify="center">{OTPInput(6)}</Flex>
+                  </Card>
+
+                  {/* 17. RATING */}
+                  <Card variant="outline" padding="md">
+                    <Flex justify="between" align="center" style={{ marginBottom: "0.75rem" }}>
+                      <Heading level={4} size="sm">17. Rating(...)</Heading>
+                      <Badge variant="warning" size="xs">Interactive</Badge>
+                    </Flex>
+                    <code style={{ fontSize: "0.8rem", color: "#38bdf8", display: "block", marginBottom: "0.75rem" }}>
+                      Rating(4.5).readOnly() or Rating(5)
+                    </code>
+                    <Flex align="center" gap="1rem">
+                      {Rating(4)}
+                      <Text size="xs" color="muted">Interactive 5-star rating</Text>
+                    </Flex>
+                  </Card>
+
+                  {/* 18. LABEL */}
+                  <Card variant="outline" padding="md">
+                    <Flex justify="between" align="center" style={{ marginBottom: "0.75rem" }}>
+                      <Heading level={4} size="sm">18. Label(...)</Heading>
+                      <Badge variant="primary" size="xs">Accessible</Badge>
+                    </Flex>
+                    <code style={{ fontSize: "0.8rem", color: "#38bdf8", display: "block", marginBottom: "0.75rem" }}>
+                      Label("Work Email").required()
+                    </code>
+                    <Stack spacing="0.25rem">
+                      {Label("Corporate Email Address").required()}
+                      {Input("name@company.com").email()}
+                    </Stack>
+                  </Card>
+
+                  {/* 19. COMBOBOX & MULTISELECT */}
+                  <Card variant="outline" padding="md">
+                    <Flex justify="between" align="center" style={{ marginBottom: "0.75rem" }}>
+                      <Heading level={4} size="sm">19. Combobox & MultiSelect</Heading>
+                      <Badge variant="success" size="xs">Filterable</Badge>
+                    </Flex>
+                    <code style={{ fontSize: "0.8rem", color: "#38bdf8", display: "block", marginBottom: "0.75rem" }}>
+                      Combobox(["React", "Vue", "Svelte"])
+                    </code>
+                    <Stack spacing="0.5rem">
+                      {Combobox(["TypeScript", "React", "Next.js", "Tailwind", "Vite"], "Select tech stack...")}
+                      {MultiSelect(["Frontend", "Backend", "Fullstack", "DevOps", "AI/ML"], "Select roles...")}
+                    </Stack>
+                  </Card>
+
+                  {/* 20. COLOR PICKER */}
+                  <Card variant="outline" padding="md">
+                    <Flex justify="between" align="center" style={{ marginBottom: "0.75rem" }}>
+                      <Heading level={4} size="sm">20. ColorPicker(...)</Heading>
+                      <Badge variant="primary" size="xs">Palette Presets</Badge>
+                    </Flex>
+                    <code style={{ fontSize: "0.8rem", color: "#38bdf8", display: "block", marginBottom: "0.75rem" }}>
+                      ColorPicker("#6366f1")
+                    </code>
+                    {ColorPicker("#6366f1")}
+                  </Card>
+
+                  {/* 21. STEPPER & TIMELINE */}
+                  <Card variant="outline" padding="md">
+                    <Flex justify="between" align="center" style={{ marginBottom: "0.75rem" }}>
+                      <Heading level={4} size="sm">21. Stepper & Timeline</Heading>
+                      <Badge variant="success" size="xs">Progress</Badge>
+                    </Flex>
+                    <code style={{ fontSize: "0.8rem", color: "#38bdf8", display: "block", marginBottom: "0.75rem" }}>
+                      Stepper(["Cart", "Shipping", "Pay"]).active(1)
+                    </code>
+                    <Stack spacing="0.75rem">
+                      {Stepper(["Cart", "Shipping", "Payment"]).active(1)}
+                      {Timeline([
+                        { title: "Order Confirmed", timestamp: "10:30 AM", status: "completed" },
+                        { title: "Out for Delivery", timestamp: "11:45 AM", status: "current" },
+                      ]).dense()}
+                    </Stack>
+                  </Card>
+
+                  {/* 22. SCROLLAREA & COLLAPSIBLE */}
+                  <Card variant="outline" padding="md">
+                    <Flex justify="between" align="center" style={{ marginBottom: "0.75rem" }}>
+                      <Heading level={4} size="sm">22. ScrollArea & Collapsible</Heading>
+                      <Badge variant="primary" size="xs">Containers</Badge>
+                    </Flex>
+                    <code style={{ fontSize: "0.8rem", color: "#38bdf8", display: "block", marginBottom: "0.75rem" }}>
+                      ScrollArea("120px", content)
+                    </code>
+                    <Stack spacing="0.5rem">
+                      {Collapsible("Frequently Asked Questions", Text("Criation UI supports both standard React JSX and English-like function calls.").muted())}
+                    </Stack>
                   </Card>
                 </Grid>
               </div>
