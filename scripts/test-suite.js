@@ -225,6 +225,11 @@ const footerWithOptions = UI.ui.footer({
 const footerWithOptionsHtml = ReactDOMServer.renderToString(footerWithOptions);
 assert("ui.footer accepts typed options object with brand and links", footerWithOptionsHtml.includes("Criation UI") && footerWithOptionsHtml.includes("Privacy"));
 
+// PR 17: Presentation decoupled from auth heuristics
+const authBtn = UI.Button("Admin Panel").red().auth();
+const authBtnHtml = ReactDOMServer.renderToString(authBtn);
+assert("Button renders cleanly with auth config without throwing or forcing alert", authBtnHtml.includes("Admin Panel") && authBtnHtml.includes("#f43f5e"));
+
 // -----------------------------------------------------------------------------
 // 5. Bug Fix Regressions & Accessibility Attributes Tests
 // -----------------------------------------------------------------------------

@@ -535,7 +535,9 @@ export function createButtonFromShorthand(config: ButtonShorthandConfig): ReactE
     if (auth) {
       const storedUser = typeof window !== "undefined" ? localStorage.getItem("cr-auth-user") : null;
       if (!storedUser) {
-        alert(`Authentication Required: You must be logged in to click "${label}".`);
+        if (typeof window !== "undefined") {
+          window.dispatchEvent(new CustomEvent("criation:auth-required", { detail: { label, pathDirection } }));
+        }
         return;
       }
     }

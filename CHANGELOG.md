@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.2.1-dev] - 2026-10-22
 
+### 🛡️ Presentation & Security Decoupling (PR 17)
+- **Decoupled UI Presentation from Client-Side Auth Assumptions**:
+  - Replaced hardcoded, intrusive browser `alert()` triggers on unauthenticated button clicks with non-blocking `CustomEvent("criation:auth-required")`.
+  - Enforced that UI components render purely based on explicit boolean props (`disabled`, `loading`) rather than string heuristics.
+
 ### 🎛️ API Ergonomics & Options Objects (PR 16)
 - **Typed Options Objects for Builders**:
   - Enhanced `ui.navbar` and `ui.footer` to accept structured, typed options objects (`{ brand, links, actions, sticky, glass }`) alongside existing positional parameters.
