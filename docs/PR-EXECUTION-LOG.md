@@ -254,3 +254,9 @@
   - **Scope:** Lightweight typed HTTP client (`api.get<T>()`, `api.post()`)
   - **Dependencies:** PR 45
   - **Executed & Merged:** 2026-10-22T11:15:50.890Z
+
+- **PR #58:** High-Level API: `resource()` State Adapter (Loading, Success, Empty, Error)
+  - **Phase:** Phase 2
+  - **Scope:** Automated lifecycle displays spinner, error retry, or data list
+  - **Dependencies:** PR 57
+  - **Executed & Merged:** 2026-10-22T11:16:07.442Z
