@@ -80,3 +80,9 @@
   - **Scope:** Safe JSON parse, quota error catching, in-memory SSR fallback
   - **Dependencies:** PR 07
   - **Executed & Merged:** 2026-10-22T11:07:41.812Z
+
+- **PR #29:** Next.js: Modularize `@criation/ui` and `@criation/ui/client` Entrypoints
+  - **Phase:** Phase 1
+  - **Scope:** Explicit client-only export path for interactive components
+  - **Dependencies:** PR 10, PR 28
+  - **Executed & Merged:** 2026-10-22T11:07:58.705Z

@@ -27,7 +27,7 @@
 "PR 26","Testing: Playwright Automated Cross-Browser Component Test Matrix","Phase 1","Headless Chromium, Firefox, WebKit component interaction testing","PR 08","Merged"
 "PR 27","Data Display: Table Primitive Refactoring with Stable Row Identifiers","Phase 1","Unique row keys, horizontal overflow wrapper, loading skeletons","PR 07","Merged"
 "PR 28","Storage: Browser Storage Hygiene & SSR Hydration Guard in `useLocalStorage`","Phase 1","Safe JSON parse, quota error catching, in-memory SSR fallback","PR 07","Merged"
-"PR 29","Next.js: Modularize `@criation/ui` and `@criation/ui/client` Entrypoints","Phase 1","Explicit client-only export path for interactive components","PR 10, PR 28","Pending"
+"PR 29","Next.js: Modularize `@criation/ui` and `@criation/ui/client` Entrypoints","Phase 1","Explicit client-only export path for interactive components","PR 10, PR 28","Merged"
 "PR 30","Compatibility: Document and Validate React 18/19 & Next.js 15/16 Matrix","Phase 1","Automated peer dependency matrix verification in CI","PR 29","Pending"
 "PR 31","Governance: Consumer Installation & Commercial Developer Rights Guide","Phase 1","Document permitted usage, distribution, and enterprise support terms","PR 15","Pending"
 "PR 32","Governance: Third-Party License Audit & `NOTICE` Attribution File","Phase 1","Audit dependencies (Lucide, Marked), generate NOTICE file","PR 31","Pending"
