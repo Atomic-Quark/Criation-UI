@@ -266,3 +266,9 @@
   - **Scope:** Mutation helper preventing double-clicks and showing loading state
   - **Dependencies:** PR 45
   - **Executed & Merged:** 2026-10-22T11:16:24.211Z
+
+- **PR #60:** High-Level API: `table()` Fluent Builder with Client Sorting and Pagination
+  - **Phase:** Phase 2
+  - **Scope:** Fluent helper for data tables with column definitions and sorting
+  - **Dependencies:** PR 27
+  - **Executed & Merged:** 2026-10-22T11:16:40.677Z
