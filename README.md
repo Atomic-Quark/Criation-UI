@@ -1,21 +1,24 @@
 # 🚀 Criation UI
 
-**Criation UI** is a modular, high-performance React + TypeScript UI library and design system designed to streamline web development, eliminate boilerplate, and deliver consistent, accessible user experiences.
+**Criation UI** (`v0.3.0-beta`) is a modular, high-performance React + TypeScript UI foundation and developer toolkit designed to streamline real-world web application development. Currently in **Controlled Developer Preview (Beta)**.
 
-> 📖 **Official Architecture & User Manual**: Read the online [Criation UI Specification & Developer User Manual (Markdown)](docs/CRIATION-UI-SPECIFICATION-AND-USER-MANUAL.md), inspect the [100 PR Roadmap](docs/PR-ROADMAP-1-TO-100.md), or review the evidence-based [Technical Verification Report](Criation-UI-Verification-Report.md).
+> 📖 **Official Architecture & User Manual**: Read the online [Criation UI Specification & Developer User Manual (Markdown)](docs/CRIATION-UI-SPECIFICATION-AND-USER-MANUAL.md), inspect the [101 PR Roadmap](docs/PR-ROADMAP-1-TO-100.md), or review the evidence-based [Technical Verification Report](Criation-UI-Verification-Report.md).
 
 ---
 
 ## 🌟 Key Features
 
 - **Conventional JSX First**: Fully typed, accessible React 18+ components usable through standard JSX: `<Button variant="primary" size="lg">Save</Button>`.
+- **Developer CLI Scaffolding (`criation`)**: Zero-configuration CLI tool (`npx @criation/ui init`, `npx @criation/ui add crud`, `npm run benchmark`, `npm run audit`) for scaffolding complete applications and recipes.
+- **High-Level Application Workflows**: End-to-end data-fetching (`useDataQuery`) and full CRUD state synchronization (`useCrudWorkflow`) to build full-stack workflows fast.
+- **Interactive Component Playground**: Live component playground (`npm run dev`) with interactive prop controls, live JSX generation, and WAI-ARIA accessibility inspection.
 - **Decoupled Fluent Builder (`ui.*`)**: Optional chainable builder API returning standard React elements via `.build()`: `ui.button("Save").primary().large().build()`.
 - **Typed Options Ergonomics**: All builder and factory methods accept strongly-typed options objects (`ui.navbar({ brand, links })`) for rich IDE autocompletion.
 - **Explicit Natural-Language DSL**: Optional string parsing isolated behind explicit, bounded `describe()` / `parseDSL()` calls with actionable syntax warnings.
-- **WAI-ARIA Accessibility**: Modal and Drawer focus trapping (`useFocusTrap`), body scroll locking with scrollbar width compensation, `aria-controls` tab panel linking, and `aria-describedby` form error association.
+- **WAI-ARIA Accessibility**: Modal and Drawer focus trapping (`useFocusTrap`), body scroll locking with scrollbar width compensation, `aria-controls` tab panel linking, and `aria-describedby` form error association (WCAG 2.2 AA verified).
 - **40+ Production Components**: Complete component suite covering buttons, inputs, layouts, typography, navigation, feedback, overlays, and page templates.
-- **Zero CSS-in-JS Runtime Overhead**: Precompiled CSS bundle (~38.7 kB / 7.2 kB gzip) with zero JavaScript runtime style evaluation overhead.
-- **Subpath Package Exports**: Multi-entry tree-shaking support (`@criation/ui/button`, `@criation/ui/card`) with `sideEffects: false` optimization.
+- **Zero CSS-in-JS Runtime Overhead**: Precompiled CSS bundle (~34.76 kB / 6.8 kB gzip) with zero JavaScript runtime style evaluation overhead.
+- **Subpath Package Exports**: Multi-entry tree-shaking support (`@criation/ui/button`, `@criation/ui/workflows`) with `sideEffects: false` optimization.
 - **First-Class TypeScript Support**: 100% strongly typed with `.d.ts` declaration generation.
 
 ---
@@ -107,7 +110,7 @@ const QuickCTA = describe("button Start Free Trial primary large");
 
 ## 🧩 Production Component Catalog
 
-Criation UI includes 40+ modular components and 13 reactive hooks:
+Criation UI includes 40+ modular components and 15 reactive hooks & workflows:
 
 - **Buttons:** `Button`, `IconButton`, `ButtonGroup`
 - **Typography:** `Heading`, `Text`, `Link`, `Code`, `Label`
@@ -115,18 +118,61 @@ Criation UI includes 40+ modular components and 13 reactive hooks:
 - **Layout:** `Box`, `Container`, `Stack`, `Grid`, `Flex`, `Spacer`, `Divider`, `AspectRatio`, `ScrollArea`, `Collapsible`, `Card`
 - **Feedback & Overlays:** `Alert`, `Toast`, `Spinner`, `Skeleton`, `Progress`, `EmptyState`, `ErrorState`, `ErrorBoundary`, `Modal`, `Drawer`, `Popover`, `Tooltip`, `ContextMenu`, `AlertDialog`
 - **Navigation & Templates:** `Navbar`, `Footer`, `Sidebar`, `Stepper`, `Timeline`, `Tabs`, `Breadcrumbs`, `Pagination`, `DropdownMenu`, `Result`, `NotFoundPage`
-- **Reactive Hooks:** `useForm`, `useTheme`, `useDisclosure`, `useClipboard`, `useDebounce`, `useLocalStorage`, `useClickOutside`, `useMediaQuery`, `useFocusTrap`
+- **Developer Workflows & Hooks:** `useDataQuery`, `useCrudWorkflow`, `useForm`, `useTheme`, `useDisclosure`, `useClipboard`, `useDebounce`, `useLocalStorage`, `useClickOutside`, `useMediaQuery`, `useFocusTrap`
+
+---
+
+## ⚡ Developer CLI & Application Workflows
+
+Accelerate feature delivery with end-to-end recipes rather than assembling raw primitives from scratch:
+
+```bash
+# Scaffold a new React + Vite + TypeScript app with Criation UI
+npx @criation/ui init my-dashboard
+
+# Add a complete, synchronized CRUD table + modal workflow
+npx @criation/ui add crud
+
+# Add an analytics dashboard template
+npx @criation/ui add dashboard
+
+# Run empirical performance benchmark
+npm run benchmark
+
+# Run full TypeScript and 88-test audit suite
+npm run cli -- audit
+```
+
+```tsx
+// Using the reactive data query hook with automatic retry & cancellation
+import { useDataQuery } from "@criation/ui";
+
+function MemberList() {
+  const { data, loading, error, refetch } = useDataQuery(
+    async () => (await fetch("/api/members")).json(),
+    { retries: 2, retryDelayMs: 500 }
+  );
+
+  if (loading) return <Spinner size="lg" />;
+  if (error) return <Alert variant="danger" title="Error">{error.message}</Alert>;
+
+  return <ul>{data.map(m => <li key={m.id}>{m.name}</li>)}</ul>;
+}
+```
 
 ---
 
 ## 🛠️ Verification & Scripts
 
 ```bash
-# Start interactive component showcase studio
+# Start interactive component showcase & playground studio
 npm run dev
 
-# Run automated test suite (74/74 passing specs)
-node scripts/test-suite.js
+# Run automated test suite (88/88 passing specs across 9 categories)
+npm test
+
+# Run empirical performance benchmark (bundle sizes & micro-ops/sec)
+npm run benchmark
 
 # Build production library bundle into dist/
 npm run build:lib

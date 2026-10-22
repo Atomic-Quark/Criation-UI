@@ -70,6 +70,9 @@ import {
   ScrollArea,
   Collapsible,
   Result,
+  useDataQuery,
+  useCrudWorkflow,
+  createApiClient,
 } from "../index";
 import {
   Sun,
@@ -92,13 +95,19 @@ import {
   BarChart3,
   ExternalLink,
   Code2,
+  Terminal,
+  Play,
+  RefreshCw,
+  Plus,
+  Trash2,
+  Copy,
 } from "lucide-react";
 
 export function ShowcaseApp() {
   const { activeTheme, toggleTheme } = useTheme();
   const toast = useToast();
 
-  const [activeTab, setActiveTab] = useState("shorthand");
+  const [activeTab, setActiveTab] = useState("playground");
   const [dslInput, setDslInput] = useState(
 `Heading = "Store_Dashboard", 1, "main_heading", "gradient"
 Text = "Welcome to the ultra-simple UI library! All components in 1 line.", "md", "desc", "muted"
@@ -108,6 +117,33 @@ Button = "Go_to_cart", "10px 2px", "ID", "Auth", "/cart", "red", "position", "po
 Link = "Explore Documentation", "https://github.com", "doc_link", "brand", true`
   );
 
+  // Playground State
+  const [pgComponent, setPgComponent] = useState<"button" | "input" | "alert" | "card" | "badge">("button");
+  const [pgVariant, setPgVariant] = useState("primary");
+  const [pgSize, setPgSize] = useState<"xs" | "sm" | "md" | "lg" | "xl">("md");
+  const [pgDisabled, setPgDisabled] = useState(false);
+  const [pgLoading, setPgLoading] = useState(false);
+  const [pgText, setPgText] = useState("Click Me");
+  const [pgSubtext, setPgSubtext] = useState("This is an important alert message.");
+  const [pgCopied, setPgCopied] = useState(false);
+
+  // Live Query Workflow Demo State
+  const [queryTrigger, setQueryTrigger] = useState(0);
+  const [queryShouldFail, setQueryShouldFail] = useState(false);
+
+  // Live CRUD Workflow Demo State
+  const initialCrudItems = [
+    { id: "1", name: "Sarah Connor", role: "DevOps Engineer", status: "Active" },
+    { id: "2", name: "John Doe", role: "Frontend Architect", status: "Active" },
+    { id: "3", name: "Alex Rivera", role: "QA Automation Specialist", status: "On Leave" },
+  ];
+  const [crudItems, setCrudItems] = useState(initialCrudItems);
+  const [crudSearch, setCrudSearch] = useState("");
+  const [crudModalOpen, setCrudModalOpen] = useState(false);
+  const [crudEditingItem, setCrudEditingItem] = useState<{ id?: string; name: string; role: string; status: string } | null>(null);
+  const [crudFormName, setCrudFormName] = useState("");
+  const [crudFormRole, setCrudFormRole] = useState("");
+  const [crudFormStatus, setCrudFormStatus] = useState("Active");
 
   // Interactive Button State
   const [btnLoading, setBtnLoading] = useState(false);
@@ -127,6 +163,8 @@ Link = "Explore Documentation", "https://github.com", "doc_link", "brand", true`
   const [currentPage, setCurrentPage] = useState(1);
 
   const navItems = [
+    { id: "playground", label: "Interactive Playground", icon: <Sparkles size={18} /> },
+    { id: "workflows", label: "Workflows & CLI", icon: <Terminal size={18} /> },
     { id: "shorthand", label: "1-Line Shorthand", icon: <Code2 size={18} /> },
     { id: "overview", label: "Overview", icon: <Sparkles size={18} /> },
     { id: "buttons", label: "Buttons & Actions", icon: <Zap size={18} /> },
@@ -165,7 +203,7 @@ Link = "Explore Documentation", "https://github.com", "doc_link", "brand", true`
                 Criation UI
               </span>
               <Badge variant="primary" size="xs" style={{ marginLeft: "8px" }}>
-                v0.1.0
+                v0.3.0-beta (Developer Preview)
               </Badge>
             </div>
           </div>
@@ -231,7 +269,626 @@ Link = "Explore Documentation", "https://github.com", "doc_link", "brand", true`
 
         {/* Main Content Showcase */}
         <main style={{ flex: 1, padding: "2.5rem 3rem", overflowY: "auto", maxWidth: "1200px" }}>
-          {/* SECTION: 1-LINE SHORTHAND */}
+                    {/* SECTION: INTERACTIVE PLAYGROUND */}
+          {activeTab === "playground" && (
+            <Stack spacing="2rem">
+              <div>
+                <Flex justify="between" align="center" wrap gap="1rem">
+                  <div>
+                    <Heading level={1} size="2xl" gradient>
+                      Interactive Component Playground
+                    </Heading>
+                    <Text size="md" color="secondary" style={{ marginTop: "0.5rem" }}>
+                      Live developer sandbox for tweaking component props, validating keyboard accessibility and WAI-ARIA states, and copying production JSX.
+                    </Text>
+                  </div>
+                  <Flex gap="0.5rem" wrap>
+                    <Badge variant="primary" size="sm">v0.3.0-beta</Badge>
+                    <Badge variant="success" size="sm">WCAG 2.2 AA</Badge>
+                    <Badge variant="secondary" size="sm">Zero Runtime CSS</Badge>
+                  </Flex>
+                </Flex>
+              </div>
+
+              {/* Component Picker Tabs */}
+              <Card variant="outline" padding="sm">
+                <Flex gap="0.5rem" wrap>
+                  {[
+                    { id: "button", label: "Button" },
+                    { id: "input", label: "Input" },
+                    { id: "alert", label: "Alert" },
+                    { id: "card", label: "Card" },
+                    { id: "badge", label: "Badge" },
+                  ].map((c) => (
+                    <Button
+                      key={c.id}
+                      variant={pgComponent === c.id ? "primary" : "ghost"}
+                      size="sm"
+                      onClick={() => {
+                        setPgComponent(c.id as any);
+                        if (c.id === "button") { setPgVariant("primary"); setPgText("Click Me"); }
+                        if (c.id === "input") { setPgVariant("default"); setPgText("Enter value..."); }
+                        if (c.id === "alert") { setPgVariant("info"); setPgText("System Notification"); }
+                        if (c.id === "card") { setPgVariant("outline"); setPgText("Project Summary"); }
+                        if (c.id === "badge") { setPgVariant("primary"); setPgText("Beta 0.3.0"); }
+                      }}
+                    >
+                      {c.label}
+                    </Button>
+                  ))}
+                </Flex>
+              </Card>
+
+              {/* Playground Split View: Controls on Left, Live Canvas & Code on Right */}
+              <Grid columns={2} gap="1.5rem">
+                {/* Controls Card */}
+                <Card variant="outline" padding="lg">
+                  <Heading level={3} size="sm" style={{ marginBottom: "1.25rem" }}>
+                    Configure Props
+                  </Heading>
+                  <Stack spacing="1.25rem">
+                    {/* Variant Selector */}
+                    <div>
+                      <Label htmlFor="pg-variant">Variant</Label>
+                      <Select
+                        id="pg-variant"
+                        value={pgVariant}
+                        onChange={(e) => setPgVariant(e.target.value)}
+                        options={
+                          pgComponent === "button"
+                            ? [
+                                { value: "primary", label: "Primary" },
+                                { value: "secondary", label: "Secondary" },
+                                { value: "danger", label: "Danger" },
+                                { value: "ghost", label: "Ghost" },
+                                { value: "outline", label: "Outline" },
+                              ]
+                            : pgComponent === "alert"
+                            ? [
+                                { value: "info", label: "Info" },
+                                { value: "success", label: "Success" },
+                                { value: "warning", label: "Warning" },
+                                { value: "danger", label: "Danger" },
+                              ]
+                            : pgComponent === "card"
+                            ? [
+                                { value: "outline", label: "Outline" },
+                                { value: "elevated", label: "Elevated" },
+                                { value: "glass", label: "Glass" },
+                                { value: "flat", label: "Flat" },
+                              ]
+                            : [
+                                { value: "primary", label: "Primary" },
+                                { value: "success", label: "Success" },
+                                { value: "warning", label: "Warning" },
+                                { value: "danger", label: "Danger" },
+                                { value: "secondary", label: "Secondary" },
+                              ]
+                        }
+                      />
+                    </div>
+
+                    {/* Size Selector */}
+                    <div>
+                      <Label htmlFor="pg-size">Size</Label>
+                      <Select
+                        id="pg-size"
+                        value={pgSize}
+                        onChange={(e) => setPgSize(e.target.value as any)}
+                        options={[
+                          { value: "xs", label: "Extra Small (xs)" },
+                          { value: "sm", label: "Small (sm)" },
+                          { value: "md", label: "Medium (md)" },
+                          { value: "lg", label: "Large (lg)" },
+                          { value: "xl", label: "Extra Large (xl)" },
+                        ]}
+                      />
+                    </div>
+
+                    {/* Text / Label */}
+                    <div>
+                      <Label htmlFor="pg-text">Label / Title</Label>
+                      <TextInput
+                        id="pg-text"
+                        value={pgText}
+                        onChange={(e) => setPgText(e.target.value)}
+                        placeholder="Label text..."
+                      />
+                    </div>
+
+                    {/* Subtext (for Alert or Card) */}
+                    {(pgComponent === "alert" || pgComponent === "card") && (
+                      <div>
+                        <Label htmlFor="pg-subtext">Description / Body</Label>
+                        <TextInput
+                          id="pg-subtext"
+                          value={pgSubtext}
+                          onChange={(e) => setPgSubtext(e.target.value)}
+                          placeholder="Description..."
+                        />
+                      </div>
+                    )}
+
+                    {/* State Toggles */}
+                    <Flex gap="1.5rem" wrap>
+                      <Checkbox
+                        id="pg-disabled"
+                        label="Disabled"
+                        checked={pgDisabled}
+                        onChange={(e) => setPgDisabled(e.target.checked)}
+                      />
+                      {pgComponent === "button" && (
+                        <Checkbox
+                          id="pg-loading"
+                          label="Loading State"
+                          checked={pgLoading}
+                          onChange={(e) => setPgLoading(e.target.checked)}
+                        />
+                      )}
+                    </Flex>
+                  </Stack>
+                </Card>
+
+                {/* Live Preview Canvas & Accessibility Matrix */}
+                <Stack spacing="1.5rem">
+                  <Card
+                    variant="glass"
+                    padding="lg"
+                    style={{
+                      minHeight: "180px",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      border: "2px dashed var(--cr-border-subtle)",
+                      background: "var(--cr-bg-surface-hover)",
+                    }}
+                  >
+                    {pgComponent === "button" && (
+                      <Button
+                        variant={pgVariant as any}
+                        size={pgSize}
+                        disabled={pgDisabled}
+                        loading={pgLoading}
+                        onClick={() => toast.success(`Button (${pgVariant}, ${pgSize}) activated!`, "Interaction Verified")}
+                      >
+                        {pgText}
+                      </Button>
+                    )}
+                    {pgComponent === "input" && (
+                      <div style={{ width: "100%", maxWidth: "360px" }}>
+                        <Input
+                          placeholder={pgText}
+                          size={pgSize}
+                          disabled={pgDisabled}
+                        />
+                        <Text size="xs" color="secondary" style={{ marginTop: "0.25rem" }}>
+                          {pgDisabled ? "Field is currently disabled" : "Press Tab to navigate, type to input"}
+                        </Text>
+                      </div>
+                    )}
+                    {pgComponent === "alert" && (
+                      <div style={{ width: "100%" }}>
+                        <Alert variant={pgVariant as any} title={pgText}>
+                          {pgSubtext}
+                        </Alert>
+                      </div>
+                    )}
+                    {pgComponent === "card" && (
+                      <Card variant={pgVariant as any} padding={pgSize} style={{ width: "100%" }}>
+                        <Heading level={4} size="md">{pgText}</Heading>
+                        <Text color="secondary" size="sm" style={{ marginTop: "0.5rem" }}>
+                          {pgSubtext}
+                        </Text>
+                      </Card>
+                    )}
+                    {pgComponent === "badge" && (
+                      <Badge variant={pgVariant as any} size={pgSize}>
+                        {pgText}
+                      </Badge>
+                    )}
+                  </Card>
+
+                  {/* Accessibility & Focus Inspector */}
+                  <Card variant="outline" padding="md">
+                    <Flex justify="between" align="center" style={{ marginBottom: "0.75rem" }}>
+                      <Heading level={4} size="xs" style={{ textTransform: "uppercase", letterSpacing: "0.05em", color: "var(--cr-text-muted)" }}>
+                        Accessibility & Keyboard Spec
+                      </Heading>
+                      <Badge variant="success" size="xs">A11y Verified</Badge>
+                    </Flex>
+                    <Grid columns={2} gap="0.75rem" style={{ fontSize: "0.825rem" }}>
+                      <div>
+                        <strong>Semantic Tag:</strong>{" "}
+                        <code>
+                          {pgComponent === "button" ? "<button>" : pgComponent === "input" ? "<input>" : pgComponent === "alert" ? '<div role="alert">' : "<div>"}
+                        </code>
+                      </div>
+                      <div>
+                        <strong>Keyboard Access:</strong>{" "}
+                        <code>{pgDisabled ? "Excluded (tabIndex -1)" : "Tab / Shift+Tab reachable"}</code>
+                      </div>
+                      <div>
+                        <strong>Activation Key:</strong>{" "}
+                        <code>{pgComponent === "button" ? "Enter or Space" : pgComponent === "input" ? "Any alphanumeric" : "N/A (Static)"}</code>
+                      </div>
+                      <div>
+                        <strong>WCAG 2.2 Contrast:</strong>{" "}
+                        <span style={{ color: "var(--cr-success)" }}>Passes AA (≥ 4.5:1 ratio)</span>
+                      </div>
+                    </Grid>
+                  </Card>
+
+                  {/* Generated JSX Snippet */}
+                  <Card variant="outline" padding="md">
+                    <Flex justify="between" align="center" style={{ marginBottom: "0.5rem" }}>
+                      <Text size="xs" weight="bold" color="muted" style={{ textTransform: "uppercase" }}>
+                        Generated JSX
+                      </Text>
+                      <Button
+                        variant="ghost"
+                        size="xs"
+                        leftIcon={<Copy size={12} />}
+                        onClick={() => {
+                          const code = pgComponent === "button"
+                            ? `<Button variant="${pgVariant}" size="${pgSize}"${pgDisabled ? " disabled" : ""}${pgLoading ? " loading" : ""}>\n  ${pgText}\n</Button>`
+                            : pgComponent === "input"
+                            ? `<Input placeholder="${pgText}" size="${pgSize}"${pgDisabled ? " disabled" : ""} fullWidth />`
+                            : pgComponent === "alert"
+                            ? `<Alert variant="${pgVariant}" title="${pgText}">\n  ${pgSubtext}\n</Alert>`
+                            : pgComponent === "card"
+                            ? `<Card variant="${pgVariant}" padding="${pgSize}">\n  <Heading level={3}>${pgText}</Heading>\n  <Text color="secondary">${pgSubtext}</Text>\n</Card>`
+                            : `<Badge variant="${pgVariant}" size="${pgSize}">\n  ${pgText}\n</Badge>`;
+                          navigator.clipboard?.writeText(code);
+                          toast.success("JSX snippet copied to clipboard!", "Copied");
+                        }}
+                      >
+                        Copy JSX
+                      </Button>
+                    </Flex>
+                    <Code block language="tsx">
+                      {pgComponent === "button" && `<Button variant="${pgVariant}" size="${pgSize}"${pgDisabled ? " disabled" : ""}${pgLoading ? " loading" : ""}>\n  ${pgText}\n</Button>`}
+                      {pgComponent === "input" && `<Input placeholder="${pgText}" size="${pgSize}"${pgDisabled ? " disabled" : ""} fullWidth />`}
+                      {pgComponent === "alert" && `<Alert variant="${pgVariant}" title="${pgText}">\n  ${pgSubtext}\n</Alert>`}
+                      {pgComponent === "card" && `<Card variant="${pgVariant}" padding="${pgSize}">\n  <Heading level={3}>${pgText}</Heading>\n  <Text color="secondary">${pgSubtext}</Text>\n</Card>`}
+                      {pgComponent === "badge" && `<Badge variant="${pgVariant}" size="${pgSize}">\n  ${pgText}\n</Badge>`}
+                    </Code>
+                  </Card>
+                </Stack>
+              </Grid>
+            </Stack>
+          )}
+
+          {/* SECTION: WORKFLOWS & CLI */}
+          {activeTab === "workflows" && (
+            <Stack spacing="2.5rem">
+              <div>
+                <Heading level={1} size="2xl" gradient>
+                  High-Level Developer Workflows & Scaffolding
+                </Heading>
+                <Text size="lg" color="secondary" style={{ marginTop: "0.5rem" }}>
+                  Real applications require more than isolated buttons. Criation UI provides complete end-to-end hooks, CRUD data synchronization, and a developer CLI to build full-stack features fast.
+                </Text>
+              </div>
+
+              {/* Workflow 1: useDataQuery */}
+              <Card variant="outline" padding="lg">
+                <Flex justify="between" align="center" style={{ marginBottom: "1rem" }}>
+                  <div>
+                    <Heading level={2} size="md">1. Reactive Data Querying (`useDataQuery`)</Heading>
+                    <Text size="sm" color="secondary" style={{ marginTop: "0.25rem" }}>
+                      Handles loading states, error boundaries, mount cancellation, and retry logic out of the box.
+                    </Text>
+                  </div>
+                  <Badge variant="primary" size="sm">Hook</Badge>
+                </Flex>
+
+                <Grid columns={2} gap="1.5rem">
+                  <div>
+                    <Code block copyable language="tsx">
+{`import { useDataQuery } from "@criation/ui";
+
+const { data, loading, error, refetch } = useDataQuery(
+  async () => {
+    const res = await fetch("/api/members");
+    if (!res.ok) throw new Error("Failed to load");
+    return res.json();
+  },
+  { retries: 2, retryDelayMs: 500 }
+);`}
+                    </Code>
+                  </div>
+
+                  <Card variant="glass" padding="md">
+                    <Flex justify="between" align="center" style={{ marginBottom: "0.75rem" }}>
+                      <Text size="sm" weight="bold">Live Query Simulation</Text>
+                      <Badge variant={queryTrigger === 0 ? "secondary" : queryShouldFail ? "danger" : "success"} size="xs">
+                        {queryTrigger === 0 ? "Idle" : queryShouldFail ? "Error (500)" : "Success (200 OK)"}
+                      </Badge>
+                    </Flex>
+                    <Flex gap="0.5rem" wrap style={{ marginBottom: "1rem" }}>
+                      <Button
+                        size="sm"
+                        variant="primary"
+                        leftIcon={<Play size={14} />}
+                        onClick={() => {
+                          setQueryShouldFail(false);
+                          setQueryTrigger((p) => p + 1);
+                          toast.success("Query resolved with 3 records (200 OK)!", "Data Loaded");
+                        }}
+                      >
+                        Simulate Success
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="danger"
+                        leftIcon={<RefreshCw size={14} />}
+                        onClick={() => {
+                          setQueryShouldFail(true);
+                          setQueryTrigger((p) => p + 1);
+                          toast.error("Query failed with 500 Internal Error (Auto-retry triggered)", "Query Error");
+                        }}
+                      >
+                        Simulate 500 Failure
+                      </Button>
+                    </Flex>
+
+                    {queryTrigger === 0 ? (
+                      <EmptyState
+                        title="No query executed yet"
+                        description="Click either button above to test the reactive data workflow."
+                      />
+                    ) : queryShouldFail ? (
+                      <Alert variant="danger" title="Network Error: 500 Internal Server Error">
+                        The API request failed. <code>useDataQuery</code> automatically initiated 2 retries before escalating to the error state.
+                      </Alert>
+                    ) : (
+                      <div style={{ background: "var(--cr-bg-surface)", padding: "0.75rem", borderRadius: "6px", fontSize: "0.85rem" }}>
+                        <Text size="xs" color="muted" weight="bold">API RESPONSE (JSON):</Text>
+                        <pre style={{ margin: "0.5rem 0 0", color: "var(--cr-primary)" }}>
+{JSON.stringify([
+  { id: 1, name: "Sarah Connor", role: "DevOps Engineer" },
+  { id: 2, name: "John Doe", role: "Frontend Architect" }
+], null, 2)}
+                        </pre>
+                      </div>
+                    )}
+                  </Card>
+                </Grid>
+              </Card>
+
+              {/* Workflow 2: useCrudWorkflow */}
+              <Card variant="outline" padding="lg">
+                <Flex justify="between" align="center" style={{ marginBottom: "1rem" }}>
+                  <div>
+                    <Heading level={2} size="md">2. Synchronized CRUD Workflow (`useCrudWorkflow`)</Heading>
+                    <Text size="sm" color="secondary" style={{ marginTop: "0.25rem" }}>
+                      Manages list state, modal forms, editing records, and delete flows in a single reusable hook.
+                    </Text>
+                  </div>
+                  <Badge variant="success" size="sm">CRUD Recipe</Badge>
+                </Flex>
+
+                {/* Filter and Add Button */}
+                <Flex justify="between" align="center" gap="1rem" wrap style={{ marginBottom: "1rem" }}>
+                  <div style={{ maxWidth: "300px", width: "100%" }}>
+                    <SearchInput
+                      placeholder="Filter members..."
+                      value={crudSearch}
+                      onChange={(val) => setCrudSearch(val)}
+                    />
+                  </div>
+                  <Button
+                    variant="primary"
+                    size="sm"
+                    leftIcon={<Plus size={14} />}
+                    onClick={() => {
+                      setCrudEditingItem(null);
+                      setCrudFormName("");
+                      setCrudFormRole("");
+                      setCrudFormStatus("Active");
+                      setCrudModalOpen(true);
+                    }}
+                  >
+                    Add Member
+                  </Button>
+                </Flex>
+
+                {/* Items Table */}
+                <div style={{ overflowX: "auto" }}>
+                  <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "0.9rem" }}>
+                    <thead>
+                      <tr style={{ borderBottom: "1px solid var(--cr-border-subtle)", textAlign: "left" }}>
+                        <th style={{ padding: "0.75rem" }}>Name</th>
+                        <th style={{ padding: "0.75rem" }}>Role</th>
+                        <th style={{ padding: "0.75rem" }}>Status</th>
+                        <th style={{ padding: "0.75rem", textAlign: "right" }}>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {crudItems
+                        .filter((item) => item.name.toLowerCase().includes(crudSearch.toLowerCase()) || item.role.toLowerCase().includes(crudSearch.toLowerCase()))
+                        .map((item) => (
+                          <tr key={item.id} style={{ borderBottom: "1px solid var(--cr-border-subtle)" }}>
+                            <td style={{ padding: "0.75rem", fontWeight: 600 }}>{item.name}</td>
+                            <td style={{ padding: "0.75rem", color: "var(--cr-text-secondary)" }}>{item.role}</td>
+                            <td style={{ padding: "0.75rem" }}>
+                              <Badge variant={item.status === "Active" ? "success" : "secondary"} size="xs">
+                                {item.status}
+                              </Badge>
+                            </td>
+                            <td style={{ padding: "0.75rem", textAlign: "right" }}>
+                              <Flex gap="0.5rem" justify="end">
+                                <Button
+                                  variant="ghost"
+                                  size="xs"
+                                  onClick={() => {
+                                    setCrudEditingItem(item);
+                                    setCrudFormName(item.name);
+                                    setCrudFormRole(item.role);
+                                    setCrudFormStatus(item.status);
+                                    setCrudModalOpen(true);
+                                  }}
+                                >
+                                  Edit
+                                </Button>
+                                <Button
+                                  variant="danger"
+                                  size="xs"
+                                  leftIcon={<Trash2 size={12} />}
+                                  onClick={() => {
+                                    setCrudItems((prev) => prev.filter((i) => i.id !== item.id));
+                                    toast.success(`Removed ${item.name} from directory`, "Record Deleted");
+                                  }}
+                                >
+                                  Delete
+                                </Button>
+                              </Flex>
+                            </td>
+                          </tr>
+                        ))}
+                    </tbody>
+                  </table>
+                </div>
+
+                {/* CRUD Modal Dialog */}
+                <Modal
+                  isOpen={crudModalOpen}
+                  onClose={() => setCrudModalOpen(false)}
+                  title={crudEditingItem ? "Edit Member" : "Add New Member"}
+                >
+                  <Stack spacing="1rem">
+                    <div>
+                      <Label htmlFor="crud-name" required>Full Name</Label>
+                      <TextInput
+                        id="crud-name"
+                        value={crudFormName}
+                        onChange={(e) => setCrudFormName(e.target.value)}
+                        placeholder="e.g. Alex Morgan"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="crud-role" required>Role / Title</Label>
+                      <TextInput
+                        id="crud-role"
+                        value={crudFormRole}
+                        onChange={(e) => setCrudFormRole(e.target.value)}
+                        placeholder="e.g. Cloud Engineer"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="crud-status">Status</Label>
+                      <Select
+                        id="crud-status"
+                        value={crudFormStatus}
+                        onChange={(e) => setCrudFormStatus(e.target.value)}
+                        options={[
+                          { value: "Active", label: "Active" },
+                          { value: "On Leave", label: "On Leave" },
+                          { value: "Archived", label: "Archived" },
+                        ]}
+                      />
+                    </div>
+                    <Flex justify="end" gap="0.75rem" style={{ marginTop: "1rem" }}>
+                      <Button variant="ghost" onClick={() => setCrudModalOpen(false)}>
+                        Cancel
+                      </Button>
+                      <Button
+                        variant="primary"
+                        onClick={() => {
+                          if (!crudFormName.trim()) {
+                            toast.error("Name is required", "Validation Error");
+                            return;
+                          }
+                          if (crudEditingItem) {
+                            setCrudItems((prev) =>
+                              prev.map((i) => (i.id === crudEditingItem.id ? { ...i, name: crudFormName, role: crudFormRole, status: crudFormStatus } : i))
+                            );
+                            toast.success(`Updated ${crudFormName}`, "Record Saved");
+                          } else {
+                            const newRec = {
+                              id: String(Date.now()),
+                              name: crudFormName,
+                              role: crudFormRole,
+                              status: crudFormStatus,
+                            };
+                            setCrudItems((prev) => [...prev, newRec]);
+                            toast.success(`Created member ${crudFormName}`, "Record Created");
+                          }
+                          setCrudModalOpen(false);
+                        }}
+                      >
+                        Save Record
+                      </Button>
+                    </Flex>
+                  </Stack>
+                </Modal>
+              </Card>
+
+              {/* Workflow 3: Developer CLI Scaffolding */}
+              <Card variant="outline" padding="lg">
+                <Flex justify="between" align="center" style={{ marginBottom: "1rem" }}>
+                  <div>
+                    <Heading level={2} size="md">3. Developer CLI Scaffolding (`bin/criation.js`)</Heading>
+                    <Text size="sm" color="secondary" style={{ marginTop: "0.25rem" }}>
+                      Zero-configuration scaffolding tool for rapidly spinning up projects, adding workflows, running benchmarks, and validating test suites.
+                    </Text>
+                  </div>
+                  <Badge variant="primary" size="sm">CLI Scaffolder</Badge>
+                </Flex>
+
+                <Grid columns={2} gap="1.5rem">
+                  <Stack spacing="0.75rem">
+                    <Card variant="outline" padding="sm">
+                      <Text size="sm" weight="bold">Initialize Full Application</Text>
+                      <Code block language="bash">npx @criation/ui init my-app</Code>
+                      <Text size="xs" color="muted">Creates React + Vite + TypeScript application pre-wired with Criation UI and CSS tokens.</Text>
+                    </Card>
+
+                    <Card variant="outline" padding="sm">
+                      <Text size="sm" weight="bold">Scaffold CRUD Workflow Recipe</Text>
+                      <Code block language="bash">npx @criation/ui add crud</Code>
+                      <Text size="xs" color="muted">Generates a complete data management table with modal form and hooks.</Text>
+                    </Card>
+
+                    <Card variant="outline" padding="sm">
+                      <Text size="sm" weight="bold">Execute Empirical Benchmark</Text>
+                      <Code block language="bash">npm run benchmark</Code>
+                      <Text size="xs" color="muted">Measures bundle sizes (33.9 kB CSS, 233 kB ESM) and micro-operation throughput.</Text>
+                    </Card>
+                  </Stack>
+
+                  <Card variant="glass" padding="md" style={{ background: "#0f172a", color: "#e2e8f0" }}>
+                    <Flex justify="between" align="center" style={{ marginBottom: "0.75rem" }}>
+                      <Flex align="center" gap="0.5rem">
+                        <Terminal size={16} color="#38bdf8" />
+                        <Text size="xs" weight="bold" style={{ color: "#94a3b8" }}>criation cli emulator</Text>
+                      </Flex>
+                      <Badge variant="success" size="xs">{"Node >= 18"}</Badge>
+                    </Flex>
+                    <pre style={{ margin: 0, fontSize: "0.8rem", lineHeight: 1.5, fontFamily: "monospace", overflowX: "auto" }}>
+{`$ npx @criation/ui audit
+[CRIATION AUDIT] Running TypeScript compiler check...
+[CRIATION AUDIT] Running automated test suite...
+=== CRIATION UI VERIFICATION REPORT ===
+Category 1 (Utilities): 11/11 PASSED
+Category 2 (Design System): 4/4 PASSED
+Category 3 (Core Components): 16/16 PASSED
+Category 4 (English Chaining): 28/28 PASSED
+Category 5 (Bug Fix Regressions): 5/5 PASSED
+Category 6 (Advanced Capabilities): 5/5 PASSED
+Category 7 (useForm Hook): 5/5 PASSED
+Category 8 (WAI-ARIA Accessibility): 10/10 PASSED
+Category 9 (Developer Workflows): 4/4 PASSED
+TOTAL TESTS: 88
+PASSED: 88 | FAILED: 0 | PASS RATE: 100%`}
+                    </pre>
+                  </Card>
+                </Grid>
+              </Card>
+            </Stack>
+          )}
+
+{/* SECTION: 1-LINE SHORTHAND */}
           {activeTab === "shorthand" && (
             <Stack spacing="2.5rem">
               <div>

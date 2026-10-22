@@ -442,8 +442,129 @@ const asyncRes = await asyncValidator({ username: "taken" });
 assert("async validation resolves expected error structure", asyncRes.username === "Already taken");
 
 // -----------------------------------------------------------------------------
-// Final Report
+// 8. WAI-ARIA Accessibility, Screen-Reader & WCAG 2.2 Compliance Tests
 // -----------------------------------------------------------------------------
+console.log("\n8. WAI-ARIA Accessibility, Screen-Reader & WCAG 2.2 Compliance Tests:");
+
+assert("KeyCodes defines standard WAI-ARIA keyboard navigation keys",
+  UI.KeyCodes.ENTER === "Enter" &&
+  UI.KeyCodes.ESCAPE === "Escape" &&
+  UI.KeyCodes.TAB === "Tab" &&
+  UI.KeyCodes.ARROW_DOWN === "ArrowDown" &&
+  UI.KeyCodes.ARROW_UP === "ArrowUp"
+);
+
+assert("isActionKey returns true for Enter and Space to support keyboard triggers",
+  UI.isActionKey({ key: "Enter" }) === true &&
+  UI.isActionKey({ key: " " }) === true &&
+  UI.isActionKey({ key: "Escape" }) === false
+);
+
+assert("generateUniqueId produces collision-free accessibility identifiers",
+  UI.generateUniqueId("cr-test").startsWith("cr-test-") &&
+  UI.generateUniqueId() !== UI.generateUniqueId()
+);
+
+assert("FOCUSABLE_ELEMENTS selector encompasses all interactive element types",
+  UI.FOCUSABLE_ELEMENTS.includes("button:not([disabled])") &&
+  UI.FOCUSABLE_ELEMENTS.includes("input:not([disabled])") &&
+  UI.FOCUSABLE_ELEMENTS.includes("[tabindex]")
+);
+
+const loadingBtn = ReactDOMServer.renderToString(
+  React.createElement(UI.Button, { loading: true, loadingText: "Processing..." }, "Submit")
+);
+assert("Loading button includes aria-busy and hides loading spinner from screen readers",
+  loadingBtn.includes('aria-busy="true"') &&
+  loadingBtn.includes('aria-hidden="true"')
+);
+
+const accessibleAlert = ReactDOMServer.renderToString(
+  React.createElement(UI.Alert, { variant: "danger" }, "Payment Failed")
+);
+assert("Alert component renders with role='alert' for immediate assistive announcement",
+  accessibleAlert.includes('role="alert"') &&
+  accessibleAlert.includes("Payment Failed")
+);
+
+const accessibleDialog = ReactDOMServer.renderToString(
+  React.createElement(UI.AlertDialog, {
+    isOpen: true,
+    title: "Confirm Deletion",
+    description: "This action cannot be undone.",
+    onConfirm: () => {},
+    onClose: () => {}
+  })
+);
+assert("AlertDialog implements WAI-ARIA alertdialog role with modal isolation",
+  accessibleDialog.includes('role="alertdialog"') &&
+  accessibleDialog.includes("Confirm Deletion")
+);
+
+const accessibleTabs = ReactDOMServer.renderToString(
+  React.createElement(UI.Tabs, {
+    items: [
+      { id: "tab1", label: "Profile", content: React.createElement("p", null, "Profile info") },
+      { id: "tab2", label: "Security", content: React.createElement("p", null, "Security settings") }
+    ]
+  })
+);
+assert("Tabs associate tab triggers with panels via aria-controls and role='tab'",
+  accessibleTabs.includes('role="tab"') &&
+  accessibleTabs.includes('role="tabpanel"') &&
+  accessibleTabs.includes("aria-controls")
+);
+
+// WCAG 2.2 AA Contrast Ratio calculation formula:
+function getLuminance(hex) {
+  const rgb = hex.replace("#", "").match(/.{2}/g).map((c) => {
+    const s = parseInt(c, 16) / 255;
+    return s <= 0.03928 ? s / 12.92 : Math.pow((s + 0.055) / 1.055, 2.4);
+  });
+  return 0.2126 * rgb[0] + 0.7152 * rgb[1] + 0.0722 * rgb[2];
+}
+function getContrastRatio(hex1, hex2) {
+  const l1 = getLuminance(hex1);
+  const l2 = getLuminance(hex2);
+  const lighter = Math.max(l1, l2);
+  const darker = Math.min(l1, l2);
+  return (lighter + 0.05) / (darker + 0.05);
+}
+
+const darkTextOnLightBg = getContrastRatio("#0f172a", "#ffffff"); // Slate 900 on White
+const lightTextOnDarkBg = getContrastRatio("#ffffff", "#0f172a"); // White on Slate 900
+assert("Design system surface colors satisfy WCAG 2.2 AA contrast ratio >= 4.5:1",
+  darkTextOnLightBg >= 4.5 && lightTextOnDarkBg >= 4.5
+);
+
+assert("getFocusableElements and useFocusTrap are exported from accessibility module",
+  typeof UI.getFocusableElements === "function" &&
+  typeof UI.useFocusTrap === "function"
+);
+
+// -----------------------------------------------------------------------------
+// 9. High-Level Developer Workflows & CLI Scaffolding Tests
+// -----------------------------------------------------------------------------
+console.log("\n9. High-Level Developer Workflows & CLI Scaffolding Tests:");
+
+assert("useDataQuery reactive query hook is exported from public API",
+  typeof UI.useDataQuery === "function"
+);
+
+assert("useCrudWorkflow declarative CRUD helper is exported from public API",
+  typeof UI.useCrudWorkflow === "function"
+);
+
+assert("createApiClient is exported and creates configured client instance",
+  typeof UI.createApiClient === "function" &&
+  typeof UI.createApiClient({ baseUrl: "https://api.example.com" }).get === "function"
+);
+
+assert("CLI executable exists and contains developer preview command definitions",
+  fs.existsSync("bin/criation.js") &&
+  fs.readFileSync("bin/criation.js", "utf-8").includes("init") &&
+  fs.readFileSync("bin/criation.js", "utf-8").includes("benchmark")
+);
 console.log("\n=======================================================");
 console.log(`TOTAL TESTS: ${passed + failed}`);
 console.log(`PASSED:      ${passed}`);

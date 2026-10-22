@@ -6,7 +6,7 @@
 | **Document Metadata** | **Specification Details** |
 | :--- | :--- |
 | **System Title** | Criation UI Design System & Component Library |
-| **Current Release** | **v0.3.0** (Production Enterprise Release) |
+| **Current Release** | **v0.3.0-beta** (Controlled Developer Preview) |
 | **Author & Lead Architect**| **Divyanshu Kumar** ([@Atomic-Quark](https://github.com/Atomic-Quark)) |
 | **Author Contact** | `143479650+Atomic-Quark@users.noreply.github.com` |
 | **Copyright Notice** | Copyright © 2026 Divyanshu Kumar. All Rights Reserved. |

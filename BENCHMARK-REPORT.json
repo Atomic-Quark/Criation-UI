@@ -1,0 +1,83 @@
+{
+  "timestamp": "2026-10-22T14:10:33.452Z",
+  "environment": {
+    "node": "v24.13.1",
+    "platform": "win32",
+    "arch": "x64"
+  },
+  "bundleMetrics": [
+    {
+      "name": "Full Stylesheet (dist/styles.css)",
+      "rawKb": "33.95",
+      "gzipKb": "6.65",
+      "rawBytes": 34763
+    },
+    {
+      "name": "Full ESM Bundle (dist/index.js)",
+      "rawKb": "233.04",
+      "gzipKb": "51.70",
+      "rawBytes": 238637
+    },
+    {
+      "name": "Full UMD Bundle (dist/index.umd.cjs)",
+      "rawKb": "153.91",
+      "gzipKb": "43.07",
+      "rawBytes": 157606
+    },
+    {
+      "name": "Type Declarations (dist/index.d.ts)",
+      "rawKb": "5.87",
+      "gzipKb": "1.10",
+      "rawBytes": 6011
+    },
+    {
+      "name": "Form Hook Typings (dist/forms/useForm.d.ts)",
+      "rawKb": "1.66",
+      "gzipKb": "0.56",
+      "rawBytes": 1703
+    },
+    {
+      "name": "CRUD Workflow Typings (dist/workflows/createCrudWorkflow.d.ts)",
+      "rawKb": "1.25",
+      "gzipKb": "0.51",
+      "rawBytes": 1277
+    }
+  ],
+  "throughputMetrics": [
+    {
+      "name": "Utility: formatFileSize()",
+      "durationMs": 2.38,
+      "opsPerSec": 4207692
+    },
+    {
+      "name": "Utility: formatNumber()",
+      "durationMs": 208.28,
+      "opsPerSec": 48012
+    },
+    {
+      "name": "Utility: formatDate()",
+      "durationMs": 490.53,
+      "opsPerSec": 20386
+    },
+    {
+      "name": "Validator: validateEmail()",
+      "durationMs": 1,
+      "opsPerSec": 9987017
+    },
+    {
+      "name": "Fluent Builder: ui.button().build()",
+      "durationMs": 254.12,
+      "opsPerSec": 39351
+    },
+    {
+      "name": "Fluent Builder: ui.heading().build()",
+      "durationMs": 91.67,
+      "opsPerSec": 109085
+    },
+    {
+      "name": "DSL Parser: describe()",
+      "durationMs": 25.31,
+      "opsPerSec": 395151
+    }
+  ]
+}
