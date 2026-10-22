@@ -200,3 +200,9 @@
   - **Scope:** `criation add <component>` boilerplate generator
   - **Dependencies:** PR 46
   - **Executed & Merged:** 2026-10-22T11:13:17.194Z
+
+- **PR #49:** CLI: Feature Scaffolding for `add login` Template with Auth Hooks
+  - **Phase:** Phase 2
+  - **Scope:** Generates accessible login screen with form validation
+  - **Dependencies:** PR 47, PR 48
+  - **Executed & Merged:** 2026-10-22T11:13:34.545Z
