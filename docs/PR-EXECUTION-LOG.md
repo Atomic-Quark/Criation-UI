@@ -104,3 +104,9 @@
   - **Scope:** Audit dependencies (Lucide, Marked), generate NOTICE file
   - **Dependencies:** PR 31
   - **Executed & Merged:** 2026-10-22T11:08:48.298Z
+
+- **PR #33:** Docs: Replace Simulated Auth Demos with Real Form Validation Workflows
+  - **Phase:** Phase 1
+  - **Scope:** Clarify local mock nature of auth in documentation and README
+  - **Dependencies:** PR 12, PR 13
+  - **Executed & Merged:** 2026-10-22T11:09:06.439Z
