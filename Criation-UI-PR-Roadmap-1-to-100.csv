@@ -81,7 +81,7 @@
 "PR 80","Consumer Smoke Test: Clean Next.js 15/16 App Router SSR Verification","Phase 3","Fresh Next.js project renders components with zero hydration errors","PR 78","Merged"
 "PR 81","Beta: Controlled Beta Program Architecture and Participant Onboarding Guide","Phase 3","Guidelines and feedback templates for external testers","PR 77","Merged"
 "PR 82","Beta: Task Protocol 1 — Beginner Website Assembly Benchmark","Phase 3","Standard 3-section landing page assembly test","PR 81","Merged"
-"PR 83","Beta: Task Protocol 2 — Declarative Form & Validation Benchmark","Phase 3","3-field registration form implementation benchmark","PR 81","Pending"
+"PR 83","Beta: Task Protocol 2 — Declarative Form & Validation Benchmark","Phase 3","3-field registration form implementation benchmark","PR 81","Merged"
 "PR 84","Beta: Task Protocol 3 — Dynamic Table & Dashboard Data Presentation Benchmark","Phase 3","Searchable 20-item table implementation benchmark","PR 81","Pending"
 "PR 85","Feedback: Issue Templates, Triage Labeling, and Metric Collection Channels","Phase 3","Structured GitHub feedback channels for beta participants","PR 81","Pending"
 "PR 86","Benchmarking: Reproducible Productivity Measurement Framework","Phase 3","Measures lines of code, boilerplate tokens, and assembly speed","PR 82–84","Pending"

@@ -404,3 +404,9 @@
   - **Scope:** Standard 3-section landing page assembly test
   - **Dependencies:** PR 81
   - **Executed & Merged:** 2026-10-22T11:24:43.295Z
+
+- **PR #83:** Beta: Task Protocol 2 — Declarative Form & Validation Benchmark
+  - **Phase:** Phase 3
+  - **Scope:** 3-field registration form implementation benchmark
+  - **Dependencies:** PR 81
+  - **Executed & Merged:** 2026-10-22T11:24:59.996Z
