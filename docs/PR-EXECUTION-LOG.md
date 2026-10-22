@@ -470,3 +470,9 @@
   - **Scope:** Hardened CI workflow enforcing zero test failures on merge
   - **Dependencies:** PR 08, PR 45
   - **Executed & Merged:** 2026-10-22T11:27:47.507Z
+
+- **PR #94:** CI/CD: GitHub Actions Trusted Publishing via npm OpenID Connect (OIDC)
+  - **Phase:** Phase 3
+  - **Scope:** Secure publishing automation eliminating long-lived npm tokens
+  - **Dependencies:** PR 93
+  - **Executed & Merged:** 2026-10-22T11:28:03.521Z
