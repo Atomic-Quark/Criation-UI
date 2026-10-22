@@ -40,7 +40,7 @@
 "PR 39","Types: Strict Generic Parameter Checking & Zero `any` Leaks in Public API","Phase 1","TypeScript strict mode audit on all public component props","PR 14, PR 16","Merged"
 "PR 40","Testing: Unit Test Suite Expansion for Utility Functions & Token Formatters","Phase 1","Edge case tests for `formatDate`, `formatNumber`, `formatFileSize`","PR 08","Merged"
 "PR 41","Testing: Unit Test Suite Expansion for Layout Primitives (`Box`, `Flex`, `Grid`)","Phase 1","DOM snapshot and computed style assertions for layout components","PR 08","Merged"
-"PR 42","Testing: Component Interaction Tests for Keyboard and Click Outside Hooks","Phase 1","Event unbind and memory leak tests for `useClickOutside`, `useKeyPress`","PR 08","Pending"
+"PR 42","Testing: Component Interaction Tests for Keyboard and Click Outside Hooks","Phase 1","Event unbind and memory leak tests for `useClickOutside`, `useKeyPress`","PR 08","Merged"
 "PR 43","Testing: Automated Regression Test Suite for Documented Fixes","Phase 1","Regression guards for Select placeholder, Input error roles, Popover","PR 09, PR 10","Pending"
 "PR 44","Packaging: Package Distribution Verification (Dual ESM/CJS & CSS Path)","Phase 1","Synthetic test consumer verifying `import` and `require`","PR 29, PR 39","Pending"
 "PR 45","Milestone: Baseline Release Verification Gate & Phase 1 Health Check","Phase 1","Full test suite, clean build, zero errors, Phase 1 verification signoff","PR 14–44","Pending"

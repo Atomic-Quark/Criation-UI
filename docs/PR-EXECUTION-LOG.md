@@ -158,3 +158,9 @@
   - **Scope:** DOM snapshot and computed style assertions for layout components
   - **Dependencies:** PR 08
   - **Executed & Merged:** 2026-10-22T11:11:20.283Z
+
+- **PR #42:** Testing: Component Interaction Tests for Keyboard and Click Outside Hooks
+  - **Phase:** Phase 1
+  - **Scope:** Event unbind and memory leak tests for `useClickOutside`, `useKeyPress`
+  - **Dependencies:** PR 08
+  - **Executed & Merged:** 2026-10-22T11:11:37.789Z
