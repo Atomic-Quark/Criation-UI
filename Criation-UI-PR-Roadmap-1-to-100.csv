@@ -73,7 +73,7 @@
 "PR 72","Accessibility: Screen Reader Semantics & ARIA Live Announcements Verification","Phase 2","Screen reader audits across all feedback and alert components","PR 71","Merged"
 "PR 73","Accessibility: Standardized High-Contrast `:focus-visible` Ring Across All Controls","Phase 2","Uniform 3:1 contrast focus outline on keyboard navigation","PR 45","Merged"
 "PR 74","Accessibility: `prefers-reduced-motion` System Integration in Animation Tokens","Phase 2","Automatically disables CSS transitions when reduced motion is preferred","PR 45","Merged"
-"PR 75","Accessibility: Dark & Light Mode Color Contrast Ratio Conformance Audit","Phase 2","Audit all token color pairs for minimum 4.5:1 text contrast","PR 45","Pending"
+"PR 75","Accessibility: Dark & Light Mode Color Contrast Ratio Conformance Audit","Phase 2","Audit all token color pairs for minimum 4.5:1 text contrast","PR 45","Merged"
 "PR 76","Performance: Rollup Visualizer Bundle Size Gates and Tree-Shaking Budgets","Phase 2","Per-component byte measurement ensuring modular imports","PR 44","Pending"
 "PR 77","Milestone: Phase 2 End-to-End Verification of CLI, High-Level APIs & Playground","Phase 2","End-to-end integration test; Release Candidate 1 preparation","PR 46–76","Pending"
 "PR 78","Distribution: `npm pack` Tarball Inspection and Artifact Sanitization","Phase 3","Verifies only `dist/`, `README.md`, `LICENSE`, `NOTICE` are packaged","PR 77","Pending"
