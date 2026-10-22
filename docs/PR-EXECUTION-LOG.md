@@ -326,3 +326,9 @@
   - **Scope:** Frame resizing controls (375px, 768px, 1280px)
   - **Dependencies:** PR 66
   - **Executed & Merged:** 2026-10-22T11:19:17.852Z
+
+- **PR #70:** Playground: Ready-to-Use Application Recipes (Auth, Search, E-Commerce)
+  - **Phase:** Phase 2
+  - **Scope:** Copyable full-page component recipes for beginners
+  - **Dependencies:** PR 67
+  - **Executed & Merged:** 2026-10-22T11:19:35.141Z
