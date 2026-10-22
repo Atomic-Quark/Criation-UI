@@ -42,7 +42,7 @@
 "PR 41","Testing: Unit Test Suite Expansion for Layout Primitives (`Box`, `Flex`, `Grid`)","Phase 1","DOM snapshot and computed style assertions for layout components","PR 08","Merged"
 "PR 42","Testing: Component Interaction Tests for Keyboard and Click Outside Hooks","Phase 1","Event unbind and memory leak tests for `useClickOutside`, `useKeyPress`","PR 08","Merged"
 "PR 43","Testing: Automated Regression Test Suite for Documented Fixes","Phase 1","Regression guards for Select placeholder, Input error roles, Popover","PR 09, PR 10","Merged"
-"PR 44","Packaging: Package Distribution Verification (Dual ESM/CJS & CSS Path)","Phase 1","Synthetic test consumer verifying `import` and `require`","PR 29, PR 39","Pending"
+"PR 44","Packaging: Package Distribution Verification (Dual ESM/CJS & CSS Path)","Phase 1","Synthetic test consumer verifying `import` and `require`","PR 29, PR 39","Merged"
 "PR 45","Milestone: Baseline Release Verification Gate & Phase 1 Health Check","Phase 1","Full test suite, clean build, zero errors, Phase 1 verification signoff","PR 14–44","Pending"
 "PR 46","CLI: Package Setup and Command Dispatcher (`bin/criation.js`)","Phase 2","CLI entry point, help menu, version flags, argument parser","PR 45","Pending"
 "PR 47","CLI: `init` Command for Vite + React and Next.js Project Generation","Phase 2","`criation init <project>` template generator","PR 46","Pending"
