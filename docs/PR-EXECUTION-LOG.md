@@ -464,3 +464,9 @@
   - **Scope:** `npm audit` verification with zero high/critical alerts
   - **Dependencies:** PR 45
   - **Executed & Merged:** 2026-10-22T11:27:30.567Z
+
+- **PR #93:** CI/CD: Automated GitHub Actions Release Pipeline with Gate Checks
+  - **Phase:** Phase 3
+  - **Scope:** Hardened CI workflow enforcing zero test failures on merge
+  - **Dependencies:** PR 08, PR 45
+  - **Executed & Merged:** 2026-10-22T11:27:47.507Z
