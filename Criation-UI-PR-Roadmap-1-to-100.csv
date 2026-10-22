@@ -58,7 +58,7 @@
 "PR 57","High-Level API: `api()` Typed Request Client with Method Chaining","Phase 2","Lightweight typed HTTP client (`api.get<T>()`, `api.post()`)","PR 45","Merged"
 "PR 58","High-Level API: `resource()` State Adapter (Loading, Success, Empty, Error)","Phase 2","Automated lifecycle displays spinner, error retry, or data list","PR 57","Merged"
 "PR 59","High-Level API: `action()` Async Controller with Pending & Duplication Guard","Phase 2","Mutation helper preventing double-clicks and showing loading state","PR 45","Merged"
-"PR 60","High-Level API: `table()` Fluent Builder with Client Sorting and Pagination","Phase 2","Fluent helper for data tables with column definitions and sorting","PR 27","Pending"
+"PR 60","High-Level API: `table()` Fluent Builder with Client Sorting and Pagination","Phase 2","Fluent helper for data tables with column definitions and sorting","PR 27","Merged"
 "PR 61","High-Level API: `protect()` Route Gate with Backend Session Verification","Phase 2","Validates backend authorization headers before rendering client gate","PR 17, PR 54","Pending"
 "PR 62","High-Level API: `wizard()` Multi-Step Workflow Engine with History","Phase 2","Step navigation, progress tracking, per-step validation","PR 56","Pending"
 "PR 63","High-Level API: `upload()` File Workflow Engine with Progress Tracking","Phase 2","File size and MIME type validation with progress percentage","PR 45","Pending"
