@@ -446,3 +446,9 @@
   - **Scope:** Resolves type inference quirks identified during beta tasks
   - **Dependencies:** PR 39, PR 86
   - **Executed & Merged:** 2026-10-22T11:26:39.482Z
+
+- **PR #90:** Bug Triage: Layout & Responsive Overflow Edge Cases on Mobile (320px)
+  - **Phase:** Phase 3
+  - **Scope:** Eliminates mobile layout clipping on small viewports
+  - **Dependencies:** PR 21, PR 27
+  - **Executed & Merged:** 2026-10-22T11:26:56.752Z
