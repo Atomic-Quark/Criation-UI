@@ -21,7 +21,7 @@
 "PR 20","Overlays: WAI-ARIA Focus Trapping & Esc Dismissal in `Modal` / `AlertDialog`","Phase 1","Tab focus sentinels, return focus on close, Esc key handler","PR 07","Merged"
 "PR 21","Overlays: Accessible Drawer Primitives with Scroll Lock & Screen Reader Tags","Phase 1","Body scroll locking with scrollbar width compensation, `aria-modal=\"true\"`","PR 20","Merged"
 "PR 22","Inputs: Explicit Error Message Association Across All Input Primitives","Phase 1","Standardize `aria-invalid`, `aria-describedby` linking to error container","PR 10","Merged"
-"PR 23","Inputs: WAI-ARIA Combobox & MultiSelect Keyboard Navigation Pattern","Phase 1","Up/Down arrow selection, Home/End, Enter to select, `aria-activedescendant`","PR 07","Pending"
+"PR 23","Inputs: WAI-ARIA Combobox & MultiSelect Keyboard Navigation Pattern","Phase 1","Up/Down arrow selection, Home/End, Enter to select, `aria-activedescendant`","PR 07","Merged"
 "PR 24","Navigation: Accessible Tab Navigation with Arrow Keys and Panel Linking in `Tabs`","Phase 1","ArrowLeft/ArrowRight navigation, customizable automatic/manual activation","PR 07","Pending"
 "PR 25","Overlays: Accessible Popover & Tooltip Viewport Collision Repositioning","Phase 1","Boundary collision flipping/shifting, hover/focus reveal, Esc dismiss","PR 07","Pending"
 "PR 26","Testing: Playwright Automated Cross-Browser Component Test Matrix","Phase 1","Headless Chromium, Firefox, WebKit component interaction testing","PR 08","Pending"
