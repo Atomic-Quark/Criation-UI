@@ -434,3 +434,9 @@
   - **Scope:** Table of empirical measurements on reference tasks
   - **Dependencies:** PR 86
   - **Executed & Merged:** 2026-10-22T11:26:05.983Z
+
+- **PR #88:** Bug Triage: High-Priority Accessibility Fixes from Beta Audit
+  - **Phase:** Phase 3
+  - **Scope:** Resolves remaining screen reader and keyboard defects
+  - **Dependencies:** PR 71, PR 75
+  - **Executed & Merged:** 2026-10-22T11:26:23.157Z
