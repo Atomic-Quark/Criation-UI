@@ -362,3 +362,9 @@
   - **Scope:** Audit all token color pairs for minimum 4.5:1 text contrast
   - **Dependencies:** PR 45
   - **Executed & Merged:** 2026-10-22T11:22:46.298Z
+
+- **PR #76:** Performance: Rollup Visualizer Bundle Size Gates and Tree-Shaking Budgets
+  - **Phase:** Phase 2
+  - **Scope:** Per-component byte measurement ensuring modular imports
+  - **Dependencies:** PR 44
+  - **Executed & Merged:** 2026-10-22T11:23:02.948Z
