@@ -17,7 +17,7 @@
 "PR 16","API Ergonomics: Deprecate 8-Slot Positional Arguments for Typed Options","Phase 1","Replace multi-argument signatures (`Button(label, size, id)`) with options object","PR 14, PR 15","Merged"
 "PR 17","Security: Decouple UI Presentation from Client-Side Auth Assumptions","Phase 1","Remove \"auth required\" string inference; use explicit boolean props","PR 14, PR 16","Merged"
 "PR 18","Packaging: Subpath Package Exports for Tree-Shaking (`@criation/ui/button`)","Phase 1","Multi-entry Rollup build and package.json subpath exports to reduce bundle size","PR 14","Merged"
-"PR 19","Forms: Fix Async Race Conditions & Unhandled Rejections in `useForm`","Phase 1","Abort tokens for async validations, form submission error lifecycle","PR 10","Pending"
+"PR 19","Forms: Fix Async Race Conditions & Unhandled Rejections in `useForm`","Phase 1","Abort tokens for async validations, form submission error lifecycle","PR 10","Merged"
 "PR 20","Overlays: WAI-ARIA Focus Trapping & Esc Dismissal in `Modal` / `AlertDialog`","Phase 1","Tab focus sentinels, return focus on close, Esc key handler","PR 07","Pending"
 "PR 21","Overlays: Accessible Drawer Primitives with Scroll Lock & Screen Reader Tags","Phase 1","Body scroll locking with scrollbar width compensation, `aria-modal=\"true\"`","PR 20","Pending"
 "PR 22","Inputs: Explicit Error Message Association Across All Input Primitives","Phase 1","Standardize `aria-invalid`, `aria-describedby` linking to error container","PR 10","Pending"
