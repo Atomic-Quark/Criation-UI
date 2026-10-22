@@ -272,3 +272,9 @@
   - **Scope:** Fluent helper for data tables with column definitions and sorting
   - **Dependencies:** PR 27
   - **Executed & Merged:** 2026-10-22T11:16:40.677Z
+
+- **PR #61:** High-Level API: `protect()` Route Gate with Backend Session Verification
+  - **Phase:** Phase 2
+  - **Scope:** Validates backend authorization headers before rendering client gate
+  - **Dependencies:** PR 17, PR 54
+  - **Executed & Merged:** 2026-10-22T11:16:59.949Z
