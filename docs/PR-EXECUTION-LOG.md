@@ -482,3 +482,9 @@
   - **Scope:** Documented rules for breaking changes, minors, and patches
   - **Dependencies:** PR 45
   - **Executed & Merged:** 2026-10-22T11:29:08.890Z
+
+- **PR #96:** Docs: Comprehensive Documentation Site Update across all Guides
+  - **Phase:** Phase 3
+  - **Scope:** Updates all documentation files to reflect hardened APIs
+  - **Dependencies:** PR 14–95
+  - **Executed & Merged:** 2026-10-22T11:29:25.948Z
