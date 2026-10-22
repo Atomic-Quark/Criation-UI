@@ -247,6 +247,12 @@ const modalHtml = ReactDOMServer.renderToString(
 );
 assert("Modal renders with accessible dialog container", modalHtml.includes("Dialog Title") && modalHtml.includes("cr-modal"));
 
+// PR 21: Drawer Accessibility & Scroll Lock
+const drawerHtml = ReactDOMServer.renderToString(
+  React.createElement(UI.Drawer, { isOpen: true, onClose: () => {}, title: "Navigation Drawer" }, "Drawer body content")
+);
+assert("Drawer renders with role='dialog' and aria-modal='true'", drawerHtml.includes('role="dialog"') && drawerHtml.includes('aria-modal="true"') && drawerHtml.includes("Navigation Drawer"));
+
 // -----------------------------------------------------------------------------
 // 5. Bug Fix Regressions & Accessibility Attributes Tests
 // -----------------------------------------------------------------------------

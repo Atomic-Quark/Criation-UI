@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.2.1-dev] - 2026-10-22
 
+### 🗄️ Accessible Drawer Primitives & Scroll Lock (PR 21)
+- **WAI-ARIA Drawer Accessibility**:
+  - Verified `Drawer` renders with `role="dialog"`, `aria-modal="true"`, and automatic `aria-labelledby` linking to header title.
+  - Enforced background body scroll locking on open with safe restoration on close and focus trapping.
+
 ### 🪟 Accessible Dialog Primitives & Focus Trapping (PR 20)
 - **WAI-ARIA Focus Trapping & Esc Dismissal**:
   - Verified `trapFocus`, `getFocusableElements`, and `useFocusTrap` across overlay primitives (`Modal`, `AlertDialog`).
