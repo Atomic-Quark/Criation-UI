@@ -74,3 +74,9 @@
   - **Scope:** Unique row keys, horizontal overflow wrapper, loading skeletons
   - **Dependencies:** PR 07
   - **Executed & Merged:** 2026-10-22T11:07:25.589Z
+
+- **PR #28:** Storage: Browser Storage Hygiene & SSR Hydration Guard in `useLocalStorage`
+  - **Phase:** Phase 1
+  - **Scope:** Safe JSON parse, quota error catching, in-memory SSR fallback
+  - **Dependencies:** PR 07
+  - **Executed & Merged:** 2026-10-22T11:07:41.812Z
