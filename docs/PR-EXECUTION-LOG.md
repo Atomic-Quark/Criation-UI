@@ -26,3 +26,9 @@
   - **Scope:** Abort tokens for async validations, form submission error lifecycle
   - **Dependencies:** PR 10
   - **Executed & Merged:** 2026-10-22T11:05:10.096Z
+
+- **PR #20:** Overlays: WAI-ARIA Focus Trapping & Esc Dismissal in `Modal` / `AlertDialog`
+  - **Phase:** Phase 1
+  - **Scope:** Tab focus sentinels, return focus on close, Esc key handler
+  - **Dependencies:** PR 07
+  - **Executed & Merged:** 2026-10-22T11:05:26.679Z
