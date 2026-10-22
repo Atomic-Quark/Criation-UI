@@ -152,3 +152,9 @@
   - **Scope:** Edge case tests for `formatDate`, `formatNumber`, `formatFileSize`
   - **Dependencies:** PR 08
   - **Executed & Merged:** 2026-10-22T11:11:03.386Z
+
+- **PR #41:** Testing: Unit Test Suite Expansion for Layout Primitives (`Box`, `Flex`, `Grid`)
+  - **Phase:** Phase 1
+  - **Scope:** DOM snapshot and computed style assertions for layout components
+  - **Dependencies:** PR 08
+  - **Executed & Merged:** 2026-10-22T11:11:20.283Z
