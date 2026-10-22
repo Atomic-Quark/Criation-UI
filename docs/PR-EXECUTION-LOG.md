@@ -86,3 +86,9 @@
   - **Scope:** Explicit client-only export path for interactive components
   - **Dependencies:** PR 10, PR 28
   - **Executed & Merged:** 2026-10-22T11:07:58.705Z
+
+- **PR #30:** Compatibility: Document and Validate React 18/19 & Next.js 15/16 Matrix
+  - **Phase:** Phase 1
+  - **Scope:** Automated peer dependency matrix verification in CI
+  - **Dependencies:** PR 29
+  - **Executed & Merged:** 2026-10-22T11:08:15.308Z
