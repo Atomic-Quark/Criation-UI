@@ -1,0 +1,107 @@
+%% Criation UI — Complete Technical Architecture Diagram
+%% Classification Key:
+%% [VERIFIED / IMPLEMENTED] - Confirmed in source code and passing test suite
+%% [PARTIAL / HYBRID] - Implemented but limited scope (e.g. client-only mock)
+%% [PROPOSED / ROADMAP] - Planned for upcoming PR phases (PR 15-100)
+%% [UNVERIFIED / DEPRECATED] - Claimed in manual or legacy docs without verified test backing
+
+graph TB
+    subgraph ClientApp["Consuming Application Layer (React 18+)"]
+        AppJSX["Standard React JSX<br/><code>&lt;Button variant='primary'&gt;</code><br/><i>[VERIFIED]</i>"]
+        AppFluent["Fluent English Chaining<br/><code>ui.button('Save').success().build()</code><br/><i>[VERIFIED]</i>"]
+        AppDSL["Natural Language Text DSL<br/><code>dsl('button Save primary')</code><br/><i>[VERIFIED]</i>"]
+        AppHooks["Hooks & Utilities<br/><code>useForm()</code>, <code>useTheme()</code><br/><i>[VERIFIED]</i>"]
+    end
+
+    subgraph PublicAPI["Public API Surface (src/index.ts)"]
+        ExportsNative["Native Components (40+)<br/>Buttons, Inputs, Layout, Overlays<br/><i>[VERIFIED]</i>"]
+        ExportsBuilder["Fluent Builder <code>ui</code> & Chainables<br/><code>ButtonChainable</code>, <code>CardChainable</code>, etc.<br/><i>[VERIFIED]</i>"]
+        ExportsDSL["DSL Engine: <code>dsl()</code> & <code>dslParser</code><br/>Tokens, Regex matching, AST<br/><i>[VERIFIED]</i>"]
+        ExportsForms["Form Management: <code>useForm</code><br/>Validators, Form state, Errors<br/><i>[VERIFIED]</i>"]
+        ExportsAuth["Auth Context: <code>AuthProvider</code><br/>Local storage mock auth<br/><i>[PARTIAL]</i>"]
+        ExportsTheme["Theme System: <code>ThemeProvider</code><br/>Dark/Light CSS classes<br/><i>[VERIFIED]</i>"]
+        ExportsTokens["Tokens & Media Queries<br/><code>breakpoints</code>, <code>colors</code>, <code>spacing</code><br/><i>[VERIFIED]</i>"]
+        ExportsUtils["Formatting & Validation Utils<br/><code>formatFileSize</code>, <code>validateEmail</code><br/><i>[VERIFIED]</i>"]
+    end
+
+    subgraph CoreEngine["Core Rendering & Processing Engine (src/core)"]
+        BuilderEngine["Builder Factory & Chain Wrappers<br/>(src/core/builder.ts)<br/>Transforms chains into ReactElements<br/><i>[VERIFIED]</i>"]
+        DSLEngine["DSL Lexer & Parser<br/>(src/core/dslParser.tsx)<br/>Parses text DSL to Component Specs<br/><i>[VERIFIED]</i>"]
+        ShorthandEngine["Shorthand Generator<br/>(src/core/shorthand.tsx)<br/><i>[VERIFIED]</i>"]
+        WebsiteBuilderEngine["Website Layout Builder<br/>(src/core/builder.ts)<br/><code>createWebsiteLayout()</code><br/><i>[VERIFIED]</i>"]
+    end
+
+    subgraph ComponentLibrary["Component Library (src/components)"]
+        BaseAtoms["Atoms / Primitives<br/>Button, Input, Label, Badge, Text,<br/>Heading, Spinner, Checkbox, Radio, Switch<br/><i>[VERIFIED]</i>"]
+        DataDisplay["Data Display & Complex<br/>Table, Accordion, Tabs, Timeline,<br/>Stepper, Result, Rating, Avatar<br/><i>[VERIFIED]</i>"]
+        FormFields["Form Controls<br/>SearchInput, OTPInput, Combobox,<br/>MultiSelect, ColorPicker, TextArea, Select<br/><i>[VERIFIED]</i>"]
+        LayoutSurfaces["Surfaces & Layout<br/>Card, Modal, AlertDialog, Drawer,<br/>Popover, Tooltip, Stack, Grid, AspectRatio<br/><i>[VERIFIED]</i>"]
+        FeedbackFeedback["Feedback & System<br/>Alert, Toast, Skeleton, ErrorBoundary,<br/>ScrollArea, Collapsible, NotFoundPage<br/><i>[VERIFIED]</i>"]
+    end
+
+    subgraph DesignTokens["Design System & CSS Styling"]
+        TokenVars["Design Tokens (src/styles/tokens.ts)<br/>Colors, Radii, Shadows, Breakpoints<br/><i>[VERIFIED]</i>"]
+        CompiledCSS["Global Stylesheet (dist/styles.css)<br/>Utility classes, animations, resets<br/><i>[VERIFIED]</i>"]
+        ResponsiveUtils["Responsive Utilities<br/><code>mediaQueryUp</code>, <code>mediaQueryDown</code><br/><i>[VERIFIED]</i>"]
+    end
+
+    subgraph Integrations["Integration Layers"]
+        MockAuth["Client-Side Mock Auth<br/>(src/auth/AuthContext.tsx)<br/>localStorage session simulation<br/><i>[PARTIAL - No Real Backend]</i>"]
+        ClientRouting["Lightweight Router Mock<br/>(src/routing/RouterContext.tsx)<br/>Browser history wrapper<br/><i>[PARTIAL - Missing Nested SSR]</i>"]
+        DataFetching["Data Fetching Adapter<br/><i>[PROPOSED - PR 54]</i><br/>Query caching & state transitions"]
+        CLIComponentScaffold["CLI & Project Scaffolder<br/><i>[PROPOSED - PR 46]</i><br/><code>npx @criation/cli create</code>"]
+    end
+
+    subgraph BuildPipeline["Build, Test & Packaging Infrastructure"]
+        ViteLib["Vite Library Bundler (vite.config.lib.ts)<br/>Outputs: dist/index.js (ESM), dist/index.umd.cjs<br/><i>[VERIFIED]</i>"]
+        ViteDts["Type Declaration Generator<br/>vite-plugin-dts -> dist/index.d.ts<br/><i>[VERIFIED]</i>"]
+        TestRunner["Automated Test Runner (scripts/test-suite.js)<br/>55 Verified Unit & Integration Tests<br/><i>[VERIFIED]</i>"]
+        CIWorkflows["GitHub Actions CI Pipeline<br/>(.github/workflows/ci.yml)<br/>Typecheck, Build, Test Verification<br/><i>[VERIFIED]</i>"]
+        NPMRegistry["NPM Package Distribution<br/><code>@criation/ui@0.2.0</code><br/><i>[VERIFIED]</i>"]
+    end
+
+    %% Data and Control Flow Links
+    AppJSX --> ExportsNative
+    AppFluent --> ExportsBuilder
+    AppDSL --> ExportsDSL
+    AppHooks --> ExportsForms
+    AppHooks --> ExportsTheme
+
+    ExportsBuilder --> BuilderEngine
+    ExportsDSL --> DSLEngine
+    ExportsForms --> BaseAtoms
+    ExportsForms --> FormFields
+
+    BuilderEngine --> BaseAtoms
+    BuilderEngine --> LayoutSurfaces
+    DSLEngine --> BaseAtoms
+    DSLEngine --> LayoutSurfaces
+    WebsiteBuilderEngine --> LayoutSurfaces
+
+    BaseAtoms --> TokenVars
+    DataDisplay --> TokenVars
+    FormFields --> TokenVars
+    LayoutSurfaces --> TokenVars
+    FeedbackFeedback --> TokenVars
+    TokenVars --> CompiledCSS
+
+    ExportsAuth -.-> MockAuth
+    ExportsNative -.-> ClientRouting
+    DataFetching -.-> BaseAtoms
+
+    ComponentLibrary --> ViteLib
+    DesignTokens --> ViteLib
+    PublicAPI --> ViteDts
+    ViteLib --> NPMRegistry
+    TestRunner --> CIWorkflows
+    CIWorkflows --> NPMRegistry
+
+    %% Class Styles
+    classDef verified fill:#0f2e1b,stroke:#22c55e,stroke-width:2px,color:#f0fdf4;
+    classDef partial fill:#2e220f,stroke:#eab308,stroke-width:2px,color:#fefce8;
+    classDef proposed fill:#1e1b4b,stroke:#818cf8,stroke-width:2px,stroke-dasharray: 5 5,color:#e0e7ff;
+    classDef unverified fill:#3b0764,stroke:#d946ef,stroke-width:2px,stroke-dasharray: 2 2,color:#fae8ff;
+
+    class AppJSX,AppFluent,AppDSL,AppHooks,ExportsNative,ExportsBuilder,ExportsDSL,ExportsForms,ExportsTheme,ExportsTokens,ExportsUtils,BuilderEngine,DSLEngine,ShorthandEngine,WebsiteBuilderEngine,BaseAtoms,DataDisplay,FormFields,LayoutSurfaces,FeedbackFeedback,TokenVars,CompiledCSS,ResponsiveUtils,ViteLib,ViteDts,TestRunner,CIWorkflows,NPMRegistry verified;
+    class ExportsAuth,MockAuth,ClientRouting partial;
+    class DataFetching,CLIComponentScaffold proposed;
