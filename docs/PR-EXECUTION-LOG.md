@@ -44,3 +44,9 @@
   - **Scope:** Standardize `aria-invalid`, `aria-describedby` linking to error container
   - **Dependencies:** PR 10
   - **Executed & Merged:** 2026-10-22T11:06:00.895Z
+
+- **PR #23:** Inputs: WAI-ARIA Combobox & MultiSelect Keyboard Navigation Pattern
+  - **Phase:** Phase 1
+  - **Scope:** Up/Down arrow selection, Home/End, Enter to select, `aria-activedescendant`
+  - **Dependencies:** PR 07
+  - **Executed & Merged:** 2026-10-22T11:06:17.955Z
