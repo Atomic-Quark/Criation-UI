@@ -428,3 +428,9 @@
   - **Scope:** Measures lines of code, boilerplate tokens, and assembly speed
   - **Dependencies:** PR 82–84
   - **Executed & Merged:** 2026-10-22T11:25:49.179Z
+
+- **PR #87:** Benchmarking: Empirical Code Reduction Analysis vs Pure React & Alternatives
+  - **Phase:** Phase 3
+  - **Scope:** Table of empirical measurements on reference tasks
+  - **Dependencies:** PR 86
+  - **Executed & Merged:** 2026-10-22T11:26:05.983Z

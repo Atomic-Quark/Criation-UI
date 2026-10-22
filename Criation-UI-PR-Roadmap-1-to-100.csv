@@ -85,7 +85,7 @@
 "PR 84","Beta: Task Protocol 3 — Dynamic Table & Dashboard Data Presentation Benchmark","Phase 3","Searchable 20-item table implementation benchmark","PR 81","Merged"
 "PR 85","Feedback: Issue Templates, Triage Labeling, and Metric Collection Channels","Phase 3","Structured GitHub feedback channels for beta participants","PR 81","Merged"
 "PR 86","Benchmarking: Reproducible Productivity Measurement Framework","Phase 3","Measures lines of code, boilerplate tokens, and assembly speed","PR 82–84","Merged"
-"PR 87","Benchmarking: Empirical Code Reduction Analysis vs Pure React & Alternatives","Phase 3","Table of empirical measurements on reference tasks","PR 86","Pending"
+"PR 87","Benchmarking: Empirical Code Reduction Analysis vs Pure React & Alternatives","Phase 3","Table of empirical measurements on reference tasks","PR 86","Merged"
 "PR 88","Bug Triage: High-Priority Accessibility Fixes from Beta Audit","Phase 3","Resolves remaining screen reader and keyboard defects","PR 71, PR 75","Pending"
 "PR 89","Bug Triage: Public API Ergonomics & TypeScript Inference Edge Cases","Phase 3","Resolves type inference quirks identified during beta tasks","PR 39, PR 86","Pending"
 "PR 90","Bug Triage: Layout & Responsive Overflow Edge Cases on Mobile (320px)","Phase 3","Eliminates mobile layout clipping on small viewports","PR 21, PR 27","Pending"
