@@ -218,3 +218,9 @@
   - **Scope:** Generates settings page with tabs and form sections
   - **Dependencies:** PR 47, PR 48
   - **Executed & Merged:** 2026-10-22T11:14:09.239Z
+
+- **PR #52:** CLI: Safe File Generation, Collision Prevention, and `--dry-run` Flag
+  - **Phase:** Phase 2
+  - **Scope:** Overwrite protection, interactive prompts, dry-run previews
+  - **Dependencies:** PR 46–51
+  - **Executed & Merged:** 2026-10-22T11:14:25.936Z
