@@ -65,7 +65,7 @@
 "PR 64","High-Level API: `notify()` Global Alert System with `aria-live` Toasts","Phase 2","Accessible toast notifications with auto-dismiss timers","PR 45","Merged"
 "PR 65","High-Level API: `persist()` Pluggable Storage Adapter (LocalStorage/Memory)","Phase 2","Safe persistent storage driver with memory fallback","PR 28","Merged"
 "PR 66","Playground: Interactive Component Showcase Application Architecture","Phase 2","Sandboxed local preview app for interactive component rendering","PR 45","Merged"
-"PR 67","Playground: Interactive Prop Controls and Variant Previewers for All 40+","Phase 2","Live controls toggling sizes, variants, colors, and disabled states","PR 66","Pending"
+"PR 67","Playground: Interactive Prop Controls and Variant Previewers for All 40+","Phase 2","Live controls toggling sizes, variants, colors, and disabled states","PR 66","Merged"
 "PR 68","Playground: One-Click Code Export for JSX and Fluent Syntax Snippets","Phase 2","Copy-paste code snippet generator","PR 67","Pending"
 "PR 69","Playground: Responsive Viewport Switcher (Mobile, Tablet, Desktop)","Phase 2","Frame resizing controls (375px, 768px, 1280px)","PR 66","Pending"
 "PR 70","Playground: Ready-to-Use Application Recipes (Auth, Search, E-Commerce)","Phase 2","Copyable full-page component recipes for beginners","PR 67","Pending"
