@@ -140,3 +140,9 @@
   - **Scope:** Add disclaimers and reproducible benchmark guidelines
   - **Dependencies:** PR 12, PR 13
   - **Executed & Merged:** 2026-10-22T11:10:28.911Z
+
+- **PR #39:** Types: Strict Generic Parameter Checking & Zero `any` Leaks in Public API
+  - **Phase:** Phase 1
+  - **Scope:** TypeScript strict mode audit on all public component props
+  - **Dependencies:** PR 14, PR 16
+  - **Executed & Merged:** 2026-10-22T11:10:45.670Z
