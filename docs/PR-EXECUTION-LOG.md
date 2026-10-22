@@ -68,3 +68,9 @@
   - **Scope:** Headless Chromium, Firefox, WebKit component interaction testing
   - **Dependencies:** PR 08
   - **Executed & Merged:** 2026-10-22T11:07:08.871Z
+
+- **PR #27:** Data Display: Table Primitive Refactoring with Stable Row Identifiers
+  - **Phase:** Phase 1
+  - **Scope:** Unique row keys, horizontal overflow wrapper, loading skeletons
+  - **Dependencies:** PR 07
+  - **Executed & Merged:** 2026-10-22T11:07:25.589Z
