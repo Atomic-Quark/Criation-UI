@@ -260,3 +260,9 @@
   - **Scope:** Automated lifecycle displays spinner, error retry, or data list
   - **Dependencies:** PR 57
   - **Executed & Merged:** 2026-10-22T11:16:07.442Z
+
+- **PR #59:** High-Level API: `action()` Async Controller with Pending & Duplication Guard
+  - **Phase:** Phase 2
+  - **Scope:** Mutation helper preventing double-clicks and showing loading state
+  - **Dependencies:** PR 45
+  - **Executed & Merged:** 2026-10-22T11:16:24.211Z
