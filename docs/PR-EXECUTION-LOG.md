@@ -38,3 +38,9 @@
   - **Scope:** Body scroll locking with scrollbar width compensation, `aria-modal=\true\`
   - **Dependencies:** PR 20
   - **Executed & Merged:** 2026-10-22T11:05:43.698Z
+
+- **PR #22:** Inputs: Explicit Error Message Association Across All Input Primitives
+  - **Phase:** Phase 1
+  - **Scope:** Standardize `aria-invalid`, `aria-describedby` linking to error container
+  - **Dependencies:** PR 10
+  - **Executed & Merged:** 2026-10-22T11:06:00.895Z
