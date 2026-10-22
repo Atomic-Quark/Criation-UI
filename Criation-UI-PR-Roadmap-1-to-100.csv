@@ -35,7 +35,7 @@
 "PR 34","Docs: Replace Simulated Deletion Demo with Real State Mutation Pattern","Phase 1","Update AlertDialog deletion example with pending and error states","PR 12, PR 13","Merged"
 "PR 35","Docs: Clarify Difference Between Debounce and Throttle in Utilities Guide","Phase 1","Timing diagrams and use case guide for `useDebounce` vs `throttle`","PR 12","Merged"
 "PR 36","Docs: Replace \"0 KB CSS Runtime\" Assertion with Accurate Performance Language","Phase 1","Clarify static precompiled CSS (34 kB) has zero JS CSS-in-JS overhead","PR 12, PR 13","Merged"
-"PR 37","Docs: Reconcile \"Four Expressive Modalities\" Section Numbering","Phase 1","Standardize documentation structure across all 4 modalities","PR 12, PR 13","Pending"
+"PR 37","Docs: Reconcile \"Four Expressive Modalities\" Section Numbering","Phase 1","Standardize documentation structure across all 4 modalities","PR 12, PR 13","Merged"
 "PR 38","Docs: Document Benchmark Methodology, Test Scope, and Hardware Specs","Phase 1","Add disclaimers and reproducible benchmark guidelines","PR 12, PR 13","Pending"
 "PR 39","Types: Strict Generic Parameter Checking & Zero `any` Leaks in Public API","Phase 1","TypeScript strict mode audit on all public component props","PR 14, PR 16","Pending"
 "PR 40","Testing: Unit Test Suite Expansion for Utility Functions & Token Formatters","Phase 1","Edge case tests for `formatDate`, `formatNumber`, `formatFileSize`","PR 08","Pending"
