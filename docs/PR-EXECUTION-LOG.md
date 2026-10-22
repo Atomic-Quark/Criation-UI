@@ -20,3 +20,9 @@
   - **Scope:** Multi-entry Rollup build and package.json subpath exports to reduce bundle size
   - **Dependencies:** PR 14
   - **Executed & Merged:** 2026-10-22T11:04:53.693Z
+
+- **PR #19:** Forms: Fix Async Race Conditions & Unhandled Rejections in `useForm`
+  - **Phase:** Phase 1
+  - **Scope:** Abort tokens for async validations, form submission error lifecycle
+  - **Dependencies:** PR 10
+  - **Executed & Merged:** 2026-10-22T11:05:10.096Z
