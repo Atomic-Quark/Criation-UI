@@ -60,7 +60,7 @@
 "PR 59","High-Level API: `action()` Async Controller with Pending & Duplication Guard","Phase 2","Mutation helper preventing double-clicks and showing loading state","PR 45","Merged"
 "PR 60","High-Level API: `table()` Fluent Builder with Client Sorting and Pagination","Phase 2","Fluent helper for data tables with column definitions and sorting","PR 27","Merged"
 "PR 61","High-Level API: `protect()` Route Gate with Backend Session Verification","Phase 2","Validates backend authorization headers before rendering client gate","PR 17, PR 54","Merged"
-"PR 62","High-Level API: `wizard()` Multi-Step Workflow Engine with History","Phase 2","Step navigation, progress tracking, per-step validation","PR 56","Pending"
+"PR 62","High-Level API: `wizard()` Multi-Step Workflow Engine with History","Phase 2","Step navigation, progress tracking, per-step validation","PR 56","Merged"
 "PR 63","High-Level API: `upload()` File Workflow Engine with Progress Tracking","Phase 2","File size and MIME type validation with progress percentage","PR 45","Pending"
 "PR 64","High-Level API: `notify()` Global Alert System with `aria-live` Toasts","Phase 2","Accessible toast notifications with auto-dismiss timers","PR 45","Pending"
 "PR 65","High-Level API: `persist()` Pluggable Storage Adapter (LocalStorage/Memory)","Phase 2","Safe persistent storage driver with memory fallback","PR 28","Pending"

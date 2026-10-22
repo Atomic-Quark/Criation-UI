@@ -278,3 +278,9 @@
   - **Scope:** Validates backend authorization headers before rendering client gate
   - **Dependencies:** PR 17, PR 54
   - **Executed & Merged:** 2026-10-22T11:16:59.949Z
+
+- **PR #62:** High-Level API: `wizard()` Multi-Step Workflow Engine with History
+  - **Phase:** Phase 2
+  - **Scope:** Step navigation, progress tracking, per-step validation
+  - **Dependencies:** PR 56
+  - **Executed & Merged:** 2026-10-22T11:17:17.126Z
