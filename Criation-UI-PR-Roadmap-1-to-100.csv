@@ -67,7 +67,7 @@
 "PR 66","Playground: Interactive Component Showcase Application Architecture","Phase 2","Sandboxed local preview app for interactive component rendering","PR 45","Merged"
 "PR 67","Playground: Interactive Prop Controls and Variant Previewers for All 40+","Phase 2","Live controls toggling sizes, variants, colors, and disabled states","PR 66","Merged"
 "PR 68","Playground: One-Click Code Export for JSX and Fluent Syntax Snippets","Phase 2","Copy-paste code snippet generator","PR 67","Merged"
-"PR 69","Playground: Responsive Viewport Switcher (Mobile, Tablet, Desktop)","Phase 2","Frame resizing controls (375px, 768px, 1280px)","PR 66","Pending"
+"PR 69","Playground: Responsive Viewport Switcher (Mobile, Tablet, Desktop)","Phase 2","Frame resizing controls (375px, 768px, 1280px)","PR 66","Merged"
 "PR 70","Playground: Ready-to-Use Application Recipes (Auth, Search, E-Commerce)","Phase 2","Copyable full-page component recipes for beginners","PR 67","Pending"
 "PR 71","Accessibility: Automated axe-core WCAG 2.2 Level AA Test Integration","Phase 2","Automated accessibility audit runner failing CI on violations","PR 20–25","Pending"
 "PR 72","Accessibility: Screen Reader Semantics & ARIA Live Announcements Verification","Phase 2","Screen reader audits across all feedback and alert components","PR 71","Pending"
