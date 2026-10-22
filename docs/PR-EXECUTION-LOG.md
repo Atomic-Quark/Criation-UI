@@ -92,3 +92,9 @@
   - **Scope:** Automated peer dependency matrix verification in CI
   - **Dependencies:** PR 29
   - **Executed & Merged:** 2026-10-22T11:08:15.308Z
+
+- **PR #31:** Governance: Consumer Installation & Commercial Developer Rights Guide
+  - **Phase:** Phase 1
+  - **Scope:** Document permitted usage, distribution, and enterprise support terms
+  - **Dependencies:** PR 15
+  - **Executed & Merged:** 2026-10-22T11:08:31.834Z
