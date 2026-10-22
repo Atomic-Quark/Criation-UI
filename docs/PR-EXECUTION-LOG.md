@@ -416,3 +416,9 @@
   - **Scope:** Searchable 20-item table implementation benchmark
   - **Dependencies:** PR 81
   - **Executed & Merged:** 2026-10-22T11:25:16.432Z
+
+- **PR #85:** Feedback: Issue Templates, Triage Labeling, and Metric Collection Channels
+  - **Phase:** Phase 3
+  - **Scope:** Structured GitHub feedback channels for beta participants
+  - **Dependencies:** PR 81
+  - **Executed & Merged:** 2026-10-22T11:25:32.704Z
