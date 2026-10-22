@@ -7,4 +7,14 @@ Thumbs.db
 *.tsbuildinfo
 *.html
 !index.html
+
+# PDF reports and generated documents (kept locally for personal use)
+*.pdf
 *.pdf.tmp
+
+# Internal project documentation, audit reports, and CSV registers (kept locally for personal use)
+docs/
+*.csv
+Criation-UI-*.md
+Criation-UI-*.mmd
+BENCHMARK-REPORT.json

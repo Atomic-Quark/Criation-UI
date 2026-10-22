@@ -2,7 +2,7 @@
 
 **Criation UI** (`v0.3.0-beta`) is a modular, high-performance React + TypeScript UI foundation and developer toolkit designed to streamline real-world web application development. Currently in **Controlled Developer Preview (Beta)**.
 
-> 📖 **Official Architecture & User Manual**: Read the online [Criation UI Specification & Developer User Manual (Markdown)](docs/CRIATION-UI-SPECIFICATION-AND-USER-MANUAL.md), inspect the [101 PR Roadmap](docs/PR-ROADMAP-1-TO-100.md), or review the evidence-based [Technical Verification Report](Criation-UI-Verification-Report.md).
+> 💡 **Developer Preview**: Criation UI provides a unified React 18+ component foundation, fluent builder namespace, reactive data workflows, and CLI project scaffolding. Explore the interactive showcase studio by running `npm run dev`.
 
 ---
 
