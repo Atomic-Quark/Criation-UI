@@ -134,3 +134,9 @@
   - **Scope:** Standardize documentation structure across all 4 modalities
   - **Dependencies:** PR 12, PR 13
   - **Executed & Merged:** 2026-10-22T11:10:12.162Z
+
+- **PR #38:** Docs: Document Benchmark Methodology, Test Scope, and Hardware Specs
+  - **Phase:** Phase 1
+  - **Scope:** Add disclaimers and reproducible benchmark guidelines
+  - **Dependencies:** PR 12, PR 13
+  - **Executed & Merged:** 2026-10-22T11:10:28.911Z
