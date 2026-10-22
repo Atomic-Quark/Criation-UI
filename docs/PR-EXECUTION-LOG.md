@@ -476,3 +476,9 @@
   - **Scope:** Secure publishing automation eliminating long-lived npm tokens
   - **Dependencies:** PR 93
   - **Executed & Merged:** 2026-10-22T11:28:03.521Z
+
+- **PR #95:** Governance: SemVer Policy, Deprecation Timeline, and Migration Guide
+  - **Phase:** Phase 3
+  - **Scope:** Documented rules for breaking changes, minors, and patches
+  - **Dependencies:** PR 45
+  - **Executed & Merged:** 2026-10-22T11:29:08.890Z
