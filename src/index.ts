@@ -2,7 +2,7 @@
    Criation UI - Master Exports
    ========================================================================== */
 
-// Core & Shorthand DSL
+// Core, Fluent Builder & Shorthand DSL
 export * from "./core/types";
 export * from "./core/props";
 export * from "./core/defaults";
@@ -12,6 +12,7 @@ export * from "./core/config";
 export * from "./core/shorthand";
 export * from "./core/dslParser";
 export * from "./core/renderWebsite";
+export * from "./core/builder";
 
 // Design System & Theming
 export * from "./design-system/tokens/colors";

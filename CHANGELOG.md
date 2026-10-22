@@ -4,6 +4,16 @@ All notable changes to **Criation UI** are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.1-dev] - 2026-10-22
+
+### 🏗️ Architecture & Fluent Builder (PR 14)
+- **Decoupled React Components from Fluent Builders**:
+  - Introduced the dedicated `ui` builder namespace (`import { ui } from "@criation/ui"`) providing explicit, chainable methods (`ui.button()`, `ui.heading()`, `ui.card()`, `ui.stack()`, `ui.grid()`, etc.) with terminal `.build(): ReactElement` compilation.
+  - Kept native React components (`Button`, `Heading`, `Stack`, etc.) as pure, idiomatic JSX components without overloading component function invocations.
+  - Added `.build()` method across all chainable interfaces (`ButtonChainable`, `HeadingChainable`, `TextChainable`, `CardChainable`, `BadgeChainable`, `LinkChainable`, `ImageChainable`, `StackChainable`, `GridChainable`, `NavbarChainable`).
+  - Added `.variant()`, `.disabled()`, and `.loading()` chainable methods to `ButtonChainable`.
+  - Maintained 100% backward compatibility for existing shorthand usage while providing a clean architectural separation.
+
 ---
 
 ## [0.2.0] - 2026-10-21

@@ -63,6 +63,7 @@ export function BaseNavbar({
 BaseNavbar.displayName = "BaseNavbar";
 
 export interface NavbarChainable {
+  build(): ReactElement;
   sticky(val?: boolean): ReactElement & NavbarChainable;
   glass(val?: boolean): ReactElement & NavbarChainable;
   actions(act: ReactNode): ReactElement & NavbarChainable;
@@ -73,6 +74,7 @@ function attachNavbarChaining(element: ReactElement, props: NavbarProps): ReactE
     createNavbarElement({ ...props, ...patch });
 
   return createChainableProxy(element, {
+    build: () => element,
     sticky: (val = true) => update({ sticky: val }),
     glass: (val = true) => update({ glass: val }),
     actions: (act: ReactNode) => update({ actions: act }),

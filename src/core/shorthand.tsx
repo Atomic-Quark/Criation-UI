@@ -241,10 +241,17 @@ export interface ButtonShorthandConfig {
   color?: string;
   position?: string;
   pointer?: string;
+  disabled?: boolean;
+  loading?: boolean;
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 export interface ButtonChainable {
+  build(): ReactElement;
+  variant(v: string): ReactElement & ButtonChainable;
+  disabled(d?: boolean): ReactElement & ButtonChainable;
+  loading(l?: boolean): ReactElement & ButtonChainable;
+
   red(): ReactElement & ButtonChainable;
   blue(): ReactElement & ButtonChainable;
   green(): ReactElement & ButtonChainable;
@@ -286,6 +293,11 @@ export function attachButtonChaining(
     createButtonFromShorthand({ ...config, ...patch });
 
   return createChainableProxy(element, {
+    build: () => element,
+    variant: (v: string) => update({ color: v }),
+    disabled: (d = true) => update({ disabled: d }),
+    loading: (l = true) => update({ loading: l }),
+
     red: () => update({ color: "red" }),
     blue: () => update({ color: "blue" }),
     green: () => update({ color: "green" }),
@@ -513,10 +525,13 @@ export function createButtonFromShorthand(config: ButtonShorthandConfig): ReactE
     color,
     position = "relative",
     pointer = "pointer",
+    disabled,
+    loading,
     onClick,
   } = config;
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (disabled || loading) return;
     if (auth) {
       const storedUser = typeof window !== "undefined" ? localStorage.getItem("cr-auth-user") : null;
       if (!storedUser) {
@@ -541,8 +556,9 @@ export function createButtonFromShorthand(config: ButtonShorthandConfig): ReactE
   };
 
   const styles: React.CSSProperties = {
-    cursor: (pointer as any) || "pointer",
+    cursor: disabled || loading ? "not-allowed" : ((pointer as any) || "pointer"),
     position: (position as any) || "relative",
+    opacity: disabled ? 0.6 : 1,
   };
 
   if (boxSize) {
@@ -583,7 +599,9 @@ export function createButtonFromShorthand(config: ButtonShorthandConfig): ReactE
     }
   }
 
-  const classes = ["cr-button", className].filter(Boolean).join(" ");
+  const classes = ["cr-button", loading && "is-loading", disabled && "is-disabled", className]
+    .filter(Boolean)
+    .join(" ");
 
   const element = (
     <button
@@ -592,9 +610,11 @@ export function createButtonFromShorthand(config: ButtonShorthandConfig): ReactE
       type="button"
       className={classes}
       style={styles}
+      disabled={disabled || loading}
+      aria-busy={loading || undefined}
       onClick={handleClick}
     >
-      {label}
+      {loading ? "Loading..." : label}
     </button>
   );
 
@@ -646,6 +666,7 @@ export interface InputShorthandConfig {
 }
 
 export interface InputChainable {
+  build(): ReactElement;
   email(): ReactElement & InputChainable;
   password(): ReactElement & InputChainable;
   number(): ReactElement & InputChainable;
@@ -667,6 +688,7 @@ export function attachInputChaining(
     createInputFromShorthand({ ...config, ...patch });
 
   return createChainableProxy(element, {
+    build: () => element,
     email: () => update({ type: "email" }),
     password: () => update({ type: "password" }),
     number: () => update({ type: "number" }),
@@ -797,6 +819,7 @@ export interface HeadingShorthandConfig {
 }
 
 export interface HeadingChainable {
+  build(): ReactElement;
   level(lvl: 1 | 2 | 3 | 4 | 5 | 6): ReactElement & HeadingChainable;
   h1(): ReactElement & HeadingChainable;
   h2(): ReactElement & HeadingChainable;
@@ -831,6 +854,7 @@ export function attachHeadingChaining(
     createHeadingFromShorthand({ ...config, ...patch });
 
   return createChainableProxy(element, {
+    build: () => element,
     level: (lvl: 1 | 2 | 3 | 4 | 5 | 6) => update({ level: lvl }),
     h1: () => update({ level: 1 }),
     h2: () => update({ level: 2 }),
@@ -972,6 +996,7 @@ export interface TextShorthandConfig {
 }
 
 export interface TextChainable {
+  build(): ReactElement;
   center(): ReactElement & TextChainable;
   left(): ReactElement & TextChainable;
   right(): ReactElement & TextChainable;
@@ -1000,6 +1025,7 @@ export function attachTextChaining(
     createTextFromShorthand({ ...config, ...patch });
 
   return createChainableProxy(element, {
+    build: () => element,
     center: () => update({ align: "center" }),
     left: () => update({ align: "left" }),
     right: () => update({ align: "right" }),
@@ -1125,6 +1151,7 @@ export interface CardShorthandConfig {
 }
 
 export interface CardChainable {
+  build(): ReactElement;
   glass(): ReactElement & CardChainable;
   elevated(): ReactElement & CardChainable;
   outline(): ReactElement & CardChainable;
@@ -1145,6 +1172,7 @@ export function attachCardChaining(
     createCardFromShorthand({ ...config, ...patch });
 
   return createChainableProxy(element, {
+    build: () => element,
     glass: () => update({ variant: "glass" }),
     elevated: () => update({ variant: "elevated" }),
     outline: () => update({ variant: "outline" }),
@@ -1242,6 +1270,7 @@ export interface BadgeShorthandConfig {
 }
 
 export interface BadgeChainable {
+  build(): ReactElement;
   red(): ReactElement & BadgeChainable;
   green(): ReactElement & BadgeChainable;
   blue(): ReactElement & BadgeChainable;
@@ -1264,6 +1293,7 @@ export function attachBadgeChaining(
     createBadgeFromShorthand({ ...config, ...patch });
 
   return createChainableProxy(element, {
+    build: () => element,
     red: () => update({ color: "danger" }),
     green: () => update({ color: "success" }),
     blue: () => update({ color: "primary" }),
@@ -1348,6 +1378,7 @@ export interface LinkShorthandConfig {
 }
 
 export interface LinkChainable {
+  build(): ReactElement;
   to(path: string): ReactElement & LinkChainable;
   link(path: string): ReactElement & LinkChainable;
   external(): ReactElement & LinkChainable;
@@ -1364,6 +1395,7 @@ export function attachLinkChaining(
     createLinkFromShorthand({ ...config, ...patch });
 
   return createChainableProxy(element, {
+    build: () => element,
     to: (path: string) => update({ href: path }),
     link: (path: string) => update({ href: path }),
     external: () => update({ isExternal: true }),
@@ -1452,6 +1484,7 @@ export interface ImageShorthandConfig {
 }
 
 export interface ImageChainable {
+  build(): ReactElement;
   size(w: string, h?: string): ReactElement & ImageChainable;
   circle(): ReactElement & ImageChainable;
   rounded(r?: string): ReactElement & ImageChainable;
@@ -1467,6 +1500,7 @@ export function attachImageChaining(
     createImageFromShorthand({ ...config, ...patch });
 
   return createChainableProxy(element, {
+    build: () => element,
     size: (w: string, h?: string) => update({ boxSize: h ? `${w} ${h}` : w }),
     circle: () => update({ rounded: "full" }),
     rounded: (r: string = "md") => update({ rounded: r }),

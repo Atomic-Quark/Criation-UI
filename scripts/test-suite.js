@@ -168,6 +168,33 @@ const site = UI.createWebsiteLayout([
 const siteHtml = ReactDOMServer.renderToString(site);
 assert("Website builder produces complete full-page layout", siteHtml.includes("Demo App") && siteHtml.includes("Catalog") && siteHtml.includes("Terms"));
 
+// PR 14: Dedicated 'ui' fluent builder namespace tests
+assert("ui builder namespace is exported", typeof UI.ui === "object" && typeof UI.ui.button === "function");
+
+const uiBtn = UI.ui.button("Checkout")
+  .variant("success")
+  .size("14px 28px")
+  .to("/checkout")
+  .build();
+const uiBtnHtml = ReactDOMServer.renderToString(uiBtn);
+assert("ui.button builds valid React element with success variant and size", uiBtnHtml.includes("Checkout") && uiBtnHtml.includes("#10b981") && uiBtnHtml.includes("14px 28px"));
+
+const uiHeading = UI.ui.heading("Storefront").level(2).gradient().center().build();
+const uiHeadingHtml = ReactDOMServer.renderToString(uiHeading);
+assert("ui.heading builds level 2 heading with gradient", uiHeadingHtml.includes("<h2") && uiHeadingHtml.includes("cr-heading--gradient") && uiHeadingHtml.includes("Storefront"));
+
+const uiStack = UI.ui.stack(UI.ui.button("One").build(), UI.ui.button("Two").build()).row().gap("2rem").build();
+const uiStackHtml = ReactDOMServer.renderToString(uiStack);
+assert("ui.stack builds flex layout with gap and row", uiStackHtml.includes("flex-direction:row") && uiStackHtml.includes("gap:2rem"));
+
+const uiCard = UI.ui.card("Featured Item").glass().padding("1.5rem").build();
+const uiCardHtml = ReactDOMServer.renderToString(uiCard);
+assert("ui.card builds glass card with padding", uiCardHtml.includes("cr-card--glass") && uiCardHtml.includes("Featured Item"));
+
+const standardBtn = React.createElement(UI.Button, { variant: "primary", disabled: true }, "Pure JSX Button");
+const standardBtnHtml = ReactDOMServer.renderToString(standardBtn);
+assert("Button renders cleanly as standard React JSX component with disabled state", standardBtnHtml.includes("Pure JSX Button") && standardBtnHtml.includes("disabled"));
+
 // -----------------------------------------------------------------------------
 // 5. Bug Fix Regressions & Accessibility Attributes Tests
 // -----------------------------------------------------------------------------

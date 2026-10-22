@@ -45,6 +45,7 @@ export const BaseGrid = forwardRef<HTMLDivElement, GridProps>(
 BaseGrid.displayName = "BaseGrid";
 
 export interface GridChainable {
+  build(): ReactElement;
   columns(n: number | string): ReactElement & GridChainable;
   gap(g: string | number): ReactElement & GridChainable;
   autoFit(minWidth: string): ReactElement & GridChainable;
@@ -59,6 +60,7 @@ function attachGridChaining(
     createGridElement({ ...props, ...patch }, children);
 
   return createChainableProxy(element, {
+    build: () => element,
     columns: (n: number | string) => update({ columns: n }),
     gap: (g: string | number) => update({ gap: g }),
     autoFit: (minWidth: string) => update({ minChildWidth: minWidth }),

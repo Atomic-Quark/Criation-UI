@@ -57,6 +57,7 @@ export const BaseStack = forwardRef<HTMLDivElement, StackProps>(
 BaseStack.displayName = "BaseStack";
 
 export interface StackChainable {
+  build(): ReactElement;
   row(): ReactElement & StackChainable;
   column(): ReactElement & StackChainable;
   gap(spacing: string | number): ReactElement & StackChainable;
@@ -76,6 +77,7 @@ function attachStackChaining(
     createStackElement({ ...props, ...patch }, children);
 
   return createChainableProxy(element, {
+    build: () => element,
     row: () => update({ direction: "row" }),
     column: () => update({ direction: "column" }),
     gap: (g: string | number) => update({ spacing: g }),
