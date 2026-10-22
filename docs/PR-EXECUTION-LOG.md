@@ -50,3 +50,9 @@
   - **Scope:** Up/Down arrow selection, Home/End, Enter to select, `aria-activedescendant`
   - **Dependencies:** PR 07
   - **Executed & Merged:** 2026-10-22T11:06:17.955Z
+
+- **PR #24:** Navigation: Accessible Tab Navigation with Arrow Keys and Panel Linking in `Tabs`
+  - **Phase:** Phase 1
+  - **Scope:** ArrowLeft/ArrowRight navigation, customizable automatic/manual activation
+  - **Dependencies:** PR 07
+  - **Executed & Merged:** 2026-10-22T11:06:35.145Z
