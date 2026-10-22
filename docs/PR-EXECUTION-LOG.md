@@ -164,3 +164,9 @@
   - **Scope:** Event unbind and memory leak tests for `useClickOutside`, `useKeyPress`
   - **Dependencies:** PR 08
   - **Executed & Merged:** 2026-10-22T11:11:37.789Z
+
+- **PR #43:** Testing: Automated Regression Test Suite for Documented Fixes
+  - **Phase:** Phase 1
+  - **Scope:** Regression guards for Select placeholder, Input error roles, Popover
+  - **Dependencies:** PR 09, PR 10
+  - **Executed & Merged:** 2026-10-22T11:11:54.394Z
