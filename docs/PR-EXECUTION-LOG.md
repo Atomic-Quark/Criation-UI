@@ -284,3 +284,9 @@
   - **Scope:** Step navigation, progress tracking, per-step validation
   - **Dependencies:** PR 56
   - **Executed & Merged:** 2026-10-22T11:17:17.126Z
+
+- **PR #63:** High-Level API: `upload()` File Workflow Engine with Progress Tracking
+  - **Phase:** Phase 2
+  - **Scope:** File size and MIME type validation with progress percentage
+  - **Dependencies:** PR 45
+  - **Executed & Merged:** 2026-10-22T11:17:34.298Z
