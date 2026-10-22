@@ -398,3 +398,9 @@
   - **Scope:** Guidelines and feedback templates for external testers
   - **Dependencies:** PR 77
   - **Executed & Merged:** 2026-10-22T11:24:26.710Z
+
+- **PR #82:** Beta: Task Protocol 1 — Beginner Website Assembly Benchmark
+  - **Phase:** Phase 3
+  - **Scope:** Standard 3-section landing page assembly test
+  - **Dependencies:** PR 81
+  - **Executed & Merged:** 2026-10-22T11:24:43.295Z
