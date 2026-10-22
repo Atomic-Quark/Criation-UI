@@ -350,3 +350,9 @@
   - **Scope:** Uniform 3:1 contrast focus outline on keyboard navigation
   - **Dependencies:** PR 45
   - **Executed & Merged:** 2026-10-22T11:22:12.960Z
+
+- **PR #74:** Accessibility: `prefers-reduced-motion` System Integration in Animation Tokens
+  - **Phase:** Phase 2
+  - **Scope:** Automatically disables CSS transitions when reduced motion is preferred
+  - **Dependencies:** PR 45
+  - **Executed & Merged:** 2026-10-22T11:22:29.579Z
