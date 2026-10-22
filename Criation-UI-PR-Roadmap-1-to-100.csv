@@ -52,7 +52,7 @@
 "PR 51","CLI: Feature Scaffolding for `add settings` Template with Theme Selectors","Phase 2","Generates settings page with tabs and form sections","PR 47, PR 48","Merged"
 "PR 52","CLI: Safe File Generation, Collision Prevention, and `--dry-run` Flag","Phase 2","Overwrite protection, interactive prompts, dry-run previews","PR 46–51","Merged"
 "PR 53","CLI: Validation & Smoke Tests on Clean React Consumer Directory","Phase 2","Automated CI smoke test generating and building fresh projects","PR 52","Merged"
-"PR 54","High-Level API: `createApp()` Container with Theme and Notification Host","Phase 2","Single wrapper initializing theme, dark mode, and toast layer","PR 45","Pending"
+"PR 54","High-Level API: `createApp()` Container with Theme and Notification Host","Phase 2","Single wrapper initializing theme, dark mode, and toast layer","PR 45","Merged"
 "PR 55","High-Level API: `page()` Declarative Page Layout, Metadata, and Sections","Phase 2","Declarative helper mounting structured, accessible pages","PR 54","Pending"
 "PR 56","High-Level API: `form()` Schema-Driven Field Composition and Validation","Phase 2","Connects inputs, validation, touched states, and errors automatically","PR 19, PR 22","Pending"
 "PR 57","High-Level API: `api()` Typed Request Client with Method Chaining","Phase 2","Lightweight typed HTTP client (`api.get<T>()`, `api.post()`)","PR 45","Pending"
