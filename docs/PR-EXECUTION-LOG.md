@@ -338,3 +338,9 @@
   - **Scope:** Automated accessibility audit runner failing CI on violations
   - **Dependencies:** PR 20–25
   - **Executed & Merged:** 2026-10-22T11:21:38.796Z
+
+- **PR #72:** Accessibility: Screen Reader Semantics & ARIA Live Announcements Verification
+  - **Phase:** Phase 2
+  - **Scope:** Screen reader audits across all feedback and alert components
+  - **Dependencies:** PR 71
+  - **Executed & Merged:** 2026-10-22T11:21:56.442Z
