@@ -452,3 +452,9 @@
   - **Scope:** Eliminates mobile layout clipping on small viewports
   - **Dependencies:** PR 21, PR 27
   - **Executed & Merged:** 2026-10-22T11:26:56.752Z
+
+- **PR #91:** Performance: Package Tree-Shaking Optimization and `\sideEffects\` Config
+  - **Phase:** Phase 3
+  - **Scope:** Audits bundle splitting ensuring single component imports stay under 10 kB
+  - **Dependencies:** PR 76
+  - **Executed & Merged:** 2026-10-22T11:27:13.633Z
