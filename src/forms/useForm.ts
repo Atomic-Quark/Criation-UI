@@ -49,10 +49,18 @@ export function useForm<T extends Record<string, any>>({
 }: UseFormOptions<T>): UseFormReturn<T> {
   const initialValuesRef = useRef<T>(initialValues);
   const validationSeqRef = useRef<number>(0);
+  const isMountedRef = useRef<boolean>(true);
   const [values, setValues] = useState<T>(initialValues);
   const [errors, setErrors] = useState<FormErrors<T>>({});
   const [touched, setTouched] = useState<FormTouched<T>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  React.useEffect(() => {
+    isMountedRef.current = true;
+    return () => {
+      isMountedRef.current = false;
+    };
+  }, []);
 
   const runValidation = useCallback(
     async (currentValues: T): Promise<FormErrors<T>> => {
@@ -160,15 +168,22 @@ export function useForm<T extends Record<string, any>>({
         setIsSubmitting(true);
         try {
           await onSubmit(values);
+          if (isMountedRef.current) {
+            return true;
+          }
           return true;
         } catch (submissionErr: any) {
-          setErrors((prev) => ({
-            ...prev,
-            _form: submissionErr?.message || "Form submission failed",
-          } as any));
+          if (isMountedRef.current) {
+            setErrors((prev) => ({
+              ...prev,
+              _form: submissionErr?.message || "Form submission failed",
+            } as any));
+          }
           return false;
         } finally {
-          setIsSubmitting(false);
+          if (isMountedRef.current) {
+            setIsSubmitting(false);
+          }
         }
       }
 

@@ -1,242 +1,145 @@
 # 🚀 Criation UI
 
-**Criation UI** is a modular, high-performance React + TypeScript UI foundation and design system designed to make building new websites faster, standardized, and visually stunning.
+**Criation UI** is a modular, high-performance React + TypeScript UI library and design system designed to streamline web development, eliminate boilerplate, and deliver consistent, accessible user experiences.
 
-> 📖 **Official Architecture & User Manual**: Read the online [Criation UI Specification & Developer User Manual (Markdown)](docs/CRIATION-UI-SPECIFICATION-AND-USER-MANUAL.md) or download the publication-ready [Criation UI Specification & User Manual (PDF)](Criation-UI-Specification-and-User-Manual.pdf) formatted according to enterprise industry standards.
+> 📖 **Official Architecture & User Manual**: Read the online [Criation UI Specification & Developer User Manual (Markdown)](docs/CRIATION-UI-SPECIFICATION-AND-USER-MANUAL.md), inspect the [100 PR Roadmap](docs/PR-ROADMAP-1-TO-100.md), or review the evidence-based [Technical Verification Report](Criation-UI-Verification-Report.md).
 
 ---
 
 ## 🌟 Key Features
 
-- **Ultra-Simple 1-Line Component Calling**: Write UI elements directly in 1 line without writing `<tags> </tags>`! Call `Button(...)`, `Input(...)`, `Heading(...)`, `Text(...)`, `Badge(...)`, `Card(...)`, `Link(...)`, `Image(...)`.
-- **100% Optional Parameters**: Every single slot is optional — works whether you provide 1 parameter, 2 parameters, skip slots, or provide all slots!
-- **Clean Architectural Separation**: Pure UI styling (`class`, `size`, `color`, `position`, `pointer`) separated cleanly from decoupled **Routing** (`to`, `href`, `direction`) and **Authentication** (`AuthProvider`, `AuthGuard`, `ProtectedRoute`).
-- **Complete Component Suite**: 40+ production-grade components covering buttons, inputs, layouts, typography, navigation, feedback, overlays, and page templates.
-- **Modern Design System**: Dynamic light and dark modes with glassmorphism, tailored HSL color tokens, silky micro-animations, and fluid typography.
-- **First-Class TypeScript Support**: 100% strongly typed with full autocompletion and `.d.ts` declaration generation.
-- **Zero Heavy Dependencies**: Built with React and Lucide icons; no bulky CSS runtime or vendor lock-in.
+- **Conventional JSX First**: Fully typed, accessible React 18+ components usable through standard JSX: `<Button variant="primary" size="lg">Save</Button>`.
+- **Decoupled Fluent Builder (`ui.*`)**: Optional chainable builder API returning standard React elements via `.build()`: `ui.button("Save").primary().large().build()`.
+- **Typed Options Ergonomics**: All builder and factory methods accept strongly-typed options objects (`ui.navbar({ brand, links })`) for rich IDE autocompletion.
+- **Explicit Natural-Language DSL**: Optional string parsing isolated behind explicit, bounded `describe()` / `parseDSL()` calls with actionable syntax warnings.
+- **WAI-ARIA Accessibility**: Modal and Drawer focus trapping (`useFocusTrap`), body scroll locking with scrollbar width compensation, `aria-controls` tab panel linking, and `aria-describedby` form error association.
+- **40+ Production Components**: Complete component suite covering buttons, inputs, layouts, typography, navigation, feedback, overlays, and page templates.
+- **Zero CSS-in-JS Runtime Overhead**: Precompiled CSS bundle (~38.7 kB / 7.2 kB gzip) with zero JavaScript runtime style evaluation overhead.
+- **Subpath Package Exports**: Multi-entry tree-shaking support (`@criation/ui/button`, `@criation/ui/card`) with `sideEffects: false` optimization.
+- **First-Class TypeScript Support**: 100% strongly typed with `.d.ts` declaration generation.
 
 ---
 
-## ✨ Just Like Writing English: Fluent Chaining & Natural Sentences
+## 🎨 Four Expressive Modalities
 
-Criation UI makes writing user interfaces as natural and effortless as writing English. You have 3 expressive ways to build components:
+Criation UI supports four distinct expression styles tailored to team preferences:
 
-### 1. Fluent Dot-Chaining (Reads Literally Like a Sentence)
-Chain properties directly onto components. It renders immediately as a native React element:
-
-```tsx
-// Buttons
-Button("Go to cart").red().link("/cart").auth()
-Button("Proceed to Checkout").green().link("/checkout").large()
-Button("Back to Catalog").outline().back()
-
-// Headings & Text
-Heading("Welcome to Our Store").gradient().center().level(1)
-Text("Handcrafted goods delivered right to your door").muted().center()
-
-// Inputs & Badges
-Input("Search catalog...").search().width("350px")
-Input("Your email address").email().label("Email")
-Badge("HOT SALE").red().small()
-
-// Cards & Links
-Card("Order Confirmed!").glass().width("400px")
-Link("Read Documentation").to("/docs").external()
-```
-
-### 2. Natural English Phrases in Strings
-Prefer writing sentences? Pass English phrases directly:
+### 1. Conventional JSX Components (Recommended Default)
+Standard, predictable React JSX code with full TypeScript prop validation:
 
 ```tsx
-Button("Go to cart, colored red, go to /cart, auth required")
-Heading("Welcome to Store, level 1, centered, with gradient")
-Text("Handcrafted with pride, centered, muted, size large")
-Badge("50% DISCOUNT, in green, small")
-Link("Documentation, to /docs, open in new tab")
-```
+import { Button, Input, Modal, Stack } from "@criation/ui";
 
-### 3. Whole Website in 3 Lines with `Website(...)`
-Mount a full website with themes, routing, toasts, responsive container, and zero HTML tags:
-
-```tsx
-import { Website, Heading, Text, Button } from "@criation/ui";
-
-Website("My Store", [
-  Heading("Welcome to My Store").gradient().center(),
-  Text("The fastest way to build web apps").muted().center(),
-  Button("Shop All Products").green().link("/shop")
-]);
-```
-
----
-
-## ⚡ 1-Line Ultra-Simple Component Shorthands
-
-Criation UI also supports direct unordered arguments or classic 8-slot positional calls without writing `<tags> </tags>`:
-
-```tsx
-import { Heading, Text, Input, Button, Card, Badge, Link, Image } from "@criation/ui";
-
-export default function CartPage() {
+export function UserProfile() {
   return (
-    <div>
-      {/* 1. Heading(text, level/size, id, color, align, position) */}
-      {Heading("Shopping_Cart", 1, "title", "gradient")}
-
-      {/* 2. Text(content, size, id, color, align, position) */}
-      {Text("Review your selected items before checkout", "md", "desc", "muted")}
-
-      {/* 3. Badge(label, size, id, color, position) */}
-      {Badge("2_ITEMS_IN_CART", "sm", "", "success")}
-
-      {/* 4. Input(placeholder, boxSize, id, type, label, color, position, pointer) */}
-      {Input("Enter voucher code...", "320px", "voucher_input")}
-
-      {/* 5. Button(class/label, boxSize, id, auth, path, color, position, pointer) */}
-      {Button("Proceed_to_Payment", "12px 24px", "btn-pay", "user", "/payment", "green")}
-
-      {/* 6. Link(label, href, id, color, isExternal, position) */}
-      {Link("Return to Store Catalog", "/products")}
-
-      {/* 7. Image(src, boxSize, id, alt, rounded, position) */}
-      {Image("https://picsum.photos/300/200", "300px 200px", "img_1", "Product", "lg")}
-
-      {/* 8. Card(content, boxSize, id, variant, color, position, pointer) */}
-      {Card("Order confirmed! Your parcel will arrive in 2 days.", "360px", "card_1", "glass")}
-    </div>
+    <Stack direction="column" gap="1.5rem">
+      <Input placeholder="Enter username..." fullWidth />
+      <Button variant="primary" size="lg" onClick={() => console.log("Saved")}>
+        Save Profile
+      </Button>
+    </Stack>
   );
 }
 ```
 
-### 🧩 Positional Slots Reference (All 100% Optional!)
+### 2. Decoupled Fluent Builder (`ui.*` Namespace)
+Fluent method chaining that terminates in `.build()` to generate an immutable React element:
 
-| Component | Slot 1 | Slot 2 | Slot 3 | Slot 4 | Slot 5 | Slot 6 | Slot 7 | Slot 8 |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **`Button(...)`** | `class/label` | `box size` | `ID` | `Auth` | `path_direction` | `color` | `position` | `pointer` |
-| **`Input(...)`** | `placeholder` | `box size` | `ID` | `type` | `label` | `color` | `position` | `pointer` |
-| **`Heading(...)`** | `text` | `level/size` | `ID` | `color` | `align` | `position` | — | — |
-| **`Text(...)`** | `content` | `size` | `ID` | `color` | `align` | `position` | — | — |
-| **`Badge(...)`** | `label` | `size` | `ID` | `color` | `position` | — | — | — |
-| **`Card(...)`** | `content` | `box size` | `ID` | `variant` | `color` | `position` | `pointer` | — |
-| **`Link(...)`** | `label` | `href/path` | `ID` | `color` | `isExternal` | `position` | — | — |
-| **`Image(...)`** | `src` | `box size` | `ID` | `alt` | `rounded` | `position` | — | — |
+```tsx
+import { ui } from "@criation/ui";
 
-> **Skipping parameters:** You can call `Button("Go_to_cart")` with just 1 argument, or skip middle slots with empty strings: `Button("Go_to_cart", "", "", "", "/cart", "red")`.
+const PrimaryButton = ui.button("Proceed to Checkout")
+  .primary()
+  .large()
+  .onClick(() => navigate("/checkout"))
+  .build();
+
+const PageHeading = ui.heading("Welcome to Store")
+  .level(1)
+  .gradient()
+  .center()
+  .build();
+```
+
+### 3. Strongly-Typed Options Objects
+Structured options API replacing ambiguous positional arguments:
+
+```tsx
+import { ui } from "@criation/ui";
+
+const Navigation = ui.navbar({
+  brand: "Criation Store",
+  links: ["Products", "Pricing", "About", "Contact"]
+});
+```
+
+### 4. Explicit Natural-Language DSL (`describe` / `parseDSL`)
+Bounded, opt-in string parsing for rapid prototyping:
+
+```tsx
+import { describe } from "@criation/ui";
+
+const QuickCTA = describe("button Start Free Trial primary large");
+```
 
 ---
 
-## 📦 Installation & Setup
+## 🔒 Security & Authentication Advisory
 
-In your project repository:
+> [!IMPORTANT]
+> **Client-Side Visual Presentation Notice:**
+> Criation UI is a frontend component library. The included `<AuthProvider>` and `<AuthGuard>` primitives manage client-side UI visibility and state transitions only.
+> 
+> **They do NOT constitute a security boundary.** Client-side route guards, hidden elements, or disabled buttons can be inspected and bypassed in any web browser. Consuming applications MUST independently verify sessions, tokens, and authorization on a secure backend API server for every request. An abstract `AuthAdapter` interface is provided for integrating external identity providers (OAuth/OIDC, Supabase, Firebase, Auth0).
+
+---
+
+## 🌐 Framework Support Matrix
+
+| Framework | Version | Support Status | Notes |
+| :--- | :--- | :--- | :--- |
+| **React** | 18.x, 19.x | Active Support | Supported via standard JSX & React Hooks |
+| **Next.js** | 16.x | Active LTS | Supported with Server Components & `/client` entrypoint |
+| **Next.js** | 15.x | Maintenance LTS | Fully supported with SSR hydration guards |
+| **Vite** | 5.x, 6.x | Active Support | Default build and development tooling |
+
+---
+
+## 🧩 Production Component Catalog
+
+Criation UI includes 40+ modular components and 13 reactive hooks:
+
+- **Buttons:** `Button`, `IconButton`, `ButtonGroup`
+- **Typography:** `Heading`, `Text`, `Link`, `Code`, `Label`
+- **Inputs & Forms:** `Input`, `TextInput`, `PasswordInput`, `EmailInput`, `NumberInput`, `TextArea`, `SearchInput`, `OTPInput`, `Rating`, `Combobox`, `MultiSelect`, `ColorPicker`, `Select`, `Checkbox`, `Radio`, `Switch`, `Slider`, `DatePicker`, `FileUpload`
+- **Layout:** `Box`, `Container`, `Stack`, `Grid`, `Flex`, `Spacer`, `Divider`, `AspectRatio`, `ScrollArea`, `Collapsible`, `Card`
+- **Feedback & Overlays:** `Alert`, `Toast`, `Spinner`, `Skeleton`, `Progress`, `EmptyState`, `ErrorState`, `ErrorBoundary`, `Modal`, `Drawer`, `Popover`, `Tooltip`, `ContextMenu`, `AlertDialog`
+- **Navigation & Templates:** `Navbar`, `Footer`, `Sidebar`, `Stepper`, `Timeline`, `Tabs`, `Breadcrumbs`, `Pagination`, `DropdownMenu`, `Result`, `NotFoundPage`
+- **Reactive Hooks:** `useForm`, `useTheme`, `useDisclosure`, `useClipboard`, `useDebounce`, `useLocalStorage`, `useClickOutside`, `useMediaQuery`, `useFocusTrap`
+
+---
+
+## 🛠️ Verification & Scripts
 
 ```bash
-npm install @criation/ui
+# Start interactive component showcase studio
+npm run dev
+
+# Run automated test suite (74/74 passing specs)
+node scripts/test-suite.js
+
+# Build production library bundle into dist/
+npm run build:lib
+
+# Run TypeScript typecheck with zero errors
+npx tsc --noEmit
 ```
 
-Import styles in your main entry file (`main.tsx` or `App.tsx`):
-
-```tsx
-import "@criation/ui/styles.css";
-```
-
 ---
 
-## 💻 Standard JSX Quick Start
+## 📄 License & Distribution
 
-If you prefer standard JSX tags, the traditional syntax is 100% supported too:
+Criation UI is released under the **[MIT License](LICENSE)**.  
+Copyright © 2026 **Divyanshu Kumar**.
 
-```tsx
-import React from "react";
-import {
-  Button,
-  TextInput,
-  Card,
-  ThemeProvider,
-} from "@criation/ui";
-
-export default function App() {
-  return (
-    <ThemeProvider defaultTheme="dark">
-      <Card variant="glass" padding="lg">
-        <h2>Welcome to My Website</h2>
-        <TextInput placeholder="Enter your email" />
-        <Button variant="primary" onClick={() => alert("Ready!")}>
-          Get Started
-        </Button>
-      </Card>
-    </ThemeProvider>
-  );
-}
-```
-
-
----
-
-## 📐 Standard Properties System
-
-Criation UI standardizes component properties across clear functional groups:
-
-| Property Group | Properties | Description |
-| :--- | :--- | :--- |
-| **Identity** | `id`, `name`, `data-testid` | Identifies elements and supports testing |
-| **Styling** | `className`, `style`, `variant` | Visual appearance and component variants |
-| **Dimensions** | `width`, `height`, `size`, `minWidth`, `maxWidth` | Layout dimensions (`xs`, `sm`, `md`, `lg`, `xl`) |
-| **Color** | `color`, `background`, `borderColor` | Dynamic color styling and CSS variable overrides |
-| **Layout** | `display`, `position`, `direction`, `align`, `justify`, `gap` | Flex and Grid layout controls |
-| **Interaction** | `onClick`, `disabled`, `loading`, `tabIndex` | User interaction and states |
-| **Pointer** | `cursor` | Explicit pointer / cursor behavior |
-| **Accessibility**| `aria-label`, `aria-describedby`, `role` | Screen-reader and ARIA compliance |
-| **Routing** | `to`, `href`, `target` | Navigation destinations (separated under routing) |
-| **Authentication** | `requiredRole`, `allowedRoles`, `fallback` | Protected access guards (separated under auth) |
-
----
-
-## 🧩 Comprehensive Production Component Catalog
-
-Criation UI includes 50+ modular components and 13 reactive hooks:
-
-### Core & Typography
-- `Button`, `IconButton`, `ButtonGroup`
-- `Heading`, `Text`, `Link`, `Code`, `Label`
-
-### Inputs & Forms
-- `Input`, `TextInput`, `PasswordInput`, `EmailInput`, `NumberInput`, `TextArea`
-- `SearchInput`, `OTPInput`, `Rating`, `Combobox`, `MultiSelect`, `ColorPicker`
-- `Select`, `Checkbox`, `Radio`, `Switch`, `Slider`, `DatePicker`, `FileUpload`
-- `Form`, `FormField`, `FormLabel`, `FormError`, `FormProvider`, `validation`
-
-### Layout & Containers
-- `Box`, `Container`, `Stack`, `Grid`, `Flex`, `Spacer`, `Divider`
-- `AspectRatio`, `ScrollArea`, `Collapsible`, `Card`
-
-### Feedback & Overlays
-- `Alert`, `Toast`, `Spinner`, `Skeleton`, `Progress`, `EmptyState`, `ErrorState`
-- `ErrorBoundary`, `Modal`, `Drawer`, `Popover`, `Tooltip`, `ContextMenu`, `AlertDialog`
-
-### Navigation & Templates
-- `Navbar`, `Footer`, `Sidebar`, `Stepper`, `Timeline`, `Tabs`, `Breadcrumbs`, `Pagination`, `DropdownMenu`
-- `LandingLayout`, `DashboardLayout`, `AuthLayout`, `SettingsLayout`, `Result`, `NotFoundPage`
-
-### Reactive Hooks
-- `useTheme`, `useDisclosure`, `useClipboard`, `useDebounce`, `useLocalStorage`, `useClickOutside`, `useMediaQuery`
-- `useWindowSize`, `useOnlineStatus`, `useIntersectionObserver`, `usePrevious`, `useEventListener`, `useKeyPress`
-
----
-
-## 🛠️ Available Scripts
-
-- `npm run dev`: Starts the interactive component showcase studio on `http://localhost:3000`.
-- `npm run build:lib`: Builds the distributable package bundle and TypeScript declarations into `dist/`.
-- `npm test`: Runs the automated unit, integration, and rendering test suite (36 tests).
-- `npm run build`: Builds the showcase application for hosting.
-- `npx tsc --noEmit`: Runs full TypeScript type-checking across the entire codebase.
-
----
-
-## 📄 License
-
-**Criation UI — Iron Seal Proprietary & Exclusive License**  
-Copyright © 2026 **Divyanshu Kumar**. All Rights Reserved.
-
-This software, its architecture, fluent chaining engine, design systems, and components are the sole and exclusive intellectual property of **Divyanshu Kumar**. Any unauthorized reproduction, modification, redistribution, execution, deployment, or commercial/non-commercial use without explicit prior written permission from Divyanshu Kumar is strictly prohibited. For licensing inquiries, see the [LICENSE](LICENSE) file.
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the software in commercial and non-commercial applications.

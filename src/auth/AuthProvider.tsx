@@ -1,9 +1,17 @@
 import React, { useState, useCallback, type ReactNode } from "react";
 import { AuthContext } from "./AuthContext";
-import type { User, AuthState } from "./authTypes";
+import type { User, AuthState, AuthAdapter } from "./authTypes";
+
+/**
+ * SECURITY NOTICE:
+ * Client-side demonstration only. This is not a production authentication system.
+ * The consuming backend must independently verify sessions/tokens and authorize each request.
+ * Never treat UI visibility or disabled states as a security boundary.
+ */
 
 export interface AuthProviderProps {
   children: ReactNode;
+  adapter?: AuthAdapter;
   initialUser?: User | null;
   initialToken?: string | null;
   onLogin?: (credentials: Record<string, any>) => Promise<{ user: User; token: string }>;
@@ -12,6 +20,7 @@ export interface AuthProviderProps {
 
 export function AuthProvider({
   children,
+  adapter,
   initialUser = null,
   initialToken = null,
   onLogin,
@@ -28,7 +37,15 @@ export function AuthProvider({
     async (credentials: Record<string, any>) => {
       setAuthState((prev) => ({ ...prev, isLoading: true }));
       try {
-        if (onLogin) {
+        if (adapter) {
+          const { user, token } = await adapter.login(credentials);
+          setAuthState({
+            user,
+            token,
+            isAuthenticated: true,
+            isLoading: false,
+          });
+        } else if (onLogin) {
           const { user, token } = await onLogin(credentials);
           setAuthState({
             user,
@@ -37,7 +54,7 @@ export function AuthProvider({
             isLoading: false,
           });
         } else {
-          // Default mock login behavior for rapid prototyping
+          // Default mock login behavior for rapid local prototyping
           const dummyUser: User = {
             id: "user-1",
             email: credentials.email || "alex@example.com",
@@ -56,13 +73,15 @@ export function AuthProvider({
         throw err;
       }
     },
-    [onLogin]
+    [adapter, onLogin]
   );
 
   const logout = useCallback(async () => {
     setAuthState((prev) => ({ ...prev, isLoading: true }));
     try {
-      if (onLogout) {
+      if (adapter) {
+        await adapter.logout();
+      } else if (onLogout) {
         await onLogout();
       }
     } finally {
@@ -73,7 +92,7 @@ export function AuthProvider({
         isLoading: false,
       });
     }
-  }, [onLogout]);
+  }, [adapter, onLogout]);
 
   const hasRole = useCallback(
     (role: string | string[]) => {
