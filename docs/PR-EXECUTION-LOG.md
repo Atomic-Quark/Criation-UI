@@ -110,3 +110,9 @@
   - **Scope:** Clarify local mock nature of auth in documentation and README
   - **Dependencies:** PR 12, PR 13
   - **Executed & Merged:** 2026-10-22T11:09:06.439Z
+
+- **PR #34:** Docs: Replace Simulated Deletion Demo with Real State Mutation Pattern
+  - **Phase:** Phase 1
+  - **Scope:** Update AlertDialog deletion example with pending and error states
+  - **Dependencies:** PR 12, PR 13
+  - **Executed & Merged:** 2026-10-22T11:09:22.613Z

@@ -32,7 +32,7 @@
 "PR 31","Governance: Consumer Installation & Commercial Developer Rights Guide","Phase 1","Document permitted usage, distribution, and enterprise support terms","PR 15","Merged"
 "PR 32","Governance: Third-Party License Audit & `NOTICE` Attribution File","Phase 1","Audit dependencies (Lucide, Marked), generate NOTICE file","PR 31","Merged"
 "PR 33","Docs: Replace Simulated Auth Demos with Real Form Validation Workflows","Phase 1","Clarify local mock nature of auth in documentation and README","PR 12, PR 13","Merged"
-"PR 34","Docs: Replace Simulated Deletion Demo with Real State Mutation Pattern","Phase 1","Update AlertDialog deletion example with pending and error states","PR 12, PR 13","Pending"
+"PR 34","Docs: Replace Simulated Deletion Demo with Real State Mutation Pattern","Phase 1","Update AlertDialog deletion example with pending and error states","PR 12, PR 13","Merged"
 "PR 35","Docs: Clarify Difference Between Debounce and Throttle in Utilities Guide","Phase 1","Timing diagrams and use case guide for `useDebounce` vs `throttle`","PR 12","Pending"
 "PR 36","Docs: Replace \"0 KB CSS Runtime\" Assertion with Accurate Performance Language","Phase 1","Clarify static precompiled CSS (34 kB) has zero JS CSS-in-JS overhead","PR 12, PR 13","Pending"
 "PR 37","Docs: Reconcile \"Four Expressive Modalities\" Section Numbering","Phase 1","Standardize documentation structure across all 4 modalities","PR 12, PR 13","Pending"
