@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.2.1-dev] - 2026-10-22
 
+### 📜 Licensing & Natural-Language Parsing (PR 15)
+- **Adopted MIT Open Source License**:
+  - Replaced restrictive Iron Seal proprietary clause with standard permissive MIT License (Copyright © 2026 Divyanshu Kumar), unblocking broad developer adoption and commercial application integration.
+- **Natural-Language DSL Fault Tolerance & Isolation**:
+  - Added explicit opt-in helpers `describe()` and `parseDSL()` in `src/core/dslParser.tsx`.
+  - Added safe error boundaries returning `<div className="criation-dsl-error">` warning elements on unrecognized syntax rather than throwing unhandled exceptions.
+  - Added automated regression tests in `scripts/test-suite.js` (total 61/61 tests passing).
+
 ### 🏗️ Architecture & Fluent Builder (PR 14)
 - **Decoupled React Components from Fluent Builders**:
   - Introduced the dedicated `ui` builder namespace (`import { ui } from "@criation/ui"`) providing explicit, chainable methods (`ui.button()`, `ui.heading()`, `ui.card()`, `ui.stack()`, `ui.grid()`, etc.) with terminal `.build(): ReactElement` compilation.

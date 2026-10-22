@@ -1,63 +1,21 @@
-CRIATION UI — IRON SEAL PROPRIETARY & EXCLUSIVE LICENSE
-================================================================================
-Copyright (c) 2026 Divyanshu Kumar. All Rights Reserved.
-Sole and Exclusive Author & Proprietor: Divyanshu Kumar
-================================================================================
+MIT License
 
-IMPORTANT — READ CAREFULLY:
+Copyright (c) 2026 Divyanshu Kumar
 
-This software and its associated documentation, source files, design systems,
-fluent syntax engines, CSS architectures, and digital assets (collectively, the
-"Software") are the sole, exclusive, and unalienable intellectual property of
-Divyanshu Kumar ("Proprietor" / "Owner").
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-1. EXCLUSIVE OWNERSHIP & SOLE PROPRIETORSHIP
-   The Software is licensed, not sold. Divyanshu Kumar retains all rights, title,
-   and interest in and to the Software, including all copyrights, patents, trade
-   secrets, trademarks, and all other proprietary and intellectual property rights
-   recognized under domestic, national, and international laws.
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
 
-2. THE "IRON SEAL" RESTRICTION (STRICT PRIOR WRITTEN PERMISSION ONLY)
-   Under no circumstances may any person, business, entity, organization,
-   educational institution, governmental body, or automated system:
-     (a) Copy, reproduce, redistribute, republish, mirror, or transmit the Software
-         in whole or in part, in source or compiled form;
-     (b) Modify, fork, alter, adapt, translate, decompile, disassemble, or create
-         derivative works based upon the Software or any portion thereof;
-     (c) Sell, resell, sublicense, rent, lease, distribute, or commercially exploit
-         the Software;
-     (d) Deploy, execute, host, run, or embed the Software in any private, public,
-         commercial, non-commercial, enterprise, SaaS, or open-source product or service;
-   WITHOUT THE EXPLICIT, FORMAL, PRIOR, WRITTEN, SIGNED, AND VERIFIABLE PERMISSION
-   DIRECTLY OBTAINED FROM DIVYANSHU KUMAR.
-
-3. NO IMPLIED LICENSE OR CONFERRED RIGHTS
-   Mere access, visibility, downloading, cloning, starring, forking, or possessing a
-   copy of this repository or its source code does NOT constitute a license, grant,
-   or permission to use, execute, modify, or distribute the Software. All rights not
-   explicitly granted in a signed written contract from Divyanshu Kumar are strictly
-   and unconditionally reserved.
-
-4. COMMERCIAL & PRIVATE USE PERMISSION PROTOCOL
-   If you wish to obtain permission, a commercial license, or authorization to use,
-   integrate, or study Criation UI in your project or organization, you MUST contact
-   the sole owner directly:
-     Proprietor: Divyanshu Kumar
-     GitHub:     https://github.com/Atomic-Quark
-     Contact:    143479650+Atomic-Quark@users.noreply.github.com
-
-5. VIOLATIONS, INFRINGEMENTS & ENFORCEMENT
-   Any unauthorized use, copying, reproduction, distribution, or decompilation of
-   the Software constitutes willful copyright infringement and theft of proprietary
-   intellectual property. Divyanshu Kumar reserves all rights to seek legal remedies,
-   including immediate injunctive relief, statutory and compensatory damages, seizure
-   of infringing works, and recovery of full legal fees and costs to the maximum
-   extent allowable under law.
-
-6. DISCLAIMER OF WARRANTIES
-   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-   FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT. IN NO EVENT SHALL
-   DIVYANSHU KUMAR BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY ARISING
-   FROM, OUT OF, OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
-   IN THE SOFTWARE.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.

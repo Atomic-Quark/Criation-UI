@@ -195,6 +195,20 @@ const standardBtn = React.createElement(UI.Button, { variant: "primary", disable
 const standardBtnHtml = ReactDOMServer.renderToString(standardBtn);
 assert("Button renders cleanly as standard React JSX component with disabled state", standardBtnHtml.includes("Pure JSX Button") && standardBtnHtml.includes("disabled"));
 
+// PR 15: Explicit opt-in natural language DSL & error handling tests
+assert("describe function is exported", typeof UI.describe === "function");
+assert("parseDSL function is exported", typeof UI.parseDSL === "function");
+
+const dslElements = UI.parseDSL('Button = "Purchase", "10px 20px", "buy_btn", "NoAuth", "/cart", "green"');
+assert("parseDSL parses button specification into React element", Array.isArray(dslElements) && dslElements.length === 1);
+const dslBtnHtml = ReactDOMServer.renderToString(dslElements[0]);
+assert("parseDSL button renders with label Purchase", dslBtnHtml.includes("Purchase"));
+
+const dslInvalid = UI.parseDSL("InvalidSyntaxLineWithoutKeyword");
+assert("parseDSL handles unrecognized syntax with warning element without throwing", dslInvalid.length === 1);
+const dslInvalidHtml = ReactDOMServer.renderToString(dslInvalid[0]);
+assert("parseDSL warning element contains syntax warning", dslInvalidHtml.includes("DSL Syntax Warning"));
+
 // -----------------------------------------------------------------------------
 // 5. Bug Fix Regressions & Accessibility Attributes Tests
 // -----------------------------------------------------------------------------
