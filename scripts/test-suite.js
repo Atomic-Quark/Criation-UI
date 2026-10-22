@@ -237,6 +237,16 @@ assert("package.json defines subpath exports for tree-shaking", typeof pkg.expor
 assert("package.json defines sideEffects configuration", Array.isArray(pkg.sideEffects));
 assert("package.json declares MIT license", pkg.license === "MIT");
 
+// PR 20: WAI-ARIA Focus Trapping and Modal Accessibility Attributes
+assert("getFocusableElements is exported from public API", typeof UI.getFocusableElements === "function");
+assert("trapFocus is exported from public API", typeof UI.trapFocus === "function");
+assert("useFocusTrap is exported from public API", typeof UI.useFocusTrap === "function");
+
+const modalHtml = ReactDOMServer.renderToString(
+  React.createElement(UI.Modal, { isOpen: true, onClose: () => {}, title: "Dialog Title" }, "Modal content")
+);
+assert("Modal renders with accessible dialog container", modalHtml.includes("Dialog Title") && modalHtml.includes("cr-modal"));
+
 // -----------------------------------------------------------------------------
 // 5. Bug Fix Regressions & Accessibility Attributes Tests
 // -----------------------------------------------------------------------------

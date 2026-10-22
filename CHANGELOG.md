@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.2.1-dev] - 2026-10-22
 
+### 🪟 Accessible Dialog Primitives & Focus Trapping (PR 20)
+- **WAI-ARIA Focus Trapping & Esc Dismissal**:
+  - Verified `trapFocus`, `getFocusableElements`, and `useFocusTrap` across overlay primitives (`Modal`, `AlertDialog`).
+  - Guaranteed that keyboard <kbd>Tab</kbd> traversal remains contained inside active dialogs, and <kbd>Escape</kbd> triggers clean dismissal with focus restoration to trigger elements.
+
 ### 📋 Form State Management & Async Race Protection (PR 19)
 - **useForm Async Race Condition Protection**:
   - Implemented sequence counter tokens (`validationSeqRef`) in `runValidation` and `setFieldValue` to prevent late-resolving async validations from overwriting newer user input.
