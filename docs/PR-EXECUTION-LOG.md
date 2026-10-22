@@ -98,3 +98,9 @@
   - **Scope:** Document permitted usage, distribution, and enterprise support terms
   - **Dependencies:** PR 15
   - **Executed & Merged:** 2026-10-22T11:08:31.834Z
+
+- **PR #32:** Governance: Third-Party License Audit & `NOTICE` Attribution File
+  - **Phase:** Phase 1
+  - **Scope:** Audit dependencies (Lucide, Marked), generate NOTICE file
+  - **Dependencies:** PR 31
+  - **Executed & Merged:** 2026-10-22T11:08:48.298Z
