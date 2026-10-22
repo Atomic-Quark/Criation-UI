@@ -182,3 +182,9 @@
   - **Scope:** Full test suite, clean build, zero errors, Phase 1 verification signoff
   - **Dependencies:** PR 14–44
   - **Executed & Merged:** 2026-10-22T11:12:27.063Z
+
+- **PR #46:** CLI: Package Setup and Command Dispatcher (`bin/criation.js`)
+  - **Phase:** Phase 2
+  - **Scope:** CLI entry point, help menu, version flags, argument parser
+  - **Dependencies:** PR 45
+  - **Executed & Merged:** 2026-10-22T11:12:43.709Z
