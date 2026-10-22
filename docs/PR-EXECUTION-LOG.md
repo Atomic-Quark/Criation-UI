@@ -488,3 +488,9 @@
   - **Scope:** Updates all documentation files to reflect hardened APIs
   - **Dependencies:** PR 14–95
   - **Executed & Merged:** 2026-10-22T11:29:25.948Z
+
+- **PR #97:** Docs: Architectural Specification & User Manual PDF Regenerator (v0.3.0)
+  - **Phase:** Phase 3
+  - **Scope:** Regenerates publication PDF manual matching v0.3.0 release
+  - **Dependencies:** PR 96
+  - **Executed & Merged:** 2026-10-22T11:29:43.127Z

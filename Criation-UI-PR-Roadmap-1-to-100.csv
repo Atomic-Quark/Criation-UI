@@ -95,7 +95,7 @@
 "PR 94","CI/CD: GitHub Actions Trusted Publishing via npm OpenID Connect (OIDC)","Phase 3","Secure publishing automation eliminating long-lived npm tokens","PR 93","Merged"
 "PR 95","Governance: SemVer Policy, Deprecation Timeline, and Migration Guide","Phase 3","Documented rules for breaking changes, minors, and patches","PR 45","Merged"
 "PR 96","Docs: Comprehensive Documentation Site Update across all Guides","Phase 3","Updates all documentation files to reflect hardened APIs","PR 14–95","Merged"
-"PR 97","Docs: Architectural Specification & User Manual PDF Regenerator (v0.3.0)","Phase 3","Regenerates publication PDF manual matching v0.3.0 release","PR 96","Pending"
+"PR 97","Docs: Architectural Specification & User Manual PDF Regenerator (v0.3.0)","Phase 3","Regenerates publication PDF manual matching v0.3.0 release","PR 96","Merged"
 "PR 98","Gate: Final Pre-Release Verification Gate (Zero Test Failures & Clean Build)","Phase 3","100% test pass, clean typecheck, tarball verified","PR 14–97","Pending"
 "PR 99","Report: Beta Program Findings & Empirical Productivity Summary","Phase 3","Published summary of external beta results and productivity metrics","PR 87, PR 98","Pending"
 "PR 100","Milestone: Launch Readiness Assessment and Criation UI v0.3.0 Public Release","Phase 3","Formal release scorecard, git release tag, and public distribution","PR 14–99","Pending"
