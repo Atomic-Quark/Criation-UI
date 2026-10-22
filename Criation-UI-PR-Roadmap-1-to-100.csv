@@ -55,7 +55,7 @@
 "PR 54","High-Level API: `createApp()` Container with Theme and Notification Host","Phase 2","Single wrapper initializing theme, dark mode, and toast layer","PR 45","Merged"
 "PR 55","High-Level API: `page()` Declarative Page Layout, Metadata, and Sections","Phase 2","Declarative helper mounting structured, accessible pages","PR 54","Merged"
 "PR 56","High-Level API: `form()` Schema-Driven Field Composition and Validation","Phase 2","Connects inputs, validation, touched states, and errors automatically","PR 19, PR 22","Merged"
-"PR 57","High-Level API: `api()` Typed Request Client with Method Chaining","Phase 2","Lightweight typed HTTP client (`api.get<T>()`, `api.post()`)","PR 45","Pending"
+"PR 57","High-Level API: `api()` Typed Request Client with Method Chaining","Phase 2","Lightweight typed HTTP client (`api.get<T>()`, `api.post()`)","PR 45","Merged"
 "PR 58","High-Level API: `resource()` State Adapter (Loading, Success, Empty, Error)","Phase 2","Automated lifecycle displays spinner, error retry, or data list","PR 57","Pending"
 "PR 59","High-Level API: `action()` Async Controller with Pending & Duplication Guard","Phase 2","Mutation helper preventing double-clicks and showing loading state","PR 45","Pending"
 "PR 60","High-Level API: `table()` Fluent Builder with Client Sorting and Pagination","Phase 2","Fluent helper for data tables with column definitions and sorting","PR 27","Pending"
