@@ -14,3 +14,9 @@
   - **Scope:** Remove \auth required\ string inference; use explicit boolean props
   - **Dependencies:** PR 14, PR 16
   - **Executed & Merged:** 2026-10-22T11:04:35.528Z
+
+- **PR #18:** Packaging: Subpath Package Exports for Tree-Shaking (`@criation/ui/button`)
+  - **Phase:** Phase 1
+  - **Scope:** Multi-entry Rollup build and package.json subpath exports to reduce bundle size
+  - **Dependencies:** PR 14
+  - **Executed & Merged:** 2026-10-22T11:04:53.693Z
