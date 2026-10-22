@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.2.1-dev] - 2026-10-22
 
+### 🎛️ API Ergonomics & Options Objects (PR 16)
+- **Typed Options Objects for Builders**:
+  - Enhanced `ui.navbar` and `ui.footer` to accept structured, typed options objects (`{ brand, links, actions, sticky, glass }`) alongside existing positional parameters.
+  - Added automated tests verifying structured option parameters across layout and navigation builders.
+
 ### 📜 Licensing & Natural-Language Parsing (PR 15)
 - **Adopted MIT Open Source License**:
   - Replaced restrictive Iron Seal proprietary clause with standard permissive MIT License (Copyright © 2026 Divyanshu Kumar), unblocking broad developer adoption and commercial application integration.

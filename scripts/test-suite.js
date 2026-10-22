@@ -209,6 +209,22 @@ assert("parseDSL handles unrecognized syntax with warning element without throwi
 const dslInvalidHtml = ReactDOMServer.renderToString(dslInvalid[0]);
 assert("parseDSL warning element contains syntax warning", dslInvalidHtml.includes("DSL Syntax Warning"));
 
+// PR 16: Typed options object tests
+const navWithOptions = UI.ui.navbar({
+  brand: "Criation Store",
+  links: ["Pricing", "Docs"],
+  actions: UI.Button("Login")
+});
+const navWithOptionsHtml = ReactDOMServer.renderToString(navWithOptions);
+assert("ui.navbar accepts typed options object with brand and links", navWithOptionsHtml.includes("Criation Store") && navWithOptionsHtml.includes("Pricing"));
+
+const footerWithOptions = UI.ui.footer({
+  brand: "Criation UI",
+  links: ["Privacy", "Terms"]
+});
+const footerWithOptionsHtml = ReactDOMServer.renderToString(footerWithOptions);
+assert("ui.footer accepts typed options object with brand and links", footerWithOptionsHtml.includes("Criation UI") && footerWithOptionsHtml.includes("Privacy"));
+
 // -----------------------------------------------------------------------------
 // 5. Bug Fix Regressions & Accessibility Attributes Tests
 // -----------------------------------------------------------------------------

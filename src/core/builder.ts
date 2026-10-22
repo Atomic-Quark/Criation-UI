@@ -285,24 +285,32 @@ export const ui = {
   },
 
   /**
-   * Fluent Navbar builder
+   * Fluent Navbar builder (supports positional arguments or typed options object)
    */
   navbar(
-    brand: ReactNode,
+    brandOrOptions: ReactNode | { brand: ReactNode; links?: (string | ReactNode)[] | ReactNode; actions?: ReactNode; sticky?: boolean; glass?: boolean },
     links?: (string | ReactNode)[] | ReactNode,
     actions?: ReactNode
   ): ReactElement & NavbarChainable {
-    return (Navbar as any)(brand, links, actions);
+    if (brandOrOptions && typeof brandOrOptions === "object" && !("$$typeof" in (brandOrOptions as any)) && "brand" in (brandOrOptions as any)) {
+      const opts = brandOrOptions as any;
+      return (Navbar as any)(opts.brand, opts.links, opts.actions);
+    }
+    return (Navbar as any)(brandOrOptions, links, actions);
   },
 
   /**
-   * Fluent Footer builder
+   * Fluent Footer builder (supports positional arguments or typed options object)
    */
   footer(
-    copyright?: ReactNode,
+    copyrightOrOptions?: ReactNode | { copyright?: ReactNode; links?: (string | ReactNode)[]; brand?: ReactNode },
     links?: (string | ReactNode)[]
   ): ReactElement {
-    return Footer(copyright, links);
+    if (copyrightOrOptions && typeof copyrightOrOptions === "object" && !("$$typeof" in (copyrightOrOptions as any)) && ("copyright" in copyrightOrOptions || "links" in copyrightOrOptions || "brand" in copyrightOrOptions)) {
+      const opts = copyrightOrOptions as any;
+      return Footer(opts.copyright || opts.brand, opts.links);
+    }
+    return Footer(copyrightOrOptions as any, links);
   },
 
   /**
