@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.2.1-dev] - 2026-10-22
 
+### 📦 Packaging & Tree-Shaking Exports (PR 18)
+- **Subpath Package Exports**:
+  - Configured granular subpath exports in `package.json` for `./button`, `./input`, `./card`, and `./core` with exact typing declarations.
+  - Added `"sideEffects": ["*.css"]` to inform bundlers (Webpack, Rollup, Vite) that unused JS modules are tree-shakeable.
+  - Formally updated package manifest license to `MIT`.
+
 ### 🛡️ Presentation & Security Decoupling (PR 17)
 - **Decoupled UI Presentation from Client-Side Auth Assumptions**:
   - Replaced hardcoded, intrusive browser `alert()` triggers on unauthenticated button clicks with non-blocking `CustomEvent("criation:auth-required")`.

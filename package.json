@@ -12,9 +12,28 @@
       "import": "./dist/index.js",
       "require": "./dist/index.umd.cjs"
     },
+    "./button": {
+      "types": "./dist/components/buttons/Button.d.ts",
+      "import": "./dist/components/buttons/Button.js"
+    },
+    "./input": {
+      "types": "./dist/components/inputs/Input.d.ts",
+      "import": "./dist/components/inputs/Input.js"
+    },
+    "./card": {
+      "types": "./dist/components/data-display/Card.d.ts",
+      "import": "./dist/components/data-display/Card.js"
+    },
+    "./core": {
+      "types": "./dist/core/builder.d.ts",
+      "import": "./dist/core/builder.js"
+    },
     "./styles.css": "./dist/styles.css",
     "./ui.css": "./dist/styles.css"
   },
+  "sideEffects": [
+    "*.css"
+  ],
   "files": [
     "dist"
   ],
@@ -36,7 +55,7 @@
     "typescript"
   ],
   "author": "Divyanshu Kumar <143479650+Atomic-Quark@users.noreply.github.com>",
-  "license": "SEE LICENSE IN LICENSE",
+  "license": "MIT",
   "dependencies": {
     "lucide-react": "^1.16.0",
     "react": "^18.3.1",

@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOMServer from "react-dom/server";
 import * as UI from "../dist/index.js";
+import fs from "fs";
 
 let passed = 0;
 let failed = 0;
@@ -229,6 +230,12 @@ assert("ui.footer accepts typed options object with brand and links", footerWith
 const authBtn = UI.Button("Admin Panel").red().auth();
 const authBtnHtml = ReactDOMServer.renderToString(authBtn);
 assert("Button renders cleanly with auth config without throwing or forcing alert", authBtnHtml.includes("Admin Panel") && authBtnHtml.includes("#f43f5e"));
+
+// PR 18: Package.json exports and tree-shaking configuration test
+const pkg = JSON.parse(fs.readFileSync("package.json", "utf-8"));
+assert("package.json defines subpath exports for tree-shaking", typeof pkg.exports["./button"] === "object" && typeof pkg.exports["./card"] === "object");
+assert("package.json defines sideEffects configuration", Array.isArray(pkg.sideEffects));
+assert("package.json declares MIT license", pkg.license === "MIT");
 
 // -----------------------------------------------------------------------------
 // 5. Bug Fix Regressions & Accessibility Attributes Tests
