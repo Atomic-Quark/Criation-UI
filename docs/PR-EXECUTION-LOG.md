@@ -188,3 +188,9 @@
   - **Scope:** CLI entry point, help menu, version flags, argument parser
   - **Dependencies:** PR 45
   - **Executed & Merged:** 2026-10-22T11:12:43.709Z
+
+- **PR #47:** CLI: `init` Command for Vite + React and Next.js Project Generation
+  - **Phase:** Phase 2
+  - **Scope:** `criation init <project>` template generator
+  - **Dependencies:** PR 46
+  - **Executed & Merged:** 2026-10-22T11:13:00.220Z

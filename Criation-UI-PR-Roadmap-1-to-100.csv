@@ -45,7 +45,7 @@
 "PR 44","Packaging: Package Distribution Verification (Dual ESM/CJS & CSS Path)","Phase 1","Synthetic test consumer verifying `import` and `require`","PR 29, PR 39","Merged"
 "PR 45","Milestone: Baseline Release Verification Gate & Phase 1 Health Check","Phase 1","Full test suite, clean build, zero errors, Phase 1 verification signoff","PR 14–44","Merged"
 "PR 46","CLI: Package Setup and Command Dispatcher (`bin/criation.js`)","Phase 2","CLI entry point, help menu, version flags, argument parser","PR 45","Merged"
-"PR 47","CLI: `init` Command for Vite + React and Next.js Project Generation","Phase 2","`criation init <project>` template generator","PR 46","Pending"
+"PR 47","CLI: `init` Command for Vite + React and Next.js Project Generation","Phase 2","`criation init <project>` template generator","PR 46","Merged"
 "PR 48","CLI: `add` Command for Scaffolding UI Components and Dependencies","Phase 2","`criation add <component>` boilerplate generator","PR 46","Pending"
 "PR 49","CLI: Feature Scaffolding for `add login` Template with Auth Hooks","Phase 2","Generates accessible login screen with form validation","PR 47, PR 48","Pending"
 "PR 50","CLI: Feature Scaffolding for `add dashboard` Template with Stat Cards","Phase 2","Generates responsive dashboard layout and data table structure","PR 47, PR 48","Pending"
