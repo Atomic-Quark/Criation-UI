@@ -128,3 +128,9 @@
   - **Scope:** Clarify static precompiled CSS (34 kB) has zero JS CSS-in-JS overhead
   - **Dependencies:** PR 12, PR 13
   - **Executed & Merged:** 2026-10-22T11:09:56.076Z
+
+- **PR #37:** Docs: Reconcile \Four Expressive Modalities\ Section Numbering
+  - **Phase:** Phase 1
+  - **Scope:** Standardize documentation structure across all 4 modalities
+  - **Dependencies:** PR 12, PR 13
+  - **Executed & Merged:** 2026-10-22T11:10:12.162Z
