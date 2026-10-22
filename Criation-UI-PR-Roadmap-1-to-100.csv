@@ -79,7 +79,7 @@
 "PR 78","Distribution: `npm pack` Tarball Inspection and Artifact Sanitization","Phase 3","Verifies only `dist/`, `README.md`, `LICENSE`, `NOTICE` are packaged","PR 77","Merged"
 "PR 79","Consumer Smoke Test: Clean Vite + React 18 Consumer Environment Verification","Phase 3","Fresh project installs tarball and builds with zero errors","PR 78","Merged"
 "PR 80","Consumer Smoke Test: Clean Next.js 15/16 App Router SSR Verification","Phase 3","Fresh Next.js project renders components with zero hydration errors","PR 78","Merged"
-"PR 81","Beta: Controlled Beta Program Architecture and Participant Onboarding Guide","Phase 3","Guidelines and feedback templates for external testers","PR 77","Pending"
+"PR 81","Beta: Controlled Beta Program Architecture and Participant Onboarding Guide","Phase 3","Guidelines and feedback templates for external testers","PR 77","Merged"
 "PR 82","Beta: Task Protocol 1 — Beginner Website Assembly Benchmark","Phase 3","Standard 3-section landing page assembly test","PR 81","Pending"
 "PR 83","Beta: Task Protocol 2 — Declarative Form & Validation Benchmark","Phase 3","3-field registration form implementation benchmark","PR 81","Pending"
 "PR 84","Beta: Task Protocol 3 — Dynamic Table & Dashboard Data Presentation Benchmark","Phase 3","Searchable 20-item table implementation benchmark","PR 81","Pending"
