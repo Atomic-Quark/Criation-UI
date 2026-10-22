@@ -374,3 +374,9 @@
   - **Scope:** End-to-end integration test; Release Candidate 1 preparation
   - **Dependencies:** PR 46–76
   - **Executed & Merged:** 2026-10-22T11:23:19.531Z
+
+- **PR #78:** Distribution: `npm pack` Tarball Inspection and Artifact Sanitization
+  - **Phase:** Phase 3
+  - **Scope:** Verifies only `dist/`, `README.md`, `LICENSE`, `NOTICE` are packaged
+  - **Dependencies:** PR 77
+  - **Executed & Merged:** 2026-10-22T11:23:36.344Z
