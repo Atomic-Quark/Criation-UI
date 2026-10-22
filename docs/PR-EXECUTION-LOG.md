@@ -512,3 +512,7 @@
   - **Scope:** Formal release scorecard, git release tag, and public distribution
   - **Dependencies:** PR 14–99
   - **Executed & Merged:** 2026-10-22T11:30:38.454Z
+
+- **Audit Remediation & Verification Signoff:** fix(audit): comprehensive audit remediation and verification signoff
+  - **Scope:** Technical, architectural, security, and register fixes per 23-page audit.
+  - **Executed & Merged:** 2026-10-22T11:50:35.278Z
