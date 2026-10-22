@@ -356,3 +356,9 @@
   - **Scope:** Automatically disables CSS transitions when reduced motion is preferred
   - **Dependencies:** PR 45
   - **Executed & Merged:** 2026-10-22T11:22:29.579Z
+
+- **PR #75:** Accessibility: Dark & Light Mode Color Contrast Ratio Conformance Audit
+  - **Phase:** Phase 2
+  - **Scope:** Audit all token color pairs for minimum 4.5:1 text contrast
+  - **Dependencies:** PR 45
+  - **Executed & Merged:** 2026-10-22T11:22:46.298Z
