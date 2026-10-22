@@ -1,5 +1,9 @@
 # 🔐 Authentication & Routing Integration Guide
 
+> [!IMPORTANT]
+> **CRITICAL SECURITY BOUNDARY NOTICE:**
+> Frontend authentication helpers do not secure backend APIs. Authentication and authorization must be enforced by the actual application and identity provider on the server side. `<AuthProvider />`, `<AuthGuard />`, and `<ProtectedRoute />` manage client-side UI visibility, disabled states, and navigation transitions only. Never rely on frontend helpers to protect sensitive data or privileged operations.
+
 In Criation UI, UI styling is strictly decoupled from authentication and routing logic. This prevents vendor lock-in and allows you to use Criation UI components with any backend or routing solution.
 
 ---

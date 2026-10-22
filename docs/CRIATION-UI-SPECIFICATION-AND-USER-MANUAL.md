@@ -6,13 +6,13 @@
 | **Document Metadata** | **Specification Details** |
 | :--- | :--- |
 | **System Title** | Criation UI Design System & Component Library |
-| **Current Release** | **v0.2.1** (Production Enterprise Release) |
-| **Author & Sole Proprietor**| **Divyanshu Kumar** ([@Atomic-Quark](https://github.com/Atomic-Quark)) |
+| **Current Release** | **v0.3.0** (Production Enterprise Release) |
+| **Author & Lead Architect**| **Divyanshu Kumar** ([@Atomic-Quark](https://github.com/Atomic-Quark)) |
 | **Author Contact** | `143479650+Atomic-Quark@users.noreply.github.com` |
 | **Copyright Notice** | Copyright © 2026 Divyanshu Kumar. All Rights Reserved. |
-| **Legal Framework** | Criation UI Iron Seal Proprietary & Exclusive License |
-| **Target Runtimes** | React 18+, Next.js 14/15 (App Router & Pages Router), Vite, Remix |
-| **Language & Engine** | TypeScript 5.7+ (100% Strongly Typed), Vanilla CSS Custom Properties |
+| **Legal Framework** | MIT Open Source License (Permissive Commercial & Private Use) |
+| **Target Runtimes** | React 18+, Next.js 15/16 (App Router & Pages Router), Vite, Remix |
+| **Language & Engine** | TypeScript 5.7+ (100% Strongly Typed), Precompiled CSS Custom Properties |
 
 ---
 
@@ -20,11 +20,11 @@
 
 1. [Abstract & Executive Overview](#1-abstract--executive-overview)
 2. [Architectural Foundation & Core Philosophy](#2-architectural-foundation--core-philosophy)
-3. [The Three Expressive Modalities](#3-the-three-expressive-modalities)
-   - 3.1 [The 1-Line Shorthand System](#31-the-1-line-shorthand-system)
-   - 3.2 [The Fluent English Chaining DSL](#32-the-fluent-english-chaining-dsl)
-   - 3.3 [Natural English Sentences](#33-natural-english-sentences)
-   - 3.4 [Standard JSX Syntax](#34-standard-jsx-syntax)
+3. [The Four Expressive Modalities](#3-the-four-expressive-modalities)
+   - 3.1 [Modality 1: Conventional JSX Component API (Recommended Default)](#31-modality-1-conventional-jsx-component-api-recommended-default)
+   - 3.2 [Modality 2: Decoupled Fluent Builder (`ui.*` Namespace)](#32-modality-2-decoupled-fluent-builder-ui-namespace)
+   - 3.3 [Modality 3: Strongly-Typed Options Objects (Deprecating Ambiguous Positional Slots)](#33-modality-3-strongly-typed-options-objects-deprecating-ambiguous-positional-slots)
+   - 3.4 [Modality 4: Explicit Natural-Language DSL (`describe` / `parseDSL`)](#34-modality-4-explicit-natural-language-dsl-describe--parsedsl)
 4. [What Is There: Complete Component & Hook Inventory](#4-what-is-there-complete-component--hook-inventory)
    - 4.1 [Core & Typography Primitives](#41-core--typography-primitives)
    - 4.2 [Form & Interactive Input Primitives](#42-form--interactive-input-primitives)
@@ -41,7 +41,7 @@
    - 5.5 [Declarative Tables & Controlled Accordions](#55-declarative-tables--controlled-accordions)
    - 5.6 [The Typed `useForm` Engine](#56-the-typed-useform-engine)
    - 5.7 [Next.js App Router Client Boundary](#57-nextjs-app-router-client-boundary)
-   - 5.8 [The Iron Seal License Transition](#58-the-iron-seal-license-transition)
+   - 5.8 [The Open-Source MIT License Transition](#58-the-open-source-mit-license-transition)
 6. [How It Works Under the Hood](#6-how-it-works-under-the-hood)
    - 6.1 [Fluent Parsing & AST Token Extraction Engine](#61-fluent-parsing--ast-token-extraction-engine)
    - 6.2 [Positional Slot Inference Algorithm](#62-positional-slot-inference-algorithm)
@@ -60,7 +60,7 @@
    - 8.1 [Criation UI vs. Tailwind CSS](#81-criation-ui-vs-tailwind-css)
    - 8.2 [Criation UI vs. Material UI & Chakra UI](#82-criation-ui-vs-material-ui--chakra-ui)
    - 8.3 [Criation UI vs. Shadcn/ui](#83-criation-ui-vs-shadcnui)
-9. [Iron Seal Proprietary Legal Framework](#9-iron-seal-proprietary-legal-framework)
+9. [Open-Source Licensing & Commercial Developer Rights (MIT License)](#9-open-source-licensing--commercial-developer-rights-mit-license)
 10. [Troubleshooting, Edge Cases & FAQ](#10-troubleshooting-edge-cases--faq)
 
 ---
@@ -95,98 +95,12 @@ Criation UI is designed according to five architectural pillars:
 
 ---
 
-## 3. The Three Expressive Modalities
+## 3. The Four Expressive Modalities
 
-Criation UI provides three distinct syntaxes to build interfaces. All three compile down to the exact same high-performance React elements.
+Criation UI provides four distinct expression modalities tailored to team preferences, architectural requirements, and productivity needs:
 
-### 3.1 The 1-Line Shorthand System
-Call components directly as functions without writing `<tags> </tags>`:
-
-```tsx
-import { Heading, Text, Input, Button, Card, Badge, Link, Image } from "@criation/ui";
-
-export function StoreView() {
-  return (
-    <div>
-      {Heading("Summer Collection", 1, "main-title", "gradient")}
-      {Text("Handcrafted apparel designed for everyday comfort", "lg", "", "muted")}
-      {Badge("IN STOCK", "sm", "", "success")}
-      {Input("Search collection...", "340px", "search_box")}
-      {Button("Proceed to Cart", "12px 28px", "btn_cart", "user", "/cart", "green")}
-      {Card("Special Offer: 20% off on all items above $100", "400px", "", "glass")}
-    </div>
-  );
-}
-```
-
-#### Universal 8-Slot Positional Reference:
-All parameters are optional. You can supply 1, 2, or any subset of arguments, or skip slots using empty strings:
-
-| Component | Slot 1 | Slot 2 | Slot 3 | Slot 4 | Slot 5 | Slot 6 | Slot 7 | Slot 8 |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **`Button(...)`** | `class/label` | `box size` | `ID` | `Auth` | `path_direction` | `color` | `position` | `pointer` |
-| **`Input(...)`** | `placeholder` | `box size` | `ID` | `type` | `label` | `color` | `position` | `pointer` |
-| **`Heading(...)`** | `text` | `level/size` | `ID` | `color` | `align` | `position` | — | — |
-| **`Text(...)`** | `content` | `size` | `ID` | `color` | `align` | `position` | — | — |
-| **`Badge(...)`** | `label` | `size` | `ID` | `color` | `position` | — | — | — |
-| **`Card(...)`** | `content` | `box size` | `ID` | `variant` | `color` | `position` | `pointer` | — |
-| **`Link(...)`** | `label` | `href/path` | `ID` | `color` | `isExternal` | `position` | — | — |
-| **`Image(...)`** | `src` | `box size` | `ID` | `alt` | `rounded` | `position` | — | — |
-
----
-
-### 3.2 The Fluent English Chaining DSL
-Chain styling, routing, authentication, and layout properties onto the component invocation. The result can be placed directly in JSX:
-
-```tsx
-import { Button, Heading, Text, Input, Badge, Card, Link } from "@criation/ui";
-
-// Buttons
-Button("Go to Cart").red().large().link("/cart").auth()
-Button("Proceed to Checkout").green().link("/checkout")
-Button("Back to Store").outline().back()
-Button("Delete Account").danger().outline().pointer("pointer")
-
-// Headings & Text
-Heading("Architectural Specification").gradient().center().level(1)
-Text("Confidential internal document").muted().center().size("sm")
-
-// Inputs & Badges
-Input("Search documentation...").search().width("400px")
-Input("Work Email").email().label("Corporate Email").required()
-Badge("PRODUCTION READY").success().small()
-
-// Cards & Links
-Card("System Status: All services operating normally").glass().width("450px")
-Link("View Source Code").to("https://github.com/Atomic-Quark/Criation-UI").external()
-```
-
----
-
-### 3.3 Natural English Sentences
-Pass plain English phrases directly as a single string argument. The built-in English tokenizer parses colors, sizes, alignment, variants, routing paths, and auth requirements automatically:
-
-```tsx
-import { Button, Heading, Text, Badge, Card } from "@criation/ui";
-
-export function NaturalView() {
-  return (
-    <div>
-      {Heading("Welcome to Criation UI, level 1, centered, with gradient")}
-      {Text("Engineered for extreme developer velocity, muted, centered, size large")}
-      {Badge("NEW VERSION 0.2.1, in green, small")}
-      {Button("Explore Features, colored blue, large, go to /features")}
-      {Button("Admin Dashboard, red, auth required, to /admin")}
-      {Card("Security notice: All endpoints encrypted, glass variant, width 500px")}
-    </div>
-  );
-}
-```
-
----
-
-### 3.4 Standard JSX Syntax
-For teams preferring traditional React JSX tags, every component exports clean JSX primitives:
+### 3.1 Modality 1: Conventional JSX Component API (Recommended Default)
+The primary and official API for production applications. Standard, idiomatic React 18+ JSX components with full TypeScript prop validation, complete tree-shaking support, and accessible WAI-ARIA semantics:
 
 ```tsx
 import React from "react";
@@ -199,7 +113,7 @@ import {
   ThemeProvider 
 } from "@criation/ui";
 
-export function App() {
+export function UserSettings() {
   return (
     <ThemeProvider defaultTheme="dark">
       <Card variant="glass" padding="xl">
@@ -207,7 +121,7 @@ export function App() {
           <Badge variant="success">Online</Badge>
           <h2>Standard JSX Mode</h2>
           <TextInput placeholder="Enter your username" label="Username" />
-          <Button variant="primary" onClick={() => console.log("Activated")}>
+          <Button variant="primary" size="lg" onClick={() => console.log("Activated")}>
             Save Changes
           </Button>
         </Stack>
@@ -216,6 +130,70 @@ export function App() {
   );
 }
 ```
+
+### 3.2 Modality 2: Decoupled Fluent Builder (`ui.*` Namespace)
+An optional, highly expressive builder pattern that decouples method chaining from React component prototypes. It produces immutable React elements via an explicit `.build()` method:
+
+```tsx
+import { ui } from "@criation/ui";
+
+const SaveButton = ui.button("Save Changes")
+  .primary()
+  .large()
+  .onClick(() => console.log("Saved"))
+  .build();
+
+const HeroHeading = ui.heading("Criation UI Design System")
+  .level(1)
+  .gradient()
+  .center()
+  .build();
+
+const FeatureCard = ui.card("Enterprise modular design system")
+  .glass()
+  .padding("xl")
+  .build();
+```
+
+### 3.3 Modality 3: Strongly-Typed Options Objects (Deprecating Ambiguous Positional Slots)
+To eliminate parameter-order confusion and enable robust IDE autocomplete, high-level composite builders accept structured options objects rather than positional arguments:
+
+```tsx
+import { ui } from "@criation/ui";
+
+// Strongly-typed options object:
+const Navigation = ui.navbar({
+  brand: "Criation Store",
+  links: ["Products", "Pricing", "Documentation", "Contact"]
+});
+
+const AppFooter = ui.footer({
+  brand: "Criation UI",
+  links: ["Privacy Policy", "Terms of Service", "Security"]
+});
+```
+
+> [!NOTE]
+> **Legacy Positional Parameter Deprecation:**
+> Early alpha versions supported 8-slot positional signatures (e.g. `Button(label, size, id, auth, path, color, pos, ptr)`). While backward-compatible fallbacks remain available in `src/core/shorthand.tsx`, positional signatures are considered legacy. All new development should use standard JSX props or typed options objects.
+
+### 3.4 Modality 4: Explicit Natural-Language DSL (`describe` / `parseDSL`)
+Bounded, opt-in natural-language string parsing designed specifically for rapid wireframing and prototyping. String parsing is strictly isolated behind explicit calls to `describe()` or `parseDSL()`, preventing unintended string coercion in core components:
+
+```tsx
+import { describe, parseDSL } from "@criation/ui";
+
+// Bounded natural-language token parsing:
+const PrimaryAction = describe("button Get Started primary large");
+const HeroTitle = describe("heading Build Faster with Criation UI level 1 gradient center");
+
+// Fault-tolerant parsing with syntax warning fallback:
+const CustomElement = parseDSL("button Submit Order blue large");
+```
+
+> [!IMPORTANT]
+> **Security & Authentication Boundary Notice:**
+> Frontend authentication helpers and natural-language tokens (e.g., text containing "admin", "auth", or "protected") do NOT secure backend APIs. Authentication and authorization must be enforced by the actual application and identity provider on the server side. Presentation helpers manage UI visibility, disabled states, and navigation transitions only. Never infer security policies or access control rules from UI strings or button labels.
 
 ---
 
@@ -398,29 +376,29 @@ A brand-new, enterprise-grade form management hook was authored from scratch in 
 
 ---
 
-### 5.8 The Iron Seal License Transition
-- Replaced the permissive generic license with the **Criation UI — Iron Seal Proprietary & Exclusive License**.
-- Sole author, creator, and proprietor established legally as **Divyanshu Kumar** (`@Atomic-Quark`).
-- Third-party copying, modification, deployment, sublicensing, or use in any project is strictly prohibited without explicit, signed, prior written permission from Divyanshu Kumar.
+### 5.8 The Open-Source MIT License Transition
+- Replaced the early restrictive proprietary draft with the standard permissive **MIT License** (Copyright © 2026 Divyanshu Kumar).
+- Sole author and lead architect established as **Divyanshu Kumar** (`@Atomic-Quark`).
+- Third-party developers, corporations, and open-source contributors are granted full permission to use, copy, modify, merge, publish, distribute, sublicense, and sell copies in commercial and non-commercial applications.
 
 ---
 
 ## 6. How It Works Under the Hood
 
 ### 6.1 Fluent Parsing & AST Token Extraction Engine
-When you invoke a component using a natural English sentence:
+When you invoke a component using the optional natural-language DSL:
 ```tsx
-Button("Proceed to Checkout, green, large, to /checkout, auth required")
+describe("button Proceed to Checkout green large to /checkout")
 ```
 The internal parser executes the following pipeline:
-1. **String Tokenization**: The argument is split by commas into descriptor tokens: `["Proceed to Checkout", "green", "large", "to /checkout", "auth required"]`.
+1. **String Tokenization**: The argument is split into descriptor tokens: `["Proceed to Checkout", "green", "large", "to /checkout"]`.
 2. **First Slot Extraction**: The first token (`Proceed to Checkout`) is identified as the visible label.
-3. **Pattern Matching & AST Normalization**: Each subsequent token is scanned against known grammar dictionaries:
+3. **Pattern Matching & AST Normalization**: Each subsequent token is scanned against known design-system grammar dictionaries:
    - Color Dictionary: `"green"` $\rightarrow$ `color: "green"`, `variant: "success"`.
    - Size Dictionary: `"large"` $\rightarrow$ `size: "lg"`.
    - Routing Dictionary: `"to /checkout"` $\rightarrow$ `to: "/checkout"`.
-   - Auth Dictionary: `"auth required"` $\rightarrow$ `requiredRole: "user"`.
 4. **React Element Synthesis**: The normalized properties are fed directly into the native React primitive, returning `React.createElement(ButtonComponent, resolvedProps)`.
+5. **Security Separation**: Notice that authentication and authorization checks are NEVER inferred from string tokens or labels. UI elements rely strictly on explicit boolean flags (`disabled`, `hidden`) while real access control is enforced by the application server.
 
 ---
 
@@ -852,18 +830,40 @@ export default function Page() {
 
 ---
 
-## 9. Iron Seal Proprietary Legal Framework
+## 9. Open-Source Licensing & Commercial Developer Rights (MIT License)
 
-Criation UI is strictly protected under the **Criation UI — Iron Seal Proprietary & Exclusive License**:
+Criation UI is released under the permissive **[MIT License](https://opensource.org/licenses/MIT)**:
 
-1. **Sole Ownership**: The software, architectures, AST chaining parsers, CSS tokens, and component source code are the sole, exclusive, and unalienable property of **Divyanshu Kumar** (`Atomic-Quark`).
-2. **Absolute Prohibition on Unauthorized Use**:
-   - No individual, entity, corporation, institution, or automated system may copy, modify, distribute, fork, sublicense, reverse-engineer, deploy, or run Criation UI in any commercial, non-commercial, private, or SaaS application without explicit, prior, written, and signed authorization directly from Divyanshu Kumar.
-3. **No Implied License**: Merely cloning, viewing, downloading, or starring the repository does NOT confer any usage license.
-4. **Licensing & Permission Inquiries**:
-   - **Proprietor**: Divyanshu Kumar
-   - **GitHub**: [https://github.com/Atomic-Quark](https://github.com/Atomic-Quark)
-   - **Email**: `143479650+Atomic-Quark@users.noreply.github.com`
+```
+MIT License
+
+Copyright (c) 2026 Divyanshu Kumar
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
+
+1. **Permissive Commercial Rights**: Developers and enterprises may freely install, build, customize, and deploy Criation UI inside commercial SaaS products, private codebases, and open-source packages.
+2. **Author Attribution**: Divyanshu Kumar (`Atomic-Quark`) is recognized as the sole author and lead architect of Criation UI.
+3. **Repository & Community**:
+   - **Lead Architect**: Divyanshu Kumar
+   - **GitHub**: [https://github.com/Atomic-Quark/Criation-UI](https://github.com/Atomic-Quark/Criation-UI)
+   - **Inquiries**: `143479650+Atomic-Quark@users.noreply.github.com`
 
 ---
 

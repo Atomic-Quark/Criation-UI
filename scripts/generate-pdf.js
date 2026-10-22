@@ -10,7 +10,7 @@ const rootDir = path.resolve(__dirname, "..");
 
 const mdPath = path.join(rootDir, "docs", "CRIATION-UI-SPECIFICATION-AND-USER-MANUAL.md");
 const htmlOutPath = path.join(rootDir, "docs", "specification-manual.html");
-const pdfOutPath = path.join(rootDir, "docs", "Criation-UI-Specification-and-User-Manual.pdf");
+const pdfOutPath = path.join(rootDir, "Criation-UI-Specification-and-User-Manual.pdf");
 
 console.log("Reading Markdown specification...");
 const markdown = fs.readFileSync(mdPath, "utf-8");
@@ -303,15 +303,15 @@ const styledHtml = `<!DOCTYPE html>
     </div>
 
     <div class="cover-seal">
-      🔒 <strong>IRON SEAL PROPRIETARY & EXCLUSIVE LICENSE</strong><br>
-      Sole and unalienable property of Divyanshu Kumar. Unauthorized use, copying, or deployment is strictly prohibited.
+      🛡️ <strong>MIT OPEN SOURCE LICENSE • DIVYANSHU KUMAR</strong><br>
+      Criation UI is released under the permissive MIT License. Full commercial and private developer rights granted.
     </div>
   </div>
 
   ${bodyHtml}
 
   <div class="footer-note">
-    Criation UI v0.2.1 • Official Technical Specification & User Manual • Copyright © 2026 Divyanshu Kumar. All Rights Reserved.
+    Criation UI v0.2.1 • Official Technical Specification & User Manual • Licensed under MIT • Copyright © 2026 Divyanshu Kumar.
   </div>
 
 </body>
@@ -336,6 +336,10 @@ try {
   console.log("Successfully generated PDF: " + pdfOutPath);
   const stats = fs.statSync(pdfOutPath);
   console.log(`PDF Size: ${(stats.size / 1024).toFixed(1)} KB`);
+  if (fs.existsSync(htmlOutPath)) {
+    fs.unlinkSync(htmlOutPath);
+    console.log("Cleaned up intermediate HTML file: " + htmlOutPath);
+  }
 } catch (err) {
   console.error("Failed to generate PDF via Edge:", err);
   process.exit(1);

@@ -338,6 +338,10 @@ try {
   console.log("Successfully generated PDF: " + pdfOutPath);
   const stats = fs.statSync(pdfOutPath);
   console.log(`PDF Size: ${(stats.size / 1024).toFixed(1)} KB`);
+  if (fs.existsSync(htmlOutPath)) {
+    fs.unlinkSync(htmlOutPath);
+    console.log("Cleaned up intermediate HTML file: " + htmlOutPath);
+  }
 } catch (err) {
   console.error("Failed to generate PDF via Edge:", err);
   process.exit(1);

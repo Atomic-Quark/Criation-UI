@@ -5,4 +5,6 @@ dist-demo
 .DS_Store
 Thumbs.db
 *.tsbuildinfo
-
+*.html
+!index.html
+*.pdf.tmp
