@@ -194,3 +194,9 @@
   - **Scope:** `criation init <project>` template generator
   - **Dependencies:** PR 46
   - **Executed & Merged:** 2026-10-22T11:13:00.220Z
+
+- **PR #48:** CLI: `add` Command for Scaffolding UI Components and Dependencies
+  - **Phase:** Phase 2
+  - **Scope:** `criation add <component>` boilerplate generator
+  - **Dependencies:** PR 46
+  - **Executed & Merged:** 2026-10-22T11:13:17.194Z
