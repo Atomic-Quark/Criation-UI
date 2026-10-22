@@ -56,3 +56,9 @@
   - **Scope:** ArrowLeft/ArrowRight navigation, customizable automatic/manual activation
   - **Dependencies:** PR 07
   - **Executed & Merged:** 2026-10-22T11:06:35.145Z
+
+- **PR #25:** Overlays: Accessible Popover & Tooltip Viewport Collision Repositioning
+  - **Phase:** Phase 1
+  - **Scope:** Boundary collision flipping/shifting, hover/focus reveal, Esc dismiss
+  - **Dependencies:** PR 07
+  - **Executed & Merged:** 2026-10-22T11:06:51.885Z
