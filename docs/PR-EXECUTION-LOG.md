@@ -230,3 +230,9 @@
   - **Scope:** Automated CI smoke test generating and building fresh projects
   - **Dependencies:** PR 52
   - **Executed & Merged:** 2026-10-22T11:14:43.340Z
+
+- **PR #54:** High-Level API: `createApp()` Container with Theme and Notification Host
+  - **Phase:** Phase 2
+  - **Scope:** Single wrapper initializing theme, dark mode, and toast layer
+  - **Dependencies:** PR 45
+  - **Executed & Merged:** 2026-10-22T11:14:59.986Z
