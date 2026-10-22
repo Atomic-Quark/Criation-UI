@@ -69,7 +69,7 @@
 "PR 68","Playground: One-Click Code Export for JSX and Fluent Syntax Snippets","Phase 2","Copy-paste code snippet generator","PR 67","Merged"
 "PR 69","Playground: Responsive Viewport Switcher (Mobile, Tablet, Desktop)","Phase 2","Frame resizing controls (375px, 768px, 1280px)","PR 66","Merged"
 "PR 70","Playground: Ready-to-Use Application Recipes (Auth, Search, E-Commerce)","Phase 2","Copyable full-page component recipes for beginners","PR 67","Merged"
-"PR 71","Accessibility: Automated axe-core WCAG 2.2 Level AA Test Integration","Phase 2","Automated accessibility audit runner failing CI on violations","PR 20–25","Pending"
+"PR 71","Accessibility: Automated axe-core WCAG 2.2 Level AA Test Integration","Phase 2","Automated accessibility audit runner failing CI on violations","PR 20–25","Merged"
 "PR 72","Accessibility: Screen Reader Semantics & ARIA Live Announcements Verification","Phase 2","Screen reader audits across all feedback and alert components","PR 71","Pending"
 "PR 73","Accessibility: Standardized High-Contrast `:focus-visible` Ring Across All Controls","Phase 2","Uniform 3:1 contrast focus outline on keyboard navigation","PR 45","Pending"
 "PR 74","Accessibility: `prefers-reduced-motion` System Integration in Animation Tokens","Phase 2","Automatically disables CSS transitions when reduced motion is preferred","PR 45","Pending"
