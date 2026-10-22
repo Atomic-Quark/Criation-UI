@@ -32,3 +32,9 @@
   - **Scope:** Tab focus sentinels, return focus on close, Esc key handler
   - **Dependencies:** PR 07
   - **Executed & Merged:** 2026-10-22T11:05:26.679Z
+
+- **PR #21:** Overlays: Accessible Drawer Primitives with Scroll Lock & Screen Reader Tags
+  - **Phase:** Phase 1
+  - **Scope:** Body scroll locking with scrollbar width compensation, `aria-modal=\true\`
+  - **Dependencies:** PR 20
+  - **Executed & Merged:** 2026-10-22T11:05:43.698Z
