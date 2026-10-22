@@ -116,3 +116,9 @@
   - **Scope:** Update AlertDialog deletion example with pending and error states
   - **Dependencies:** PR 12, PR 13
   - **Executed & Merged:** 2026-10-22T11:09:22.613Z
+
+- **PR #35:** Docs: Clarify Difference Between Debounce and Throttle in Utilities Guide
+  - **Phase:** Phase 1
+  - **Scope:** Timing diagrams and use case guide for `useDebounce` vs `throttle`
+  - **Dependencies:** PR 12
+  - **Executed & Merged:** 2026-10-22T11:09:39.261Z
