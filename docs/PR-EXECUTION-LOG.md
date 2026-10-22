@@ -122,3 +122,9 @@
   - **Scope:** Timing diagrams and use case guide for `useDebounce` vs `throttle`
   - **Dependencies:** PR 12
   - **Executed & Merged:** 2026-10-22T11:09:39.261Z
+
+- **PR #36:** Docs: Replace \0 KB CSS Runtime\ Assertion with Accurate Performance Language
+  - **Phase:** Phase 1
+  - **Scope:** Clarify static precompiled CSS (34 kB) has zero JS CSS-in-JS overhead
+  - **Dependencies:** PR 12, PR 13
+  - **Executed & Merged:** 2026-10-22T11:09:56.076Z
