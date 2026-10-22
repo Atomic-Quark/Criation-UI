@@ -48,6 +48,7 @@ export function useForm<T extends Record<string, any>>({
   onSubmit,
 }: UseFormOptions<T>): UseFormReturn<T> {
   const initialValuesRef = useRef<T>(initialValues);
+  const validationSeqRef = useRef<number>(0);
   const [values, setValues] = useState<T>(initialValues);
   const [errors, setErrors] = useState<FormErrors<T>>({});
   const [touched, setTouched] = useState<FormTouched<T>>({});
@@ -56,8 +57,13 @@ export function useForm<T extends Record<string, any>>({
   const runValidation = useCallback(
     async (currentValues: T): Promise<FormErrors<T>> => {
       if (!validate) return {};
+      const seq = ++validationSeqRef.current;
       try {
         const result = await validate(currentValues);
+        if (seq !== validationSeqRef.current) {
+          // Discard stale async validation result
+          return {};
+        }
         return result || {};
       } catch {
         return {};
@@ -71,12 +77,17 @@ export function useForm<T extends Record<string, any>>({
       setValues((prev) => {
         const next = { ...prev, [field]: value };
         if (validate) {
-          runValidation(next).then((errs) => setErrors(errs));
+          const seq = ++validationSeqRef.current;
+          Promise.resolve(validate(next)).then((errs) => {
+            if (seq === validationSeqRef.current) {
+              setErrors(errs || {});
+            }
+          }).catch(() => {});
         }
         return next;
       });
     },
-    [validate, runValidation]
+    [validate]
   );
 
   const setFieldError = useCallback((field: keyof T, error: string | undefined) => {
@@ -150,6 +161,12 @@ export function useForm<T extends Record<string, any>>({
         try {
           await onSubmit(values);
           return true;
+        } catch (submissionErr: any) {
+          setErrors((prev) => ({
+            ...prev,
+            _form: submissionErr?.message || "Form submission failed",
+          } as any));
+          return false;
         } finally {
           setIsSubmitting(false);
         }
@@ -165,6 +182,7 @@ export function useForm<T extends Record<string, any>>({
     if (newInitialValues) {
       initialValuesRef.current = newInitialValues;
     }
+    validationSeqRef.current++;
     setValues(nextInit);
     setErrors({});
     setTouched({});

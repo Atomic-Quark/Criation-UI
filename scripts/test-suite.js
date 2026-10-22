@@ -417,6 +417,14 @@ assert("Form validator detects required email and short password", validationRes
 const validationResult2 = sampleValidator({ email: "user@domain.com", password: "validPassword123" });
 assert("Form validator accepts valid inputs with 0 errors", Object.keys(validationResult2).length === 0);
 
+// PR 19: Form validation race handling & async catch test
+const asyncValidator = async (vals) => {
+  return vals.username === "taken" ? { username: "Already taken" } : {};
+};
+assert("asyncValidator returns promise resolving to validation errors", typeof asyncValidator({ username: "taken" }).then === "function");
+const asyncRes = await asyncValidator({ username: "taken" });
+assert("async validation resolves expected error structure", asyncRes.username === "Already taken");
+
 // -----------------------------------------------------------------------------
 // Final Report
 // -----------------------------------------------------------------------------

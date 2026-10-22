@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.2.1-dev] - 2026-10-22
 
+### 📋 Form State Management & Async Race Protection (PR 19)
+- **useForm Async Race Condition Protection**:
+  - Implemented sequence counter tokens (`validationSeqRef`) in `runValidation` and `setFieldValue` to prevent late-resolving async validations from overwriting newer user input.
+  - Added robust try/catch wrapping around `onSubmit` in `handleSubmit` to prevent unhandled promise rejections and set form-level error states on failure.
+  - Enhanced `reset()` lifecycle helper to increment sequence counter and reset all errors and touched flags atomically.
+
 ### 📦 Packaging & Tree-Shaking Exports (PR 18)
 - **Subpath Package Exports**:
   - Configured granular subpath exports in `package.json` for `./button`, `./input`, `./card`, and `./core` with exact typing declarations.
