@@ -146,3 +146,9 @@
   - **Scope:** TypeScript strict mode audit on all public component props
   - **Dependencies:** PR 14, PR 16
   - **Executed & Merged:** 2026-10-22T11:10:45.670Z
+
+- **PR #40:** Testing: Unit Test Suite Expansion for Utility Functions & Token Formatters
+  - **Phase:** Phase 1
+  - **Scope:** Edge case tests for `formatDate`, `formatNumber`, `formatFileSize`
+  - **Dependencies:** PR 08
+  - **Executed & Merged:** 2026-10-22T11:11:03.386Z
