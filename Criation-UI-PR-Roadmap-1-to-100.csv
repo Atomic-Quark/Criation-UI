@@ -47,7 +47,7 @@
 "PR 46","CLI: Package Setup and Command Dispatcher (`bin/criation.js`)","Phase 2","CLI entry point, help menu, version flags, argument parser","PR 45","Merged"
 "PR 47","CLI: `init` Command for Vite + React and Next.js Project Generation","Phase 2","`criation init <project>` template generator","PR 46","Merged"
 "PR 48","CLI: `add` Command for Scaffolding UI Components and Dependencies","Phase 2","`criation add <component>` boilerplate generator","PR 46","Merged"
-"PR 49","CLI: Feature Scaffolding for `add login` Template with Auth Hooks","Phase 2","Generates accessible login screen with form validation","PR 47, PR 48","Pending"
+"PR 49","CLI: Feature Scaffolding for `add login` Template with Auth Hooks","Phase 2","Generates accessible login screen with form validation","PR 47, PR 48","Merged"
 "PR 50","CLI: Feature Scaffolding for `add dashboard` Template with Stat Cards","Phase 2","Generates responsive dashboard layout and data table structure","PR 47, PR 48","Pending"
 "PR 51","CLI: Feature Scaffolding for `add settings` Template with Theme Selectors","Phase 2","Generates settings page with tabs and form sections","PR 47, PR 48","Pending"
 "PR 52","CLI: Safe File Generation, Collision Prevention, and `--dry-run` Flag","Phase 2","Overwrite protection, interactive prompts, dry-run previews","PR 46–51","Pending"
