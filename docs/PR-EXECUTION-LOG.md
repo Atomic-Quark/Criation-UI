@@ -392,3 +392,9 @@
   - **Scope:** Fresh Next.js project renders components with zero hydration errors
   - **Dependencies:** PR 78
   - **Executed & Merged:** 2026-10-22T11:24:09.757Z
+
+- **PR #81:** Beta: Controlled Beta Program Architecture and Participant Onboarding Guide
+  - **Phase:** Phase 3
+  - **Scope:** Guidelines and feedback templates for external testers
+  - **Dependencies:** PR 77
+  - **Executed & Merged:** 2026-10-22T11:24:26.710Z
