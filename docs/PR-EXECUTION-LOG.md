@@ -296,3 +296,9 @@
   - **Scope:** Accessible toast notifications with auto-dismiss timers
   - **Dependencies:** PR 45
   - **Executed & Merged:** 2026-10-22T11:17:51.021Z
+
+- **PR #65:** High-Level API: `persist()` Pluggable Storage Adapter (LocalStorage/Memory)
+  - **Phase:** Phase 2
+  - **Scope:** Safe persistent storage driver with memory fallback
+  - **Dependencies:** PR 28
+  - **Executed & Merged:** 2026-10-22T11:18:08.404Z
