@@ -440,3 +440,9 @@
   - **Scope:** Resolves remaining screen reader and keyboard defects
   - **Dependencies:** PR 71, PR 75
   - **Executed & Merged:** 2026-10-22T11:26:23.157Z
+
+- **PR #89:** Bug Triage: Public API Ergonomics & TypeScript Inference Edge Cases
+  - **Phase:** Phase 3
+  - **Scope:** Resolves type inference quirks identified during beta tasks
+  - **Dependencies:** PR 39, PR 86
+  - **Executed & Merged:** 2026-10-22T11:26:39.482Z
