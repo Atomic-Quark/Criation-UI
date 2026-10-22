@@ -44,10 +44,11 @@ console.log("------------------------------------------------------------------"
 const artifacts = [
   { name: "Full Stylesheet (dist/styles.css)", path: path.join(distDir, "styles.css") },
   { name: "Full ESM Bundle (dist/index.js)", path: path.join(distDir, "index.js") },
-  { name: "Full UMD Bundle (dist/index.umd.cjs)", path: path.join(distDir, "index.umd.cjs") },
+  { name: "Full CJS Bundle (dist/index.cjs)", path: path.join(distDir, "index.cjs") },
+  { name: "Button Subpath (dist/button.js)", path: path.join(distDir, "button.js") },
+  { name: "Input Subpath (dist/input.js)", path: path.join(distDir, "input.js") },
+  { name: "Workflows Subpath (dist/workflows.js)", path: path.join(distDir, "workflows.js") },
   { name: "Type Declarations (dist/index.d.ts)", path: path.join(distDir, "index.d.ts") },
-  { name: "Form Hook Typings (dist/forms/useForm.d.ts)", path: path.join(distDir, "forms", "useForm.d.ts") },
-  { name: "CRUD Workflow Typings (dist/workflows/createCrudWorkflow.d.ts)", path: path.join(distDir, "workflows", "createCrudWorkflow.d.ts") },
 ];
 
 const bundleResults = [];

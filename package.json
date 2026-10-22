@@ -3,34 +3,39 @@
   "version": "0.3.0-beta",
   "description": "Criation UI - A modern, modular, and reusable UI foundation for rapid website creation",
   "type": "module",
-  "main": "./dist/index.umd.cjs",
+  "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
-      "require": "./dist/index.umd.cjs"
+      "require": "./dist/index.cjs"
     },
     "./button": {
       "types": "./dist/components/buttons/Button.d.ts",
-      "import": "./dist/components/buttons/Button.js"
+      "import": "./dist/button.js",
+      "require": "./dist/button.cjs"
     },
     "./input": {
       "types": "./dist/components/inputs/Input.d.ts",
-      "import": "./dist/components/inputs/Input.js"
+      "import": "./dist/input.js",
+      "require": "./dist/input.cjs"
     },
     "./card": {
       "types": "./dist/components/data-display/Card.d.ts",
-      "import": "./dist/components/data-display/Card.js"
+      "import": "./dist/card.js",
+      "require": "./dist/card.cjs"
     },
     "./workflows": {
       "types": "./dist/workflows/index.d.ts",
-      "import": "./dist/workflows/index.js"
+      "import": "./dist/workflows.js",
+      "require": "./dist/workflows.cjs"
     },
     "./core": {
       "types": "./dist/core/builder.d.ts",
-      "import": "./dist/core/builder.js"
+      "import": "./dist/core.js",
+      "require": "./dist/core.cjs"
     },
     "./styles.css": "./dist/styles.css",
     "./ui.css": "./dist/styles.css"
@@ -51,6 +56,9 @@
     "build:lib": "tsc -b && vite build --config vite.config.lib.ts",
     "pretest": "npm run build:lib",
     "test": "node scripts/test-suite.js",
+    "test:browser": "node scripts/browser-behavior-tests.js",
+    "test:package": "node scripts/verify-consumer-package.js",
+    "test:all": "node scripts/test-suite.js && node scripts/browser-behavior-tests.js && node scripts/verify-consumer-package.js",
     "benchmark": "node scripts/benchmark.js",
     "cli": "node bin/criation.js",
     "generate:pdf": "node scripts/generate-pdf.js",

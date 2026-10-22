@@ -13,9 +13,16 @@ export default defineConfig({
   ],
   build: {
     lib: {
-      entry: path.resolve(__dirname, "src/index.ts"),
+      entry: {
+        index: path.resolve(__dirname, "src/index.ts"),
+        button: path.resolve(__dirname, "src/components/buttons/Button.tsx"),
+        input: path.resolve(__dirname, "src/components/inputs/Input.tsx"),
+        card: path.resolve(__dirname, "src/components/data-display/Card.tsx"),
+        workflows: path.resolve(__dirname, "src/workflows/index.ts"),
+        core: path.resolve(__dirname, "src/core/builder.ts"),
+      },
       name: "CriationUI",
-      fileName: (format) => `index.${format === "es" ? "js" : "umd.cjs"}`,
+      fileName: (format, entryName) => `${entryName}.${format === "es" ? "js" : "cjs"}`,
     },
     rollupOptions: {
       external: ["react", "react-dom", "react/jsx-runtime"],
