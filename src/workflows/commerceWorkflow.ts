@@ -148,7 +148,9 @@ export interface CommerceWorkflowResult<
   closeAuth: () => void;
   openCheckout: () => void;
   closeCheckout: () => void;
+  openReceipt: () => void;
   closeReceipt: () => void;
+  viewReceipt: (order: O, txn?: any) => void;
   navigateTo: (view: "store" | "orders") => void;
 }
 
@@ -210,10 +212,17 @@ export function useCommerceWorkflow<
   const closeAuth = useCallback(() => setIsAuthOpen(false), []);
   const openCheckout = useCallback(() => setIsCheckoutOpen(true), []);
   const closeCheckout = useCallback(() => setIsCheckoutOpen(false), []);
+  const openReceipt = useCallback(() => setIsReceiptOpen(true), []);
   const closeReceipt = useCallback(() => {
     setIsReceiptOpen(false);
     setActiveReceiptOrder(null);
     setActiveReceiptTxn(null);
+  }, []);
+
+  const viewReceipt = useCallback((order: O, txn: any = null) => {
+    setActiveReceiptOrder(order);
+    setActiveReceiptTxn(txn);
+    setIsReceiptOpen(true);
   }, []);
 
   const navigateTo = useCallback(
@@ -365,7 +374,9 @@ export function useCommerceWorkflow<
     closeAuth,
     openCheckout,
     closeCheckout,
+    openReceipt,
     closeReceipt,
+    viewReceipt,
     navigateTo,
   };
 }
