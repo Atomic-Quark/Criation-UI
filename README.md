@@ -1,112 +1,76 @@
-# Criation UI
-
 <p align="center">
-  <img src="assets/criation-banner.svg" alt="Criation UI Banner" width="100%" />
+  <img src="assets/criation-banner.svg" alt="Criation UI — Modular React Component Foundation and Workflows" width="100%" />
 </p>
 
 <p align="center">
-  <a href="https://www.npmjs.com/package/@criation/ui"><img src="https://img.shields.io/badge/npm-v0.3.0--beta-4f46e5?style=flat-square&labelColor=0f172a" alt="Version" /></a>
-  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-10b981?style=flat-square&labelColor=0f172a" alt="License" /></a>
-  <a href="#test-verification"><img src="https://img.shields.io/badge/tests-142%20passed%20(100%25)-10b981?style=flat-square&labelColor=0f172a" alt="Tests" /></a>
-  <a href="#bundle-performance"><img src="https://img.shields.io/badge/bundle-2.54%20kB%20(button)-38bdf8?style=flat-square&labelColor=0f172a" alt="Bundle Size" /></a>
-  <a href="#accessibility-compliance"><img src="https://img.shields.io/badge/a11y-WCAG%202.2%20AA-818cf8?style=flat-square&labelColor=0f172a" alt="Accessibility" /></a>
-  <a href="#typescript-support"><img src="https://img.shields.io/badge/typescript-strict%20typed-3178c6?style=flat-square&labelColor=0f172a" alt="TypeScript" /></a>
+  <a href="#quick-start"><img src="https://img.shields.io/badge/Release-v0.3.0--beta-4f46e5?style=flat-square" alt="Version" /></a>
+  <a href="#automated-testing"><img src="https://img.shields.io/badge/Tests-142%20Passed-10b981?style=flat-square" alt="Test Status" /></a>
+  <a href="#bundle-performance"><img src="https://img.shields.io/badge/Button%20Chunk-2.54%20kB-0284c7?style=flat-square" alt="Bundle Size" /></a>
+  <a href="#accessibility--wcag"><img src="https://img.shields.io/badge/Accessibility-WCAG%202.2%20AA-059669?style=flat-square" alt="WCAG 2.2 AA" /></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-64748b?style=flat-square" alt="License" /></a>
 </p>
 
 ---
 
 ## Overview
 
-**Criation UI** is a modular, high-performance React 18+ component library and developer toolkit designed for building production web applications. It provides standard React JSX components, an optional decoupled fluent builder, full-stack reactive data workflows (`useDataQuery`, `useCrudWorkflow`), and an integrated scaffolding CLI (`criation`).
+**Criation UI** is a modular, high-performance UI foundation and developer workflow toolkit for **React 18 and 19** applications written in TypeScript. 
 
-All components are written in strict TypeScript, comply with WAI-ARIA 1.2 accessibility patterns, ship with precompiled CSS (~34.76 kB total, 6.8 kB gzipped) with zero JavaScript runtime overhead, and support multi-entry tree-shaking down to 2.54 kB per component.
+The library provides 40+ production-ready components, complete data-management hooks, and an integrated project scaffolding CLI. It is engineered with a strict **Conventional JSX First** architecture, subpath tree-shaking exports, and verified WCAG 2.2 AA accessibility standards.
 
----
+### Core Architecture Principles
 
-## Table of Contents
-
-- [Quick Start & Setup](#quick-start--setup)
-  - [Prerequisites](#prerequisites)
-  - [Option A: Scaffold a New Project with CLI](#option-a-scaffold-a-new-project-with-cli)
-  - [Option B: Add to an Existing Project](#option-b-add-to-an-existing-project)
-  - [Option C: Local Development & Contributing](#option-c-local-development--contributing)
-- [How to Work with the Library](#how-to-work-with-the-library)
-  - [1. Canonical JSX (Primary API)](#1-canonical-jsx-primary-api)
-  - [2. Tree-Shaken Subpath Imports](#2-tree-shaken-subpath-imports)
-  - [3. Decoupled Fluent Builder](#3-decoupled-fluent-builder)
-  - [4. High-Level Reactive Workflows](#4-high-level-reactive-workflows)
-  - [5. CLI Scaffolding Recipes](#5-cli-scaffolding-recipes)
-- [Component & API Evolution](#component--api-evolution)
-  - [Inventory of Updated Functions & Components](#inventory-of-updated-functions--components)
-- [Code Comparison: What We Wrote Earlier vs. How We Write Now](#code-comparison-what-we-wrote-earlier-vs-how-we-write-now)
-  - [1. Button Construction & Styling](#1-button-construction--styling)
-  - [2. Form Inputs & Error Association](#2-form-inputs--error-association)
-  - [3. Modal Dialogs & Keyboard Focus Trapping](#3-modal-dialogs--keyboard-focus-trapping)
-  - [4. Data Management & CRUD Tables](#4-data-management--crud-tables)
-  - [5. Package Imports & Tree-Shaking](#5-package-imports--tree-shaking)
-- [Architecture & Bundle Benchmarks](#architecture--bundle-benchmarks)
-- [Security & Authentication Advisory](#security--authentication-advisory)
-- [Framework Support Matrix](#framework-support-matrix)
-- [Test Verification & Quality Metrics](#test-verification--quality-metrics)
-- [License](#license)
+1. **Standard React JSX by Default**: Predictable, strongly typed React components that integrate seamlessly with existing toolchains without proprietary lock-in.
+2. **High-Level Workflows over Raw Boilerplate**: Pre-engineered hooks for complete CRUD synchronization, form validation, and reactive queries eliminate hundreds of lines of repetitive code.
+3. **Zero CSS-in-JS Runtime Overhead**: Precompiled stylesheets (~34.7 kB total / 6.8 kB gzip) with zero runtime evaluation penalties.
+4. **Granular Subpath Tree-Shaking**: Import only what is rendered. Importing an individual button component contributes just **2.54 kB** to production bundles.
 
 ---
 
-## Quick Start & Setup
+## System Requirements
 
-### Prerequisites
+Before setting up Criation UI, ensure your development environment satisfies the following prerequisites:
 
-- **Node.js**: Version 18.0.0 or higher (LTS recommended)
-- **Package Manager**: npm 9+, pnpm 8+, or yarn 1.22+
-- **React**: React 18.x or React 19.x
-
----
-
-### Option A: Scaffold a New Project with CLI
-
-The fastest way to start a new project with Criation UI pre-configured (React, TypeScript, Vite, and Criation UI styles) is using the built-in scaffolding tool:
-
-```bash
-# Initialize a new application in a dedicated directory
-npx @criation/ui init my-dashboard
-
-# Navigate into the project
-cd my-dashboard
-
-# Install dependencies and start the development server
-npm install
-npm run dev
-```
+| Requirement | Supported Versions | Notes |
+| :--- | :--- | :--- |
+| **Node.js** | `>= 18.0.0` (LTS 20.x or 22.x recommended) | Required for bundling and CLI operations |
+| **Package Manager** | `npm` (`>= 9.0`), `pnpm` (`>= 8.0`), or `yarn` (`>= 1.22`) | Standard package installation |
+| **React** | `^18.0.0` or `^19.0.0` | Peer dependency for all UI components |
+| **TypeScript** | `>= 5.0.0` (Optional but recommended) | Full type definitions included in package |
 
 ---
 
-### Option B: Add to an Existing Project
+## Setup & Quick Start
 
-#### 1. Install the package
+You can install Criation UI into an existing project or scaffold a complete application from scratch using the integrated CLI.
+
+### Option A: Install into an Existing React Project
+
+#### 1. Install Dependencies
+Install the core library along with its icon peer dependency:
 
 ```bash
 # Using npm
-npm install @criation/ui
+npm install @criation/ui lucide-react
 
 # Using pnpm
-pnpm add @criation/ui
+pnpm add @criation/ui lucide-react
 
 # Using yarn
-yarn add @criation/ui
+yarn add @criation/ui lucide-react
 ```
 
-#### 2. Import global styles
-
-Import the compiled stylesheet once at your application's root entry file (e.g., `src/main.tsx` or `src/index.tsx` in Vite, or `src/pages/_app.tsx` / `src/app/layout.tsx` in Next.js):
+#### 2. Import the Stylesheet
+Include the precompiled stylesheet once in your application root (`src/main.tsx` for Vite, or `pages/_app.tsx` / `app/layout.tsx` for Next.js):
 
 ```tsx
-// src/main.tsx
+// src/main.tsx or src/index.tsx
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 
-// Import Criation UI stylesheet
-import "@criation/ui/styles.css";
+// Import the precompiled Criation UI styles
+import "@criation/ui/dist/styles.css";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
@@ -115,7 +79,8 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
 );
 ```
 
-#### 3. Use components in your application
+#### 3. Render Your First Component
+Import and use components with standard React JSX:
 
 ```tsx
 // src/App.tsx
@@ -123,200 +88,22 @@ import { Button, Card, Stack, Heading, Text } from "@criation/ui";
 
 export default function App() {
   return (
-    <Card variant="outline" padding="lg">
-      <Stack direction="column" gap="1rem">
-        <Heading level={2}>Welcome to Criation UI</Heading>
-        <Text color="muted">
-          Your production component library is installed and operational.
-        </Text>
-        <Button variant="primary" size="md" onClick={() => alert("Action triggered")}>
-          Get Started
-        </Button>
-      </Stack>
-    </Card>
-  );
-}
-```
-
----
-
-### Option C: Local Development & Contributing
-
-To run the Criation UI source repository locally, test changes, and use the interactive component studio:
-
-```bash
-# 1. Clone the repository
-git clone https://github.com/Atomic-Quark/Criation-UI.git
-cd Criation-UI
-
-# 2. Install workspace dependencies
-npm install
-
-# 3. Launch the interactive development playground
-npm run dev
-
-# 4. Open http://localhost:5173 in your browser
-```
-
-Key local scripts:
-- `npm run dev` &mdash; Starts the interactive component showcase and playground studio.
-- `npm test` &mdash; Executes the 142 automated verification tests across unit, browser, and package layers.
-- `npm run benchmark` &mdash; Runs micro-benchmarks and bundle-size audits.
-- `npm run build:lib` &mdash; Compiles the production distribution bundle (`dist/`) with TypeScript declarations.
-- `npm run audit` &mdash; Runs the automated quality and security checks.
-
----
-
-## How to Work with the Library
-
-### 1. Canonical JSX (Primary API)
-
-The recommended way to use Criation UI is through standard React JSX. Every component accepts strongly-typed props with full IDE autocomplete:
-
-```tsx
-import { Button, Input, Modal, Stack } from "@criation/ui";
-import { useState } from "react";
-
-export function UserRegistration() {
-  const [isOpen, setIsOpen] = useState(false);
-
-  return (
-    <Stack direction="column" gap="1rem">
-      <Input placeholder="Enter email address" fullWidth />
-      <Button variant="primary" onClick={() => setIsOpen(true)}>
-        Open Confirmation
-      </Button>
-
-      <Modal
-        isOpen={isOpen}
-        onClose={() => setIsOpen(false)}
-        title="Confirm Registration"
-        footer={
-          <Button variant="primary" onClick={() => setIsOpen(false)}>
-            Accept & Continue
+    <div style={{ maxWidth: 640, margin: "40px auto", padding: "0 16px" }}>
+      <Card variant="outline" padding="lg">
+        <Stack direction="column" gap="1rem">
+          <Heading level={2}>Account Setup</Heading>
+          <Text color="muted">
+            Configure your development environment and verify component integration.
+          </Text>
+          <Button 
+            variant="primary" 
+            size="md" 
+            onClick={() => alert("Criation UI is successfully connected!")}
+          >
+            Confirm &amp; Continue
           </Button>
-        }
-      >
-        Please review and accept our terms of service before proceeding.
-      </Modal>
-    </Stack>
-  );
-}
-```
-
----
-
-### 2. Tree-Shaken Subpath Imports
-
-For applications where bundle size is critical, Criation UI supports subpath exports. This ensures that bundlers import only the exact component needed without bundling the rest of the library:
-
-```tsx
-// Imports only the Button chunk (2.54 kB)
-import { Button } from "@criation/ui/button";
-
-// Imports only the Input chunk (2.54 kB)
-import { Input } from "@criation/ui/input";
-
-// Imports only the layout and workflow hooks
-import { useDataQuery, useCrudWorkflow } from "@criation/ui/workflows";
-```
-
----
-
-### 3. Decoupled Fluent Builder
-
-For developers who prefer a fluent dot-chaining syntax, Criation UI provides an optional `ui.*` builder namespace. Unlike early prototypes, this builder is completely decoupled from React component prototypes and terminates in `.build()` to produce an immutable React element:
-
-```tsx
-import { ui } from "@criation/ui";
-
-// Dot-chaining builder returning a standard React element
-const ActionButton = ui.button("Save Changes")
-  .primary()
-  .large()
-  .onClick(() => console.log("Saved"))
-  .build();
-
-const PageHeader = ui.heading("System Configuration")
-  .level(1)
-  .gradient()
-  .center()
-  .build();
-```
-
----
-
-### 4. High-Level Reactive Workflows
-
-Rather than writing repetitive state management boilerplate for asynchronous data operations, Criation UI includes dedicated workflow hooks:
-
-#### Data Fetching with `useDataQuery`
-Provides built-in loading states, error handling, automatic retry delays, and AbortController request cancellation:
-
-```tsx
-import { useDataQuery, Spinner, Alert } from "@criation/ui";
-
-function CustomerList() {
-  const { data, loading, error, refetch } = useDataQuery(
-    async () => {
-      const response = await fetch("/api/customers");
-      if (!response.ok) throw new Error("Failed to load customer records");
-      return response.json();
-    },
-    { retries: 2, retryDelayMs: 500 }
-  );
-
-  if (loading) return <Spinner size="lg" />;
-  if (error) return <Alert variant="danger" title="Network Error">{error.message}</Alert>;
-
-  return (
-    <ul>
-      {data?.map(c => <li key={c.id}>{c.name} ({c.email})</li>)}
-    </ul>
-  );
-}
-```
-
-#### Synchronized CRUD with `useCrudWorkflow`
-Manages item lists, search filters, create/edit modals, and deletion workflows in 5 lines of declarative code:
-
-```tsx
-import { useCrudWorkflow, Button, Modal, Input } from "@criation/ui";
-
-export function InventoryManager() {
-  const {
-    items,
-    isCreateOpen,
-    openCreate,
-    closeCreate,
-    createItem,
-    deleteItem,
-  } = useCrudWorkflow({
-    initialItems: [
-      { id: "1", title: "Standard Server Rack", quantity: 12 },
-      { id: "2", title: "Gigabit Switch 48-Port", quantity: 5 }
-    ]
-  });
-
-  return (
-    <div>
-      <Button variant="primary" onClick={openCreate}>Add Inventory Item</Button>
-
-      <table>
-        <tbody>
-          {items.map(item => (
-            <tr key={item.id}>
-              <td>{item.title}</td>
-              <td>Qty: {item.quantity}</td>
-              <td>
-                <Button variant="danger" size="sm" onClick={() => deleteItem(item.id)}>
-                  Delete
-                </Button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+        </Stack>
+      </Card>
     </div>
   );
 }
@@ -324,131 +111,121 @@ export function InventoryManager() {
 
 ---
 
-### 5. CLI Scaffolding Recipes
+### Option B: Scaffold a Brand New Project via CLI
 
-The integrated CLI allows teams to scaffold templates and recipes directly into an active project:
+Criation UI includes an automatic scaffolding binary (`criation`) that initializes a fully configured Vite + React + TypeScript project in seconds:
 
 ```bash
-# Add a complete, synchronized CRUD data table recipe
-npx @criation/ui add crud
+# 1. Initialize a new project directory
+npx @criation/ui init my-dashboard
 
-# Add an analytics dashboard template
-npx @criation/ui add dashboard
+# 2. Navigate into the generated project
+cd my-dashboard
 
-# Run performance micro-benchmarks
-npm run benchmark
-
-# Run the complete test and type-checking audit
-npm run cli -- audit
+# 3. Start the local development server
+npm run dev
 ```
+
+The CLI automatically configures TypeScript paths, imports the stylesheet, and sets up a working component layout.
 
 ---
 
-## Component & API Evolution
+## Component Evolution: What Changed & Why
 
-### Inventory of Updated Functions & Components
+To understand how Criation UI simplifies development, review the side-by-side comparisons below. Each section contrasts the traditional boilerplate approach (or early prototypes) with the modern Criation UI implementation.
 
-The library was overhauled to eliminate prototype mutation, unverified claims, and accessibility issues. Below is a summary of the key components and functions updated:
+### 1. Button Component (`Button`)
 
-| Component / Function | What Was Changed | Impact & Benefit |
-| :--- | :--- | :--- |
-| **`Button`, `IconButton`, `ButtonGroup`** | Decoupled from React prototype mutation. Added structured props (`variant`, `size`, `loading`, `disabled`), `aria-busy`, and subpath exports. | Prevents React prototype pollution. Enables tree-shaking down to 2.54 kB. Screen readers properly announce loading states. |
-| **`Input`, `TextArea`, `SearchInput`** | Connected error strings to input fields using `aria-describedby` and `aria-invalid`. Fixed placeholder contrast. | Screen readers now announce validation errors automatically upon focus. |
-| **`Select`** | Removed invalid HTML `selected` attribute rendered on placeholder options. | Resolves React runtime console warnings and ensures cross-browser HTML compliance. |
-| **`Modal`, `Drawer`, `AlertDialog`** | Integrated `useFocusTrap` (traps `Tab`/`Shift+Tab` within the dialog), automatic body scroll locking with scrollbar width compensation, and Escape key dismissal. | Full WCAG 2.2 AA compliance. Prevents keyboard users from tabbing to underlying background content. |
-| **`Tabs`** | Connected tab triggers to tab panels via `aria-controls`, `aria-selected`, and `role="tab"`. Added arrow key navigation. | Complies with WAI-ARIA 1.2 Tabs design pattern. Screen readers correctly describe panel relationships. |
-| **`Table` (Data Grid)** | Implemented declarative column definitions, custom cell renderers, empty state handling, and sortable headers. | Eliminates manual `<table>` HTML structure boilerplate. |
-| **`useForm`** | Added synchronous/asynchronous validation schema support, touched/dirty field tracking, and automatic error mapping. | Provides form validation without requiring heavy external dependencies like Formik or React Hook Form. |
-| **`useDataQuery`** | Built-in timeout handling, exponential retry backoff, and AbortController request cancellation on unmount. | Eliminates race conditions and memory leaks when components unmount during active fetch requests. |
-| **`useCrudWorkflow`** | Unified state machine managing filtered records, search queries, active modal selection, and delete confirmation toasts. | Reduces data-table screen implementations from ~200 lines of boilerplate down to 5-10 declarative lines. |
-| **`ui.*` Builder Namespace** | Rewritten as an immutable builder pattern ending in `.build()`. Added typed options objects (e.g., `ui.navbar({ brand, links })`). | Replaces ambiguous 8-slot positional string parameters with structured, typed methods and options objects. |
-| **`describe()` / `parseDSL()`** | Bounded natural-language parser. Removed unsafe automatic permission inferencing from arbitrary keywords like "admin". Added syntax warnings. | Eliminates security confusion; developers explicitly control authorization logic. |
-| **CLI (`bin/criation.js`)** | Standalone executable supporting `init`, `add crud`, `add dashboard`, `benchmark`, and `audit`. | Enables one-command project creation and recipe generation without manual configuration. |
-
----
-
-## Code Comparison: What We Wrote Earlier vs. How We Write Now
-
-### 1. Button Construction & Styling
-
-#### Earlier (v0.1.0 / v0.2.0 Prototype)
-Required memorizing rigid 8-slot positional parameters where unused slots had to be filled with empty strings, or relied on mutating React component prototypes:
+*Earlier Challenge:* Building an interactive button previously required manually wiring CSS classes, managing loading spinner elements, and writing custom `aria-busy` attributes to prevent screen readers from reading raw SVG icons.
 
 ```tsx
-// EARLIER: Rigid 8-slot positional strings or prototype pollution
-// Slot 1: label, Slot 2: width, Slot 3: id, Slot 4: auth, Slot 5: link, Slot 6: color
-const OldButton = Button("Save Changes", "", "", "", "/settings", "red");
-
-// OR prototype mutation (violated React rules):
-Button.prototype.red = function() { /* mutated global React component */ };
-```
-
-#### Now (v0.3.0-beta Standard JSX & Decoupled Builder)
-Standard, predictable React JSX with typed props, or an immutable dot-chaining builder:
-
-```tsx
-// NOW: Standard React JSX (Primary API)
-import { Button } from "@criation/ui";
-
-export function SaveButton() {
+// =========================================================================
+// BEFORE: Traditional React Boilerplate (18 lines of repetitive code)
+// =========================================================================
+function SubmitButton({ isLoading, onClick }: { isLoading: boolean; onClick: () => void }) {
   return (
-    <Button
-      variant="danger"
-      size="lg"
-      loading={false}
-      onClick={() => navigate("/settings")}
+    <button
+      type="button"
+      className={`btn btn-primary ${isLoading ? "btn-loading" : ""}`}
+      disabled={isLoading}
+      aria-busy={isLoading} // Easy to forget; risks screen-reader confusion
+      onClick={onClick}
     >
-      Save Changes
-    </Button>
+      {isLoading ? (
+        <span className="spinner-wrapper" aria-hidden="true">
+          <svg className="animate-spin" viewBox="0 0 24 24">...</svg>
+        </span>
+      ) : null}
+      <span>{isLoading ? "Saving..." : "Save Record"}</span>
+    </button>
   );
 }
 
-// OR: Decoupled Fluent Builder (Optional)
-import { ui } from "@criation/ui";
+// =========================================================================
+// NOW: Criation UI Implementation (1 line, fully accessible)
+// =========================================================================
+import { Button } from "@criation/ui";
 
-const SaveButtonElement = ui.button("Save Changes")
-  .danger()
-  .large()
-  .link("/settings")
-  .build();
+function ModernSubmit({ isPending, onClick }: { isPending: boolean; onClick: () => void }) {
+  // Built-in loading state automatically injects the spinner, disables clicks,
+  // and hides visual animations from screen readers via aria-busy="true".
+  return (
+    <Button variant="primary" size="md" loading={isPending} onClick={onClick}>
+      Save Record
+    </Button>
+  );
+}
 ```
 
 ---
 
-### 2. Form Inputs & Error Association
+### 2. Form Input with Validation (`Input`)
 
-#### Earlier (v0.1.0 / v0.2.0 Prototype)
-Errors were rendered as independent unassociated HTML elements. Screen readers had no way to know an input had failed validation:
-
-```tsx
-// EARLIER: Unconnected error text; screen readers failed to announce validation errors
-<div>
-  <input type="text" placeholder="Enter email" />
-  {hasError && <span className="error-text">Email address is invalid</span>}
-</div>
-```
-
-#### Now (v0.3.0-beta Accessible Inputs & `useForm`)
-Inputs automatically associate errors using `aria-describedby` and `aria-invalid`, ensuring full accessibility:
+*Earlier Challenge:* Connecting an input to an accessible error message traditionally required generating unique IDs, manually managing `aria-invalid`, and binding `aria-describedby` so assistive technologies could detect validation failures.
 
 ```tsx
-// NOW: Fully accessible input linked to error container
-import { Input, useForm } from "@criation/ui";
-
-export function EmailField() {
-  const { values, errors, handleChange, handleBlur } = useForm({
-    initialValues: { email: "" },
-    validate: (vals) => (!vals.email.includes("@") ? { email: "Valid email required" } : {})
-  });
+// =========================================================================
+// BEFORE: Traditional Manual Field Binding (22 lines)
+// =========================================================================
+function EmailField({ value, onChange, error }: any) {
+  const errorId = "email-error-msg-101"; // Manual collision-prone ID
 
   return (
+    <div className="form-group">
+      <label htmlFor="email-input">Work Email</label>
+      <input
+        id="email-input"
+        type="email"
+        value={value}
+        onChange={onChange}
+        aria-invalid={Boolean(error)}
+        aria-describedby={error ? errorId : undefined} // Manual linkage
+        className={error ? "input-border-error" : "input-border-normal"}
+      />
+      {error && (
+        <p id={errorId} role="alert" className="error-text">
+          {error}
+        </p>
+      )}
+    </div>
+  );
+}
+
+// =========================================================================
+// NOW: Criation UI Implementation (Automatic Accessible Linkage)
+// =========================================================================
+import { Input } from "@criation/ui";
+
+function ModernEmailField({ value, onChange, error }: any) {
+  // Automatically generates unique element IDs, binds aria-describedby to
+  // the dedicated error container, and sets aria-invalid for WCAG compliance.
+  return (
     <Input
-      name="email"
-      placeholder="Enter email"
-      value={values.email}
-      error={errors.email} /* Generates aria-invalid and aria-describedby automatically */
-      onChange={handleChange}
-      onBlur={handleBlur}
+      label="Work Email"
+      type="email"
+      value={value}
+      onChange={onChange}
+      error={error}
       fullWidth
     />
   );
@@ -457,45 +234,59 @@ export function EmailField() {
 
 ---
 
-### 3. Modal Dialogs & Keyboard Focus Trapping
+### 3. Accessible Modal Dialogs (`Modal`)
 
-#### Earlier (v0.1.0 / v0.2.0 Prototype)
-Modals were simple `<div>` overlays without keyboard trap handling. Pressing `Tab` allowed users to navigate out of the modal and interact with buttons behind the overlay:
+*Earlier Challenge:* Standard modal dialogs require complex keyboard event listeners for the `Escape` key, focus trapping loops so keyboard `Tab` keys do not focus elements behind the modal, and document body scroll locking with scrollbar width compensation to avoid jarring layout shifts.
 
 ```tsx
-// EARLIER: Naive overlay without focus containment or scroll locking
-function OldModal({ isOpen, children }) {
+// =========================================================================
+// BEFORE: Traditional Custom Modal Implementation (45+ lines)
+// =========================================================================
+function LegacyModal({ isOpen, onClose, children }: any) {
+  useEffect(() => {
+    if (!isOpen) return;
+    
+    // 1. Manual escape key listener
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", handleKeyDown);
+
+    // 2. Manual body scroll lock (causes layout shifts on Windows)
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = prevOverflow;
+    };
+  }, [isOpen, onClose]);
+
   if (!isOpen) return null;
   return (
-    <div className="backdrop">
-      <div className="modal-box">{children}</div>
+    <div className="modal-backdrop" onClick={onClose}>
+      <div className="modal-window" onClick={(e) => e.stopPropagation()}>
+        {children}
+      </div>
     </div>
   );
 }
-```
 
-#### Now (v0.3.0-beta Accessible Modal)
-Includes automated focus trapping, body scroll locking with scrollbar width compensation, and Escape key handling:
+// =========================================================================
+// NOW: Criation UI Implementation (Zero-Config WAI-ARIA Focus Trap)
+// =========================================================================
+import { Modal, Button, Text } from "@criation/ui";
 
-```tsx
-// NOW: WAI-ARIA 1.2 compliant modal with focus containment and scroll compensation
-import { Modal, Button } from "@criation/ui";
-
-export function SettingsModal({ isOpen, onClose }) {
+function ModernModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
+  // Built-in useFocusTrap keeps keyboard Tab focus inside the dialog.
+  // Escape key closes automatically. Body scroll locking compensates for scrollbar width.
   return (
-    <Modal
-      isOpen={isOpen}
-      onClose={onClose}
-      title="Account Settings"
-      size="md"
-      footer={
-        <Button variant="primary" onClick={onClose}>
-          Save Settings
-        </Button>
-      }
-    >
-      <p>Keyboard focus is automatically locked inside this dialog.</p>
-      <p>Pressing Escape closes the window and returns focus to the trigger.</p>
+    <Modal isOpen={isOpen} onClose={onClose} title="Confirm Deployment" size="md">
+      <Text>Are you ready to promote this build to production?</Text>
+      <div style={{ display: "flex", justifyContent: "flex-end", gap: 12, marginTop: 20 }}>
+        <Button variant="ghost" onClick={onClose}>Cancel</Button>
+        <Button variant="danger" onClick={onClose}>Confirm</Button>
+      </div>
     </Modal>
   );
 }
@@ -503,181 +294,245 @@ export function SettingsModal({ isOpen, onClose }) {
 
 ---
 
-### 4. Data Management & CRUD Tables
+### 4. Form State & Validation (`useForm`)
 
-#### Earlier (v0.1.0 / v0.2.0 Prototype)
-Building a data screen required writing 150+ lines of repetitive state boilerplate for fetching, error handling, search filtering, and modal toggling:
-
-```tsx
-// EARLIER: ~150 lines of manual state management boilerplate
-const [data, setData] = useState([]);
-const [loading, setLoading] = useState(true);
-const [error, setError] = useState(null);
-const [search, setSearch] = useState("");
-const [isCreateOpen, setIsCreateOpen] = useState(false);
-const [selectedItem, setSelectedItem] = useState(null);
-
-useEffect(() => {
-  let isMounted = true;
-  fetch("/api/items")
-    .then(r => r.json())
-    .then(items => { if (isMounted) { setData(items); setLoading(false); } })
-    .catch(err => { if (isMounted) { setError(err); setLoading(false); } });
-  return () => { isMounted = false; };
-}, []);
-
-// Plus manual filter logic, manual modal open/close handlers, and delete confirmations...
-```
-
-#### Now (v0.3.0-beta High-Level Workflow Hook)
-The entire workflow is declared in 5 lines with automated state synchronization:
+*Earlier Challenge:* Form handling typically required declaring multiple `useState` instances, writing custom validation logic, and manually setting touched and error states.
 
 ```tsx
-// NOW: Complete data-management workflow in 5 lines
-import { useCrudWorkflow, Button } from "@criation/ui";
+// =========================================================================
+// BEFORE: Traditional Multi-State Form Handling (35+ lines)
+// =========================================================================
+function LegacyForm() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
 
-export function ProductCatalog() {
-  const {
-    items,
-    searchQuery,
-    setSearchQuery,
-    openCreate,
-    openEdit,
-    deleteItem
-  } = useCrudWorkflow({
-    initialItems: [
-      { id: "1", name: "Workstation Pro", price: "$1,499" },
-      { id: "2", name: "UltraWide Display", price: "$799" }
-    ],
-    searchFields: ["name"]
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const newErrors: any = {};
+    if (!email.includes("@")) newErrors.email = "Invalid email format";
+    if (password.length < 8) newErrors.password = "Password must be >= 8 chars";
+    setErrors(newErrors);
+    if (Object.keys(newErrors).length === 0) {
+      // Process submission
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <input value={email} onChange={(e) => setEmail(e.target.value)} />
+      {errors.email && <span>{errors.email}</span>}
+      <button type="submit">Submit</button>
+    </form>
+  );
+}
+
+// =========================================================================
+// NOW: Criation UI Declarative Form Hook
+// =========================================================================
+import { useForm, Input, Button, Stack } from "@criation/ui";
+
+function ModernForm() {
+  // Single hook manages state, validation schemas, dirty tracking, and submission.
+  const { values, errors, handleChange, handleSubmit, isSubmitting } = useForm({
+    initialValues: { email: "", password: "" },
+    validate: (vals) => {
+      const errs: Record<string, string> = {};
+      if (!vals.email.includes("@")) errs.email = "Please enter a valid email address.";
+      if (vals.password.length < 8) errs.password = "Must contain at least 8 characters.";
+      return errs;
+    },
+    onSubmit: async (data) => {
+      await fetch("/api/register", { method: "POST", body: JSON.stringify(data) });
+    }
   });
 
   return (
-    <div>
-      <input value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} placeholder="Filter..." />
-      <Button variant="primary" onClick={openCreate}>Add Product</Button>
-      <ul>
-        {items.map(p => (
-          <li key={p.id}>
-            {p.name} — {p.price}
-            <button onClick={() => openEdit(p)}>Edit</button>
-            <button onClick={() => deleteItem(p.id)}>Delete</button>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <form onSubmit={handleSubmit}>
+      <Stack direction="column" gap="1rem">
+        <Input 
+          label="Email Address" 
+          value={values.email} 
+          onChange={handleChange("email")} 
+          error={errors.email} 
+        />
+        <Button type="submit" variant="primary" loading={isSubmitting}>
+          Create Account
+        </Button>
+      </Stack>
+    </form>
   );
 }
 ```
 
 ---
 
-### 5. Package Imports & Tree-Shaking
+### 5. Full Data Management Workflow (`useCrudWorkflow`)
 
-#### Earlier (v0.1.0 / v0.2.0 Prototype)
-Single monolithic 233 kB bundle with no subpath exports. Importing a single button forced applications to download the natural language parser and all 40+ components:
-
-```tsx
-// EARLIER: Monolithic import (bundled all 233 kB of code into the client build)
-import { Button } from "criation-ui";
-```
-
-#### Now (v0.3.0-beta Multi-Entry Subpaths)
-Subpath exports allow the application bundler to extract only the isolated component chunk:
+*Earlier Challenge:* Building an administrative table with Create, Read, Update, and Delete capabilities previously required over 100 lines of state management for search filters, modal open/close toggles, active item tracking, and delete confirmations.
 
 ```tsx
-// NOW: Subpath import bundling only 2.54 kB into production output
-import { Button } from "@criation/ui/button";
-import { Input } from "@criation/ui/input";
+// =========================================================================
+// NOW: Criation UI Complete CRUD Synchronization (Under 30 lines)
+// =========================================================================
+import { useCrudWorkflow, Button, Input, Modal, Stack } from "@criation/ui";
+
+interface Member {
+  id: string;
+  name: string;
+  role: string;
+}
+
+export function TeamDirectory() {
+  // useCrudWorkflow handles:
+  // 1. Filtered data synchronization based on search queries
+  // 2. Add Item modal state and form creation
+  // 3. Edit Item modal state and entity population
+  // 4. Safe delete confirmation workflows
+  const {
+    items,
+    searchQuery,
+    setSearchQuery,
+    isCreateOpen,
+    openCreate,
+    closeCreate,
+    isEditOpen,
+    activeItem,
+    openEdit,
+    closeEdit,
+    deleteItem
+  } = useCrudWorkflow<Member>({
+    initialItems: [
+      { id: "1", name: "Sarah Connor", role: "Engineering Lead" },
+      { id: "2", name: "Marcus Wright", role: "Systems Architect" }
+    ],
+    searchFields: ["name", "role"]
+  });
+
+  return (
+    <Stack direction="column" gap="1.5rem">
+      <div style={{ display: "flex", justifyContent: "space-between", gap: 16 }}>
+        <Input
+          placeholder="Filter team members..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+        <Button variant="primary" onClick={openCreate}>Add Member</Button>
+      </div>
+
+      <ul>
+        {items.map((member) => (
+          <li key={member.id} style={{ display: "flex", justifyContent: "space-between", padding: 8 }}>
+            <span>{member.name} — {member.role}</span>
+            <div>
+              <Button size="sm" variant="outline" onClick={() => openEdit(member)}>Edit</Button>
+              <Button size="sm" variant="danger" onClick={() => deleteItem(member.id)}>Delete</Button>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </Stack>
+  );
+}
 ```
 
 ---
 
-## Architecture & Bundle Benchmarks
+## Expressive Modalities
 
-Criation UI uses a zero-runtime CSS architecture. Component styles are compiled into a static CSS stylesheet at build time, eliminating JavaScript runtime style evaluation overhead.
+Criation UI provides multiple syntax modalities to suit different programming preferences:
 
-| Artifact / Entrypoint | Uncompressed Size | Gzip Compressed |
-| :--- | :--- | :--- |
-| **Compiled Global CSS (`dist/styles.css`)** | 34.76 kB | **6.81 kB** |
-| **Isolated Button Subpath (`dist/button.js`)** | 2.60 kB | **1.03 kB** |
-| **Isolated Input Subpath (`dist/input.js`)** | 2.54 kB | **1.03 kB** |
-| **Isolated Card Subpath (`dist/card.js`)** | 1.24 kB | **0.58 kB** |
-| **Workflow Utilities (`dist/workflows.js`)** | 0.14 kB | **0.13 kB** |
-| **Monolithic Bundle (`dist/index.js`)** | 176.64 kB | **38.97 kB** |
+### 1. Conventional JSX (Recommended Default)
+The standard, declarative way to write React:
+```tsx
+import { Button, Card } from "@criation/ui";
 
-Micro-benchmark throughput:
-- Core Component Mount Throughput: `> 125,000 ops/sec`
-- Fluent Builder Element Construction: `> 420,000 ops/sec`
-- Form Validation Execution: `> 280,000 ops/sec`
+export const ActionCard = () => (
+  <Card variant="elevated" padding="md">
+    <Button variant="primary">Proceed</Button>
+  </Card>
+);
+```
+
+### 2. Decoupled Fluent Builder (`ui.*`)
+Method chaining that produces an immutable React element via `.build()`:
+```tsx
+import { ui } from "@criation/ui";
+
+const CheckoutButton = ui.button("Complete Order")
+  .primary()
+  .large()
+  .onClick(() => processPayment())
+  .build();
+```
+
+### 3. Strongly-Typed Options Objects
+Replaces ambiguous positional arguments with self-documenting option structures:
+```tsx
+import { ui } from "@criation/ui";
+
+const NavigationBar = ui.navbar({
+  brand: "Company Portal",
+  links: ["Dashboard", "Analytics", "Settings"]
+});
+```
 
 ---
 
-## Security & Authentication Advisory
+## Component Catalog
+
+Criation UI includes 40+ modular components and 15 reactive utilities:
+
+| Category | Available Components & Hooks |
+| :--- | :--- |
+| **Buttons & Actions** | `Button`, `IconButton`, `ButtonGroup` |
+| **Inputs & Forms** | `Input`, `TextInput`, `PasswordInput`, `EmailInput`, `NumberInput`, `TextArea`, `SearchInput`, `OTPInput`, `Rating`, `Combobox`, `MultiSelect`, `ColorPicker`, `Select`, `Checkbox`, `Radio`, `Switch`, `Slider`, `DatePicker`, `FileUpload` |
+| **Layout & Structure** | `Box`, `Container`, `Stack`, `Grid`, `Flex`, `Spacer`, `Divider`, `AspectRatio`, `ScrollArea`, `Collapsible`, `Card` |
+| **Feedback & Overlays** | `Alert`, `AlertDialog`, `Toast`, `Spinner`, `Skeleton`, `Progress`, `EmptyState`, `ErrorState`, `ErrorBoundary`, `Modal`, `Drawer`, `Popover`, `Tooltip`, `ContextMenu` |
+| **Navigation & Data** | `Navbar`, `Footer`, `Sidebar`, `Stepper`, `Timeline`, `Tabs`, `Breadcrumbs`, `Pagination`, `DropdownMenu`, `Result`, `NotFoundPage` |
+| **Hooks & Workflows** | `useDataQuery`, `useCrudWorkflow`, `useForm`, `useTheme`, `useDisclosure`, `useClipboard`, `useDebounce`, `useLocalStorage`, `useClickOutside`, `useMediaQuery`, `useFocusTrap` |
+
+---
+
+## Security & Architecture Boundary Notice
 
 > [!IMPORTANT]
-> **Client-Side Presentation Notice:**  
-> Criation UI is a frontend component library. Included authentication primitives (`<AuthProvider>`, `<AuthGuard>`) manage client-side UI visibility and state transitions only.
->
-> **Client-side route guards do NOT secure backend systems.** Any disabled button or hidden route in a web browser can be inspected or bypassed by a user. Consuming applications **MUST** independently authenticate and authorize every request on a secure backend server. 
+> **Client-Side Presentation Scope:**  
+> Criation UI is a frontend component library. The included `<AuthProvider>` and `<AuthGuard>` helpers manage client-side UI visibility and navigation transitions only.
 > 
-> To integrate production identity providers (Supabase, Firebase, Auth0, OAuth 2.0 / OIDC), use the provided `AuthAdapter` contract in `@criation/ui`.
+> Client-side route guards, hidden buttons, or disabled inputs do not secure backend data. All sensitive operations, database mutations, and authorization policies **must be validated and enforced on an authoritative backend server** for every request. An `AuthAdapter` contract is provided for integrating external identity providers (OAuth/OIDC, Supabase, Firebase, Auth0).
 
 ---
 
-## Framework Support Matrix
+## Developer Scripts & Verification
 
-| Framework | Supported Versions | Status | Integration Guidance |
-| :--- | :--- | :--- | :--- |
-| **React** | 18.x, 19.x | Fully Supported | Standard JSX components & custom hooks. |
-| **Vite** | 5.x, 6.x | Fully Supported | Default development and build tooling. |
-| **Next.js (App Router)** | 15.x, 16.x | Supported (`"use client"`) | Supported in Client Components. Mark files using interactive components with `"use client"`. |
-| **Next.js (Pages Router)** | 14.x, 15.x | Fully Supported | Import `@criation/ui/styles.css` in `pages/_app.tsx`. |
-
----
-
-## Test Verification & Quality Metrics
-
-The codebase is protected by **142 automated tests** across three testing layers:
-
-```
-=======================================================
-   CRIATION UI — COMPREHENSIVE AUTOMATED TEST SUITE   
-=======================================================
-1. Utilities & Formatting Tests:             11 Passed
-2. Design System & Responsive Tokens Tests:   4 Passed
-3. Core Component Rendering & Chaining:      16 Passed
-4. Universal Chaining on Core Components:    29 Passed
-5. Bug Fix Regressions & Accessibility:       5 Passed
-6. Advanced Component Capabilities Tests:     5 Passed
-7. useForm Hook & Validation Tests:           5 Passed
-8. WAI-ARIA Accessibility & Screen-Reader:    9 Passed
-9. High-Level Developer Workflows & CLI:      4 Passed
--------------------------------------------------------
-Layer 1: Unit & Integration Tests:           88 / 88 Passed
-Layer 2: Browser Behavioral & Focus Tests:   17 / 17 Passed
-Layer 3: Package Consumer & Tarball Tests:   37 / 37 Passed
-=======================================================
-TOTAL VERIFIED TESTS:                       142 / 142 Passed (100%)
-=======================================================
-```
-
-To run the verification suite locally:
+All project capabilities are verified through reproducible automated scripts:
 
 ```bash
-# Run the complete test suite
+# 1. Start the interactive component studio & playground
+npm run dev
+
+# 2. Run the automated test suite (88 unit tests across 9 categories)
 npm test
 
-# Run browser focus trapping and keyboard navigation tests
+# 3. Run browser behavioral accessibility tests (focus trap & keyboard navigation)
 node scripts/browser-behavior-tests.js
 
-# Run consumer package verification and tarball inspection
+# 4. Run consumer package verification (subpath exports & bundle checks)
 node scripts/verify-consumer-package.js
+
+# 5. Measure empirical build performance & micro-operations/second
+npm run benchmark
+
+# 6. Build the production library bundle into dist/
+npm run build:lib
 ```
 
 ---
 
-## License
+## License & Attribution
 
-Criation UI is licensed under the **[MIT License](LICENSE)**.  
-Copyright &copy; 2026 **Divyanshu Kumar** ([@Atomic-Quark](https://github.com/Atomic-Quark)).
+Criation UI is distributed under the permissive **[MIT License](LICENSE)**.  
+Copyright © 2026 **Divyanshu Kumar** ([@Atomic-Quark](https://github.com/Atomic-Quark)).
+
+Permission is granted, free of charge, to any person obtaining a copy of this software and associated documentation files to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies in both commercial and open-source applications.
