@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 
 export interface WorkflowProduct {
   id: string;
@@ -37,6 +37,7 @@ export interface CommerceWorkflowConfig<
   initialUser?: U | null;
   initialCart?: WorkflowCartItem<P>[];
   taxRate?: number; // default: 0.08 (8%)
+  autoOpenCartOnAdd?: boolean;
   loadOrders?: (userId: string) => O[] | Promise<O[]>;
   onLogoutService?: () => void | Promise<void>;
   onNavigate?: (view: "store" | "orders") => void;
@@ -152,6 +153,11 @@ export interface CommerceWorkflowResult<
   closeReceipt: () => void;
   viewReceipt: (order: O, txn?: any) => void;
   navigateTo: (view: "store" | "orders") => void;
+
+  // --- External State & Synchronization Controls ---
+  refreshOrders: () => Promise<void>;
+  setOrders: React.Dispatch<React.SetStateAction<O[]>>;
+  setCurrentUser: React.Dispatch<React.SetStateAction<U | null>>;
 }
 
 /**
@@ -168,6 +174,7 @@ export function useCommerceWorkflow<
     initialUser = null,
     initialCart = [],
     taxRate = 0.08,
+    autoOpenCartOnAdd = false,
     loadOrders,
     onLogoutService,
     onNavigate,
@@ -179,6 +186,34 @@ export function useCommerceWorkflow<
   const [currentUser, setCurrentUser] = useState<U | null>(initialUser);
   const [orders, setOrders] = useState<O[]>([]);
   const [currentView, setCurrentView] = useState<"store" | "orders">("store");
+
+  // Rehydrate orders whenever currentUser changes or on initial mount
+  useEffect(() => {
+    let isMounted = true;
+    if (currentUser?.id && loadOrders) {
+      Promise.resolve(loadOrders(currentUser.id))
+        .then((userOrders) => {
+          if (isMounted && Array.isArray(userOrders)) {
+            setOrders(userOrders);
+          }
+        })
+        .catch(() => {});
+    } else if (!currentUser) {
+      setOrders([]);
+    }
+    return () => {
+      isMounted = false;
+    };
+  }, [currentUser?.id, loadOrders]);
+
+  const refreshOrders = useCallback(async () => {
+    if (loadOrders && currentUser?.id) {
+      const userOrders = await Promise.resolve(loadOrders(currentUser.id));
+      if (Array.isArray(userOrders)) {
+        setOrders(userOrders);
+      }
+    }
+  }, [loadOrders, currentUser?.id]);
 
   // 2. Modal States
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -250,7 +285,10 @@ export function useCommerceWorkflow<
       }
       return [...prev, { product, quantity }];
     });
-  }, []);
+    if (autoOpenCartOnAdd) {
+      setIsCartOpen(true);
+    }
+  }, [autoOpenCartOnAdd]);
 
   // "When the user changes a product's quantity"
   const updateQuantity = useCallback((productId: string, delta: number) => {
@@ -378,5 +416,8 @@ export function useCommerceWorkflow<
     closeReceipt,
     viewReceipt,
     navigateTo,
+    refreshOrders,
+    setOrders,
+    setCurrentUser,
   };
 }

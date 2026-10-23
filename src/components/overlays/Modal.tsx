@@ -108,7 +108,7 @@ export function Modal({
         >
           {title && (
             <div className="cr-modal__header">
-              <h3 id="cr-modal-title" className="cr-modal__title">{title}</h3>
+              <div id="cr-modal-title" className="cr-modal__title" role="heading" aria-level={3}>{title}</div>
               <button
                 type="button"
                 className="cr-modal__close-btn"
