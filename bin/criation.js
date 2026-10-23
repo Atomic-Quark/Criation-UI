@@ -34,6 +34,8 @@ function printHelp() {
 
   Commands:
     init [project-name]       Scaffold a new Criation UI React + Vite application
+    generate <prompt|file>   Generate an editable React application from plain English
+    compile <dsl-file>        Compile Mode B structured DSL into an editable React app
     add <recipe>              Add a ready-to-use high-level workflow template
                               Available recipes: form, dashboard, crud, auth, api
     benchmark                 Run automated performance and bundle size benchmark
@@ -41,10 +43,10 @@ function printHelp() {
     help                      Show this help message
 
   Examples:
+    npx criation generate "Create a page called Members. Show all members in a table." --out my-app
+    npx criation compile spec.dsl --out my-app
     npx criation init my-saas-app
-    npx criation add form
-    npx criation add dashboard
-    npx criation benchmark
+    npx criation add crud
 `);
 }
 
@@ -314,23 +316,134 @@ function handleAudit() {
   console.log("✅ All quality gates passed!");
 }
 
-switch (command) {
-  case "init":
-    handleInit(args[1]);
-    break;
-  case "add":
-    handleAdd(args[1]);
-    break;
-  case "benchmark":
-    handleBenchmark();
-    break;
-  case "audit":
-    handleAudit();
-    break;
-  case "help":
-  case "--help":
-  case "-h":
-  default:
-    printHelp();
-    break;
+async function handleGenerate(promptArg, outArg = "generated-app") {
+  printBanner();
+  if (!promptArg) {
+    console.error("❌ Please provide a prompt or path to a text file containing the application description.");
+    console.log("   Example: npx criation generate \"Create a page called Members. Show all members in a searchable table.\" --out my-app");
+    process.exit(1);
+  }
+
+  let prompt = promptArg;
+  if (fs.existsSync(promptArg)) {
+    prompt = fs.readFileSync(promptArg, "utf-8");
+  }
+
+  let outDir = outArg;
+  const outFlagIndex = args.indexOf("--out");
+  if (outFlagIndex !== -1 && args[outFlagIndex + 1]) {
+    outDir = args[outFlagIndex + 1];
+  } else if (outDir.startsWith("--")) {
+    outDir = "generated-app";
+  }
+
+  const targetDir = path.resolve(process.cwd(), outDir);
+  console.log(`🤖 Compiling Plain-English description into editable React application...`);
+  console.log(`📂 Target directory: ${targetDir}\n`);
+
+  const { compileEnglishToReact } = await import("../dist/index.js");
+  const result = compileEnglishToReact(prompt);
+
+  if (result.errors && result.errors.length > 0) {
+    console.error("❌ Compilation errors in application model:");
+    result.errors.forEach((e) => console.error(`   - ${e}`));
+    process.exit(1);
+  }
+
+  console.log(`✨ Application Model compiled successfully!`);
+  console.log(`   Resources: ${result.summary.resourceCount}`);
+  console.log(`   Pages:     ${result.summary.pageCount}`);
+  console.log(`   Files:     ${result.summary.fileCount}\n`);
+
+  for (const file of result.files) {
+    const fullPath = path.join(targetDir, file.path);
+    const parentDir = path.dirname(fullPath);
+    if (!fs.existsSync(parentDir)) {
+      fs.mkdirSync(parentDir, { recursive: true });
+    }
+    fs.writeFileSync(fullPath, file.content, "utf-8");
+    console.log(`   📄 Created ${file.path}`);
+  }
+
+  console.log(`\n🎉 Application successfully generated in: ${targetDir}`);
+  console.log(`\nNext steps:`);
+  console.log(`  cd ${outDir}`);
+  console.log(`  npm install`);
+  console.log(`  npm run dev\n`);
 }
+
+async function handleCompile(dslFile, outArg = "generated-app") {
+  printBanner();
+  if (!dslFile || !fs.existsSync(dslFile)) {
+    console.error("❌ Please provide a valid path to a structured DSL file.");
+    process.exit(1);
+  }
+
+  const dslContent = fs.readFileSync(dslFile, "utf-8");
+  let outDir = outArg;
+  const outFlagIndex = args.indexOf("--out");
+  if (outFlagIndex !== -1 && args[outFlagIndex + 1]) {
+    outDir = args[outFlagIndex + 1];
+  } else if (outDir.startsWith("--")) {
+    outDir = "generated-app";
+  }
+
+  const targetDir = path.resolve(process.cwd(), outDir);
+  console.log(`⚙️ Compiling Mode B Structured DSL into editable React application...`);
+  console.log(`📂 Target directory: ${targetDir}\n`);
+
+  const { compileStructuredToReact } = await import("../dist/index.js");
+  const result = compileStructuredToReact(dslContent);
+
+  if (result.errors && result.errors.length > 0) {
+    console.error("❌ Compilation errors in application model:");
+    result.errors.forEach((e) => console.error(`   - ${e}`));
+    process.exit(1);
+  }
+
+  for (const file of result.files) {
+    const fullPath = path.join(targetDir, file.path);
+    const parentDir = path.dirname(fullPath);
+    if (!fs.existsSync(parentDir)) {
+      fs.mkdirSync(parentDir, { recursive: true });
+    }
+    fs.writeFileSync(fullPath, file.content, "utf-8");
+    console.log(`   📄 Created ${file.path}`);
+  }
+
+  console.log(`\n🎉 Application successfully compiled in: ${targetDir}`);
+}
+
+async function runCli() {
+  switch (command) {
+    case "generate":
+      await handleGenerate(args[1], args[2]);
+      break;
+    case "compile":
+      await handleCompile(args[1], args[2]);
+      break;
+    case "init":
+      handleInit(args[1]);
+      break;
+    case "add":
+      handleAdd(args[1]);
+      break;
+    case "benchmark":
+      handleBenchmark();
+      break;
+    case "audit":
+      handleAudit();
+      break;
+    case "help":
+    case "--help":
+    case "-h":
+    default:
+      printHelp();
+      break;
+  }
+}
+
+runCli().catch((err) => {
+  console.error("CLI Execution Error:", err);
+  process.exit(1);
+});

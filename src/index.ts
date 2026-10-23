@@ -180,3 +180,9 @@ export * from "./accessibility/accessibilityUtils";
 
 // High-Level Developer Workflows
 export * from "./workflows";
+
+// Resource Engine & Schema-Driven Forms
+export * from "./engine";
+
+// Deterministic Code Generation & Plain-English Compilers
+export * from "./compiler";
