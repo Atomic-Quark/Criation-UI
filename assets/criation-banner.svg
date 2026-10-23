@@ -1,0 +1,149 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 240" width="100%" height="240">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a0f1d"/>
+      <stop offset="50%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e1b4b"/>
+    </linearGradient>
+
+    <linearGradient id="titleGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="50%" stop-color="#c7d2fe"/>
+      <stop offset="100%" stop-color="#818cf8"/>
+    </linearGradient>
+
+    <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#6366f1"/>
+      <stop offset="100%" stop-color="#a855f7"/>
+    </linearGradient>
+
+    <linearGradient id="borderGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.6"/>
+      <stop offset="50%" stop-color="#6366f1" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#a855f7" stop-opacity="0.6"/>
+    </linearGradient>
+
+    <pattern id="gridPattern" width="30" height="30" patternUnits="userSpaceOnUse">
+      <path d="M 30 0 L 0 0 0 30" fill="none" stroke="#334155" stroke-width="0.5" stroke-opacity="0.25"/>
+    </pattern>
+
+    <style>
+      @keyframes pulseGlow {
+        0%, 100% { opacity: 0.35; transform: scale(1); }
+        50% { opacity: 0.75; transform: scale(1.05); }
+      }
+      @keyframes blinkCursor {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0; }
+      }
+      @keyframes sweepLight {
+        0% { transform: translateX(-100%); }
+        100% { transform: translateX(100%); }
+      }
+      .glow-orb {
+        transform-origin: 800px 60px;
+        animation: pulseGlow 5s ease-in-out infinite;
+      }
+      .cursor {
+        animation: blinkCursor 1s step-end infinite;
+      }
+      .text-title {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        font-weight: 800;
+        font-size: 40px;
+        letter-spacing: -0.5px;
+      }
+      .text-sub {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        font-weight: 400;
+        font-size: 15px;
+        fill: #94a3b8;
+      }
+      .text-badge {
+        font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+        font-size: 11px;
+        font-weight: 600;
+      }
+      .text-cmd {
+        font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+        font-size: 12px;
+        fill: #cbd5e1;
+      }
+    </style>
+  </defs>
+
+  <!-- Background Card -->
+  <rect width="900" height="240" rx="14" fill="url(#bgGrad)"/>
+  <rect width="900" height="240" rx="14" fill="url(#gridPattern)"/>
+
+  <!-- Subtle Ambient Glow -->
+  <circle cx="800" cy="50" r="140" fill="#6366f1" filter="blur(60px)" class="glow-orb" opacity="0.4"/>
+  <circle cx="100" cy="200" r="100" fill="#38bdf8" filter="blur(50px)" class="glow-orb" opacity="0.25"/>
+
+  <!-- Outer Border -->
+  <rect width="898" height="238" x="1" y="1" rx="13" fill="none" stroke="url(#borderGrad)" stroke-width="1.5"/>
+
+  <!-- Top Status Pill -->
+  <g transform="translate(40, 32)">
+    <rect width="180" height="24" rx="12" fill="#1e1b4b" stroke="#4f46e5" stroke-width="1"/>
+    <circle cx="12" cy="12" r="4" fill="#10b981"/>
+    <text x="24" y="16" fill="#a5b4fc" class="text-badge">v0.3.0-beta • PREVIEW</text>
+  </g>
+
+  <!-- Main Title -->
+  <g transform="translate(40, 96)">
+    <text x="0" y="0" fill="url(#titleGrad)" class="text-title">CRIATION UI</text>
+  </g>
+
+  <!-- Subtitle -->
+  <g transform="translate(40, 126)">
+    <text x="0" y="0" class="text-sub">Engineered React 18+ component foundation, reactive workflows, and developer CLI</text>
+  </g>
+
+  <!-- Terminal Preview Snippet Box -->
+  <g transform="translate(40, 155)">
+    <rect width="480" height="48" rx="8" fill="#090d16" stroke="#1e293b" stroke-width="1"/>
+    <!-- Terminal window dots -->
+    <circle cx="16" cy="16" r="3.5" fill="#ef4444"/>
+    <circle cx="28" cy="16" r="3.5" fill="#eab308"/>
+    <circle cx="40" cy="16" r="3.5" fill="#22c55e"/>
+
+    <!-- Terminal Command -->
+    <text x="56" y="28" class="text-cmd">
+      <tspan fill="#64748b">$ </tspan>
+      <tspan fill="#38bdf8">npx </tspan>
+      <tspan fill="#e2e8f0">@criation/ui init my-app </tspan>
+      <tspan fill="#64748b">&amp;&amp; </tspan>
+      <tspan fill="#38bdf8">cd </tspan>
+      <tspan fill="#e2e8f0">my-app</tspan>
+      <tspan fill="#818cf8" class="cursor">_</tspan>
+    </text>
+  </g>
+
+  <!-- Right Side Stat Pills -->
+  <g transform="translate(560, 50)">
+    <!-- Stat 1: Tests -->
+    <g transform="translate(0, 0)">
+      <rect width="300" height="42" rx="8" fill="#090d16" stroke="#334155" stroke-width="1"/>
+      <rect width="4" height="42" rx="2" fill="#10b981"/>
+      <text x="16" y="18" fill="#94a3b8" class="text-badge">VERIFIED TEST SUITE</text>
+      <text x="16" y="33" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="700" font-size="13px">142 / 142 Passing Specs (100%)</text>
+    </g>
+
+    <!-- Stat 2: Bundle -->
+    <g transform="translate(0, 52)">
+      <rect width="300" height="42" rx="8" fill="#090d16" stroke="#334155" stroke-width="1"/>
+      <rect width="4" height="42" rx="2" fill="#38bdf8"/>
+      <text x="16" y="18" fill="#94a3b8" class="text-badge">TREE-SHAKEABLE EXPORTS</text>
+      <text x="16" y="33" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="700" font-size="13px">Button: 2.54 kB • Zero Runtime CSS</text>
+    </g>
+
+    <!-- Stat 3: Accessibility & Quality -->
+    <g transform="translate(0, 104)">
+      <rect width="300" height="42" rx="8" fill="#090d16" stroke="#334155" stroke-width="1"/>
+      <rect width="4" height="42" rx="2" fill="#818cf8"/>
+      <text x="16" y="18" fill="#94a3b8" class="text-badge">ACCESSIBILITY &amp; ARCHITECTURE</text>
+      <text x="16" y="33" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="700" font-size="13px">WCAG 2.2 AA • Maturity: 8.6 / 10</text>
+    </g>
+  </g>
+</svg>
